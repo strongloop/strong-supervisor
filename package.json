@@ -1,0 +1,30 @@
+{
+  "name": "strong-supervisor",
+  "version": "0.0.0",
+  "description": "supervisor and monitor for node.js applications",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/strongloop/strong-supervisor.git"
+  },
+  "keywords": [
+    "runner",
+    "forever",
+    "supervisor",
+    "cluster",
+    "master",
+    "strong-cluster-control",
+    "strong-agent",
+    "strongops",
+    "strongloop"
+  ],
+  "author": "Sam Roberts <sam@strongloop.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/strongloop/strong-supervisor/issues"
+  },
+  "homepage": "https://github.com/strongloop/strong-supervisor"
+}
