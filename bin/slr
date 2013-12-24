@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+
+require('strong-agent').profile();
+
+var cluster = require('cluster');
+var control = require('strong-cluster-control');
+var fs = require('fs');
+var path = require('path');
+
+var options = control.loadOptions();
+
+// Make options default to one, or to "cpus"?
+// Do we want an option for main?
+
+var main = 'server.js';
+
+var packageJson = path.resolve('package.json');
+
+if(fs.existsSync(packageJson)) {
+  var json = require(packageJson);
+
+  if(json.main) {
+    main = json.main;
+  }
+}
+
+if(options.clustered && options.isMaster) {
+  return control.start(options);
+}
+
+if(!options.clustered) {
+  console.error('Supervisor running "%s" directly (unsupervised)', main);
+}
+
+// have to resolve against cwd or it is resolved as if its a dependency of
+// supervisor
+require(path.resolve(main));

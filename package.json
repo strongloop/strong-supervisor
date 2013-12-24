@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "supervisor and monitor for node.js applications",
   "main": "index.js",
+  "bin": {
+    "slr": "./bin/slr"
+  },
   "scripts": {
     "test": "npm test"
   },
@@ -26,5 +29,9 @@
   "bugs": {
     "url": "https://github.com/strongloop/strong-supervisor/issues"
   },
-  "homepage": "https://github.com/strongloop/strong-supervisor"
+  "homepage": "https://github.com/strongloop/strong-supervisor",
+  "dependencies": {
+    "strong-agent": "~0.2.19",
+    "strong-cluster-control": "~0.2.2"
+  }
 }
