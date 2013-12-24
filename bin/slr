@@ -1,38 +1,74 @@
 #!/usr/bin/env node
 
-require('strong-agent').profile();
-
 var cluster = require('cluster');
 var control = require('strong-cluster-control');
 var fs = require('fs');
 var path = require('path');
 
-var options = control.loadOptions({
-  size: 1
-});
+if(cluster.isMaster) {
+  var options = require('../lib/options').parse(process.argv);
 
-// Do we want an option for main?
-
-var main = 'server.js';
-
-var packageJson = path.resolve('package.json');
-
-if(fs.existsSync(packageJson)) {
-  var json = require(packageJson);
-
-  if(json.main) {
-    main = json.main;
+  if(options.help) {
+    console.log(options.HELP, '\n');
+    process.exit(0);
   }
+
+  if(options.version) {
+    console.log('v%s', require('../package.json').version);
+    process.exit(0);
+  }
+
+  // Reset argv to include only the options for the runner before letting
+  // cluster-control look for its configuration (it examines process.argv).
+  process.argv = options.argv;
+  var config = control.loadOptions({
+    size: 1
+  });
+
+  // Reset argv so the runner and its options are not seen by app
+  process.argv = process.argv.slice(0, 1).concat(options.args);
+} else {
+  // Reset argv to not include the runner (at argv[1])
+  process.argv = process.argv.slice(0, 1).concat(process.argv.slice(2))
 }
 
-if(options.clustered && options.isMaster) {
-  return control.start(options);
+// Delay require of strong-agent until after -h and -v can be handled.
+var app = process.argv[1];
+
+try {
+  var stat = fs.statSync(app);
+} catch(er) {
+  console.error('Invalid app (%s), see `slr --help`.\n', er);
+  process.exit(0);
+}
+
+if(stat.isFile()) {
+  // The app is a file, we'll run it
+}
+if(stat.isDirectory()) {
+  // The app is a directory (such as '.'), we'll look for what to run
+  //
+  // The canonical way to run is with `npm start`, but we can't do that for a
+  // cluster worker, because the worker must start the runner (so it can require
+  // strong-agent). Instead, we search for a runnable file, and if that fails,
+  // just require the directory.
+  (function() {
+    function existing(file) {
+      var main = path.join(app, file);
+      return fs.existsSync(main) ? main : null;
+    }
+    process.argv[1] = app = existing('server.js') || existing('app.js') || app;
+  })();
+}
+
+require('strong-agent').profile();
+
+if(config.clustered && config.isMaster) {
+  return control.start(config);
 }
 
 if(!options.clustered) {
-  console.error('Supervisor running "%s" directly (unsupervised)', main);
+  console.error('Supervisor running "%s" directly (unsupervised)', app);
 }
 
-// have to resolve against cwd or it is resolved as if its a dependency of
-// supervisor
-require(path.resolve(main));
+require(path.resolve(app));
