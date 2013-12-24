@@ -7,9 +7,10 @@ var control = require('strong-cluster-control');
 var fs = require('fs');
 var path = require('path');
 
-var options = control.loadOptions();
+var options = control.loadOptions({
+  size: 1
+});
 
-// Make options default to one, or to "cpus"?
 // Do we want an option for main?
 
 var main = 'server.js';
