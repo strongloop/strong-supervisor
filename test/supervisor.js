@@ -46,15 +46,30 @@ describe('supervisor', function(done) {
     });
   }
 
-  var LOOPBACK = [
+  describe('loopback', function() {
+    var EXPECT = [
       /LoopBack server listening/,
       /profiling/
-  ];
+    ];
 
-  run('.', ['test/lb-app'], LOOPBACK);
-  run('.', ['test/lb-app/.'], LOOPBACK);
-  run('.', ['test/lb-app/app.js'], LOOPBACK);
-  run('test/lb-app', [], LOOPBACK);
-  run('test/lb-app', ['.'], LOOPBACK);
-  run('test/lb-app', ['app.js'], LOOPBACK);
+    run('.', ['test/lb-app'], EXPECT);
+    run('.', ['test/lb-app/.'], EXPECT);
+    run('.', ['test/lb-app/app.js'], EXPECT);
+    run('test/lb-app', [], EXPECT);
+    run('test/lb-app', ['.'], EXPECT);
+    run('test/lb-app', ['app.js'], EXPECT);
+  });
+
+  describe('express', function() {
+    var EXPECT = [
+      /express-app listening/
+    ];
+
+    run('.', ['test/express-app'], EXPECT);
+    run('.', ['test/express-app/.'], EXPECT);
+    run('.', ['test/express-app/server.js'], EXPECT);
+    run('test/express-app', [], EXPECT);
+    run('test/express-app', ['.'], EXPECT);
+    run('test/express-app', ['server.js'], EXPECT);
+  });
 });
