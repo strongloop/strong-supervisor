@@ -19,10 +19,12 @@ describe('supervisor', function(done) {
 
   this.afterEach(function(done) {
     process.chdir(cwd);
-    if(!child || child.exitCode || child.signalCode) {
+    if(!child || child.exitCode != null || child.signalCode) {
       return done();
     }
-    child.on('exit', done).kill('SIGKILL');
+    child.on('exit', function() {
+      done();
+    }).kill('SIGKILL');
   });
 
   function run(dir, args, expectations) {
