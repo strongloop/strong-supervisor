@@ -120,7 +120,7 @@ app.enableAuth();
 
 // I'm a bit baffled... if we don't start, we just throw the app object away? To
 // what end?
-if(true || require.main === module) {
+if(require.main === module) {
   require('http').createServer(app).listen(app.get('port'), app.get('host'),
     function(){
       var baseUrl = 'http://' + app.get('host') + ':' + app.get('port');
