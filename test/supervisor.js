@@ -85,4 +85,14 @@ describe('supervisor', function(done) {
     run('test/module-app', ['.'], EXPECT);
     run('test/module-app', ['index.js'], EXPECT);
   });
+
+  describe('argument passing', function() {
+    var EXPECT = [
+      /module-app listening/,
+      /argv:.*index.js.*size=10/
+    ];
+
+    run('.', ['--size', '0', 'test/module-app/index.js', '--size=10'], EXPECT);
+    run('.', ['--size', '1', 'test/module-app/index.js', '--size=10'], EXPECT);
+  });
 });
