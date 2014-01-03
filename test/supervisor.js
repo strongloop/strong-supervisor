@@ -88,7 +88,7 @@ describe('supervisor', function(done) {
     run('test/module-app', ['index.js'], EXPECT);
   });
 
-  describe('argument passing', function() {
+  describe('argument processing', function() {
     var EXPECT = [
       /module-app listening/,
       /argv:.*index.js.*size=10/
@@ -96,5 +96,13 @@ describe('supervisor', function(done) {
 
     run('.', ['--size', '0', 'test/module-app/index.js', '--size=10'], EXPECT);
     run('.', ['--size', '1', 'test/module-app/index.js', '--size=10'], EXPECT);
+
+    run('.', ['--help', 'help-option'], [/usage: slr/]);
+    run('.', ['-h', 'h-option'], [/usage: slr/]);
+
+    var VERSION = RegExp('v'+require('../package.json').version);
+
+    run('.', ['--version', 'version-option'], [VERSION]);
+    run('.', ['-v', 'v-option'], [VERSION]);
   });
 });
