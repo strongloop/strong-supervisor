@@ -27,7 +27,8 @@
     "slr": "./bin/slr"
   },
   "scripts": {
-    "test": "npm test"
+    "preinstall": "./test-install.sh",
+    "test": "mocha -R spec"
   },
   "dependencies": {
     "strong-agent": "~0.2.19",
