@@ -72,4 +72,17 @@ describe('supervisor', function(done) {
     run('test/express-app', ['.'], EXPECT);
     run('test/express-app', ['server.js'], EXPECT);
   });
+
+  describe('module', function() {
+    var EXPECT = [
+      /module-app listening/
+    ];
+
+    run('.', ['test/module-app'], EXPECT);
+    run('.', ['test/module-app/.'], EXPECT);
+    run('.', ['test/module-app/index.js'], EXPECT);
+    run('test/module-app', [], EXPECT);
+    run('test/module-app', ['.'], EXPECT);
+    run('test/module-app', ['index.js'], EXPECT);
+  });
 });
