@@ -2,14 +2,20 @@
 
 var config = require('../lib/config'); // May exit, depending on argv
 
-require('strong-agent').profile();
+if(!config.profile) {
+  if(config.isMaster) {
+    console.error('supervisor running without StrongOps (unprofiled)');
+  }
+} else {
+  require('strong-agent').profile();
+}
 
 if(config.clustered && config.isMaster) {
   return config.start(config);
 }
 
 if(!config.clustered) {
-  console.error('Supervisor running directly (unsupervised)');
+  console.error('supervisor running without clustering (unsupervised)');
 }
 
 // Reset argv to not include the runner (at argv[1]).
