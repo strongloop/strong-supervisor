@@ -11,7 +11,7 @@ if(!config.profile) {
 }
 
 if(config.clustered && config.isMaster) {
-  return config.start(config);
+  return config.start();
 }
 
 if(!config.clustered) {
