@@ -8,7 +8,7 @@ restarting them on failure, and allowing run-time control using the `clusterctl`
 utility, or the
 [StrongOps](http://strongloop.com/node-js-performance/strongops) dashboard.
 
-The supervisor and workers can be automatically monitored using
+The supervisor and workers are automatically monitored using
 [strong-agent](https//github.com/strongloop/strong-agent),
 if the application has been registered. Registration is easy,
 use the `slc strongops --register` command from
@@ -17,6 +17,28 @@ use the `slc strongops --register` command from
 *NOTE*: When using strong-supervisor, it is not necessary to directly require
 either strong-cluster-control or strong-agent in your application. The
 supervisor will do that for you. See the example applications in `test/`.
+
+## Logging
+
+Supervisor can optionally direct the output of a detached daemon to a file, but
+it is not recommended to use node's stdio for logging, for several reasons:
+
+1. Node process stdout and stderr are synchronous, robust node servers should
+   not use synchronous APIs.
+2. The file is never reopened, so it cannot be rotated.
+3. The output lacks the conventional log format (time stamps, facilities, etc.).
+
+Use a log system such as Winston or Bunyan.
+
+## Signal Handling
+
+The supervisor will attempt a clean shutdown of the cluster before exiting if it
+is signalled with SIGINT or SIGTERM, see
+[control.stop()](http://apidocs.strongloop.com/strong-cluster-control/#controlstopcallback).
+
+If the supervisor is detached, it will attempt a restart of the cluster if it is
+signalled with SIGHUP, see
+[control.restart()](http://apidocs.strongloop.com/strong-cluster-control/#controlrestart).
 
 ## Installation
 
