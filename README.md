@@ -71,7 +71,7 @@ Runner options:
                      absolute (default is supervisor.log)
   -p,--pid FILE      Write supervisor's pid to FILE, failing if FILE
                      already has a valid pid in it (default is not to)
-  --size N           Set the cluster size (default is 1).
+  --size N           Set the cluster size (default is 'CPUs').
   --no-profile       Do not profile with StrongOps (default is to profile
                      if registration data is found).
 
