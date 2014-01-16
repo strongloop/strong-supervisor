@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+var config = require('../lib/config'); // May exit, depending on argv
+
+require('strong-agent').profile();
+
+if(config.clustered && config.isMaster) {
+  return config.start(config);
+}
+
+if(!config.clustered) {
+  console.error('Supervisor running directly (unsupervised)');
+}
+
+// Reset argv to not include the runner (at argv[1]).
+process.argv = process.argv.slice(0, 1).concat(process.argv.slice(2))
+
+// Run as if app is the main module
+require('module')._load(
+  require('path').resolve(process.argv[1]),
+  null, // parent
+  true  // isMain
+);

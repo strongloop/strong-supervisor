@@ -1,0 +1,47 @@
+{
+  "name": "strong-supervisor",
+  "description": "supervisor and monitor for node.js applications",
+  "author": "Sam Roberts <sam@strongloop.com>",
+  "license": "MIT",
+  "version": "0.0.0",
+  "keywords": [
+    "runner",
+    "forever",
+    "supervisor",
+    "cluster",
+    "master",
+    "strong-cluster-control",
+    "strong-agent",
+    "strongops",
+    "strongloop"
+  ],
+  "homepage": "https://github.com/strongloop/strong-supervisor",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/strongloop/strong-supervisor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/strongloop/strong-supervisor/issues"
+  },
+  "bin": {
+    "slr": "./bin/slr"
+  },
+  "scripts": {
+    "preinstall": "./test-install.sh",
+    "test": "mocha -R spec"
+  },
+  "dependencies": {
+    "strong-agent": "~0.2.19",
+    "strong-cluster-control": "~0.2.2"
+  },
+  "peerDependencies": {
+    "strong-cluster-control": "~0.2.2"
+  },
+  "devDependencies": {
+    "mocha": "~1.16.2",
+    "debug": "~0.7.4"
+  },
+  "engine": {
+    "node": ">=0.10.0"
+  }
+}

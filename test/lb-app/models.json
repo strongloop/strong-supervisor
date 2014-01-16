@@ -1,0 +1,30 @@
+{
+  "email": {
+    "dataSource": "mail",
+    "public": false,
+    "options": {
+      "base": "Email"
+    }
+  },
+  "user": {
+    "dataSource": "db",
+    "public": true,
+    "options": {
+      "base": "User",
+      "relations": {
+        "accessTokens": {
+          "model": "accessToken",
+          "type": "hasMany",
+          "foreignKey": "userId"
+        }
+      }
+    }
+  },
+  "accessToken": {
+    "dataSource": "db",
+    "public": true,
+    "options": {
+      "base": "AccessToken"
+    }
+  }
+}
