@@ -8,17 +8,40 @@ restarting them on failure, and allowing run-time control using the `clusterctl`
 utility, or the
 [StrongOps](http://strongloop.com/node-js-performance/strongops) dashboard.
 
-The supervisor and workers are automatically monitored using
+*NOTE*: When using strong-supervisor, it is not necessary to directly require
+either strong-cluster-control or strong-agent in your application. The
+supervisor will do that for you. See the example applications in `test/`.
+
+## Features
+
+### StrongOps
+
+Supervisor and its workers are automatically monitored using
 [strong-agent](https//github.com/strongloop/strong-agent),
 if the application has been registered. Registration is easy,
 use the `slc strongops --register` command from
 [strong-cli]((https://github.com/strongloop/strong-cli).
 
-*NOTE*: When using strong-supervisor, it is not necessary to directly require
-either strong-cluster-control or strong-agent in your application. The
-supervisor will do that for you. See the example applications in `test/`.
+Profiling does not occur if the application is not registered, and it can be
+explicitly disabled using the `--no-profile` option.
 
-## Logging
+### Clustering
+
+Supervisor will run the application clustered, by default, maintaining a worker
+per CPU. It does this using
+[strong-cluster-control](https//github.com/strongloop/strong-cluster-control),
+this behaviour is configurable (see `loadOptions()` in the
+strong-cluster-control documentation).
+
+Clustering can be disabled using the `--size=off` option, or the size can be
+explicitly set to any value.
+
+### Daemonization
+
+Supervisor can detach the master from the controlling terminal, allowing to run
+as a daemon. This behaviour is optional, see the `--detach` option.
+
+### Logging
 
 Supervisor can optionally direct the output of a detached daemon to a file, but
 it is not recommended to use node's stdio for logging, for several reasons:
@@ -29,6 +52,12 @@ it is not recommended to use node's stdio for logging, for several reasons:
 3. The output lacks the conventional log format (time stamps, facilities, etc.).
 
 Use a log system such as Winston or Bunyan.
+
+### PID file
+
+Supervisor can optionally write a PID file with the master's PID. This could be
+useful to send signals to a detached process from within system startup scripts
+as used by `init` or `upstart`.
 
 ## Signal Handling
 
@@ -71,7 +100,7 @@ Runner options:
                      absolute (default is supervisor.log)
   -p,--pid FILE      Write supervisor's pid to FILE, failing if FILE
                      already has a valid pid in it (default is not to)
-  --size N           Set the cluster size (default is 1).
+  --size N           Set the cluster size (default is 'CPUs').
   --no-profile       Do not profile with StrongOps (default is to profile
                      if registration data is found).
 
