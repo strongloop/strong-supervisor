@@ -24,7 +24,8 @@
     "url": "https://github.com/strongloop/strong-supervisor/issues"
   },
   "bin": {
-    "slr": "./bin/slr"
+    "slr": "./bin/slr",
+    "sl-run": "./bin/slr"
   },
   "scripts": {
     "preinstall": "./test-install.sh",

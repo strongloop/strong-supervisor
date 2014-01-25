@@ -76,6 +76,7 @@ signalled with SIGHUP, see
 ## Usage
 
 ``` text
+usage: sl-run [options] [app [app-options...]]
 usage: slr [options] [app [app-options...]]
 
 Run an app, allowing it to be profiled (using StrongOps) and supervised.
