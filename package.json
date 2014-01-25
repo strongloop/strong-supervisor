@@ -13,7 +13,8 @@
     "strong-cluster-control",
     "strong-agent",
     "strongops",
-    "strongloop"
+    "strongloop",
+    "strong-cli"
   ],
   "homepage": "https://github.com/strongloop/strong-supervisor",
   "repository": {
