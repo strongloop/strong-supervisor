@@ -6,7 +6,8 @@ Runs an application under a supervisory master. This allows
 to be used to manage a cluster of workers, or even a single worker,
 restarting them on failure, and allowing run-time control using the `clusterctl`
 utility, or the
-[StrongOps](http://strongloop.com/node-js-performance/strongops) dashboard.
+[StrongOps](http://strongloop.com/node-js-performance/strongops)
+[dashboard](http://strongloop.com/ops/dashboard).
 
 *NOTE*: When using strong-supervisor, it is not necessary to directly require
 either strong-cluster-control or strong-agent in your application. The
@@ -76,11 +77,10 @@ signalled with SIGHUP, see
 ## Usage
 
 ``` text
+usage: sl-run [options] [app [app-options...]]
 usage: slr [options] [app [app-options...]]
 
 Run an app, allowing it to be profiled (using StrongOps) and supervised.
-
-For more information, see XXX(URL).
 
 `app` can be a node file to run or a package directory. The default
 value is ".", the current working directory. Packages will be run by
@@ -100,14 +100,14 @@ Runner options:
                      absolute (default is supervisor.log)
   -p,--pid FILE      Write supervisor's pid to FILE, failing if FILE
                      already has a valid pid in it (default is not to)
-  --size N           Set the cluster size (default is 'CPUs').
+  --size N           Set the cluster size (default is "CPUs").
   --no-profile       Do not profile with StrongOps (default is to profile
                      if registration data is found).
 
 Cluster size is one of:
   - A number of workers to run
   - A string containing "cpu" to run a worker per CPU
-  - The number zero, to run directly in the master, in which case the app
+  - The string "off" to run unclustered, in which case the app
     will *NOT* be supervisable or controllable, but will be monitored. 
 ```
 
