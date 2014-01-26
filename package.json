@@ -34,10 +34,10 @@
   },
   "dependencies": {
     "strong-agent": "~0.2.19",
-    "strong-cluster-control": "~0.2.2"
+    "strong-cluster-control": "~0.3.0"
   },
   "peerDependencies": {
-    "strong-cluster-control": "~0.2.2"
+    "strong-cluster-control": "~0.3.0"
   },
   "devDependencies": {
     "mocha": "~1.16.2",
