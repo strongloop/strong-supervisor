@@ -1,0 +1,10 @@
+{
+  "name": "express-app",
+  "description": "express-app",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "express": "~3.2.4",
+    "optimist": "~0.6.0"
+  }
+}
