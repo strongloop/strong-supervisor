@@ -29,7 +29,7 @@
     "sl-run": "./bin/slr"
   },
   "scripts": {
-    "preinstall": "./test-install.sh",
+    "pretest": "./test-install.sh",
     "test": "mocha -R spec"
   },
   "dependencies": {
