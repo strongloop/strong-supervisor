@@ -60,7 +60,7 @@ Supervisor can optionally write a PID file with the master's PID. This could be
 useful to send signals to a detached process from within system startup scripts
 as used by `init` or `upstart`.
 
-## Signal Handling
+### Signal Handling
 
 The supervisor will attempt a clean shutdown of the cluster before exiting if it
 is signalled with SIGINT or SIGTERM, see
