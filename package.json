@@ -3,7 +3,7 @@
   "description": "supervisor and monitor for node.js applications",
   "author": "Sam Roberts <sam@strongloop.com>",
   "license": "MIT",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": [
     "runner",
     "forever",
@@ -29,7 +29,7 @@
     "sl-run": "./bin/slr"
   },
   "scripts": {
-    "preinstall": "./test-install.sh",
+    "pretest": "./test-install.sh",
     "test": "mocha -R spec"
   },
   "dependencies": {

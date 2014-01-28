@@ -96,7 +96,7 @@ describe('supervisor', function(done) {
       /argv:.*index.js.*size=10/
     ];
 
-    run('.', ['--size', '0', 'test/module-app/index.js', '--size=10'], EXPECT);
+    run('.', ['--size', 'off', 'test/module-app/index.js', '--size=10'], EXPECT);
     run('.', ['--size', '1', 'test/module-app/index.js', '--size=10'], EXPECT);
 
     run('.', ['--help', 'help-option'], [/usage: slr/]);
