@@ -3,7 +3,7 @@
   "description": "supervisor and monitor for node.js applications",
   "author": "Sam Roberts <sam@strongloop.com>",
   "license": "MIT",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "keywords": [
     "runner",
     "forever",
@@ -33,7 +33,7 @@
     "test": "mocha -R spec"
   },
   "dependencies": {
-    "strong-agent": "~0.2.19",
+    "strong-agent": "~0.3.2",
     "strong-cluster-control": "~0.3.0"
   },
   "peerDependencies": {
