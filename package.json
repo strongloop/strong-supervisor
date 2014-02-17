@@ -2,7 +2,10 @@
   "name": "strong-supervisor",
   "description": "supervisor and monitor for node.js applications",
   "author": "Sam Roberts <sam@strongloop.com>",
-  "license": "MIT",
+  "license": {
+    "name": "Dual MIT/StrongLoop",
+    "url": "https://github.com/strongloop/strong-supervisor/blob/master/LICENSE"
+  },
   "version": "0.1.2",
   "keywords": [
     "runner",
