@@ -93,11 +93,12 @@ describe('supervisor', function(done) {
   describe('argument processing', function() {
     var EXPECT = [
       /module-app listening/,
-      /argv:.*index.js.*size=10/
+      /argv:.*index.js.*cluster=10/
     ];
 
-    run('.', ['--size', 'off', 'test/module-app/index.js', '--size=10'], EXPECT);
-    run('.', ['--size', '1', 'test/module-app/index.js', '--size=10'], EXPECT);
+    run('.', ['--no-cluster', 'test/module-app/index.js', '--cluster=10'], EXPECT);
+    run('.', ['--cluster', 'off', 'test/module-app/index.js', '--cluster=10'], EXPECT);
+    run('.', ['--cluster', '1', 'test/module-app/index.js', '--cluster=10'], EXPECT);
 
     run('.', ['--help', 'help-option'], [/usage: slr/]);
     run('.', ['-h', 'h-option'], [/usage: slr/]);
