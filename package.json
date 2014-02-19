@@ -2,8 +2,11 @@
   "name": "strong-supervisor",
   "description": "supervisor and monitor for node.js applications",
   "author": "Sam Roberts <sam@strongloop.com>",
-  "license": "MIT",
-  "version": "0.1.2",
+  "license": {
+    "name": "Dual MIT/StrongLoop",
+    "url": "https://github.com/strongloop/strong-supervisor/blob/master/LICENSE"
+  },
+  "version": "0.2.0",
   "keywords": [
     "runner",
     "forever",
@@ -34,10 +37,10 @@
   },
   "dependencies": {
     "strong-agent": "~0.3.2",
-    "strong-cluster-control": "~0.3.0"
+    "strong-cluster-control": "~0.4.0"
   },
   "peerDependencies": {
-    "strong-cluster-control": "~0.3.0"
+    "strong-cluster-control": "~0.4.0"
   },
   "devDependencies": {
     "mocha": "~1.16.2",

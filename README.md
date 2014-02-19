@@ -18,10 +18,10 @@ supervisor will do that for you. See the example applications in `test/`.
 ### StrongOps
 
 Supervisor and its workers are automatically monitored using
-[strong-agent](https//github.com/strongloop/strong-agent),
+[strong-agent](https://github.com/strongloop/strong-agent),
 if the application has been registered. Registration is easy,
 use the `slc strongops --register` command from
-[strong-cli]((https://github.com/strongloop/strong-cli).
+[strong-cli](https://github.com/strongloop/strong-cli).
 
 Profiling does not occur if the application is not registered, and it can be
 explicitly disabled using the `--no-profile` option.
@@ -30,7 +30,7 @@ explicitly disabled using the `--no-profile` option.
 
 Supervisor will run the application clustered, by default, maintaining a worker
 per CPU. It does this using
-[strong-cluster-control](https//github.com/strongloop/strong-cluster-control),
+[strong-cluster-control](https://github.com/strongloop/strong-cluster-control),
 this behaviour is configurable (see `loadOptions()` in the
 strong-cluster-control documentation).
 
