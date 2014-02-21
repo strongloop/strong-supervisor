@@ -121,9 +121,9 @@ app.enableAuth();
 // I'm a bit baffled... if we don't start, we just throw the app object away? To
 // what end?
 if(require.main === module) {
-  require('http').createServer(app).listen(app.get('port'), app.get('host'),
+  var server = require('http').createServer(app).listen(app.get('port'), app.get('host'),
     function(){
-      var baseUrl = 'http://' + app.get('host') + ':' + app.get('port');
+      var baseUrl = 'http://' + app.get('host') + ':' + server.address().port;
       if (explorerConfigured) {
         console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
       } else {
