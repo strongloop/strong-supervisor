@@ -33,7 +33,7 @@
   },
   "scripts": {
     "pretest": "./test-install.sh",
-    "test": "PORT='0' mocha -R spec"
+    "test": "PORT=0 mocha -R spec"
   },
   "dependencies": {
     "strong-agent": "~0.3.2",
