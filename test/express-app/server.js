@@ -16,6 +16,7 @@ app.get('/', (function(){
   }
 })());
 
-var server = app.listen(app.get('port'));
-console.log('express-app listening on http://localhost:%d',
-            server.address().port);
+var server = app.listen(app.get('port'), function() {
+  console.log('express-app listening on http://localhost:%d',
+              server.address().port);
+});

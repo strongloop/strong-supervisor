@@ -16,7 +16,8 @@ app.get('/', (function(){
   }
 })());
 
-var server = app.listen(app.get('port'));
-console.log('module-app listening on http://localhost:%d',
-            server.address().port);
-console.log('argv: ', process.argv);
+var server = app.listen(app.get('port'), function() {
+  console.log('module-app listening on http://localhost:%d',
+              server.address().port);
+  console.log('argv: ', process.argv);
+});
