@@ -77,7 +77,7 @@ signalled with SIGHUP, see
 ## Usage
 
 ``` text
-usage: sl-run [options] [app [app-options...]]
+usage: slc run [options] [app [app-options...]]
 usage: slr [options] [app [app-options...]]
 
 Run an app, allowing it to be profiled (using StrongOps) and supervised.
@@ -100,15 +100,18 @@ Runner options:
                      absolute (default is supervisor.log)
   -p,--pid FILE      Write supervisor's pid to FILE, failing if FILE
                      already has a valid pid in it (default is not to)
-  --size N           Set the cluster size (default is "CPUs").
+  --cluster N        Set the cluster size (default is off, but see below).
   --no-profile       Do not profile with StrongOps (default is to profile
                      if registration data is found).
 
-Cluster size is one of:
+Cluster size N is one of:
   - A number of workers to run
   - A string containing "cpu" to run a worker per CPU
   - The string "off" to run unclustered, in which case the app
-    will *NOT* be supervisable or controllable, but will be monitored. 
+    will *NOT* be supervisable or controllable, but will be monitored.
+
+Clustering defaults to off unless NODE_ENV is production, in which case it
+defaults to CPUs.
 ```
 
 ## License
