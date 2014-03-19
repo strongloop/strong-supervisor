@@ -168,4 +168,12 @@ describe('supervisor', function(done) {
         });
     });
   });
+  describe('chdir behaviour', function() {
+    var EXPECT = [
+      /deep-app listening/,
+      /argv:.*path\/to\/deep.js.*/
+    ];
+
+    run('.', ['test/module-app/path/to/deep.js'], EXPECT);
+  });
 });
