@@ -12,7 +12,7 @@ if(!config.profile) {
   });
 }
 
-if(config.clustered && config.isMaster) {
+if((config.clustered && config.isMaster) || config.detach){
   return config.start();
 }
 

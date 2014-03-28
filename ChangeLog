@@ -1,0 +1,12 @@
+2014-03-28, Version 0.2.1
+
+* Fix detach after chdir to an app's location (Sam Roberts)
+
+* Allow detach even when not clustering (Sam Roberts)
+
+* Re-require strong-cluster-control so agent sees it (Sam Roberts)
+
+* Update README with current usage information (Sam Roberts)
+
+* test: Use ephemeral ports for test apps (Ryan Graham)
+

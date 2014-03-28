@@ -6,7 +6,7 @@
     "name": "Dual MIT/StrongLoop",
     "url": "https://github.com/strongloop/strong-supervisor/blob/master/LICENSE"
   },
-  "version": "0.2.0",
+  "version": "0.2.1",
   "keywords": [
     "runner",
     "forever",
@@ -33,7 +33,7 @@
   },
   "scripts": {
     "pretest": "./test-install.sh",
-    "test": "mocha -R spec"
+    "test": "PORT=0 mocha -R spec"
   },
   "dependencies": {
     "strong-agent": "~0.3.2",
