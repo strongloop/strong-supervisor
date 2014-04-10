@@ -36,7 +36,7 @@
     "test": "PORT=0 mocha -R spec"
   },
   "dependencies": {
-    "strong-agent": "~0.3.2",
+    "strong-agent": "~0.4.0",
     "strong-cluster-control": "~0.4.0"
   },
   "peerDependencies": {
