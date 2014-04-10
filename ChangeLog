@@ -1,3 +1,8 @@
+2014-04-10, Version 0.2.2
+
+* strong-agent update to ~0.4.0 (Sam Roberts)
+
+
 2014-03-28, Version 0.2.1
 
 * Fix detach after chdir to an app's location (Sam Roberts)
@@ -9,4 +14,3 @@
 * Update README with current usage information (Sam Roberts)
 
 * test: Use ephemeral ports for test apps (Ryan Graham)
-
