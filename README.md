@@ -113,7 +113,3 @@ Cluster size N is one of:
 Clustering defaults to off unless NODE_ENV is production, in which case it
 defaults to CPUs.
 ```
-
-## License
-
-MIT
