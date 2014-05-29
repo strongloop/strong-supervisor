@@ -37,7 +37,8 @@
   },
   "dependencies": {
     "strong-agent": "~0.4.0",
-    "strong-cluster-control": "~0.4.0"
+    "strong-cluster-control": "~0.4.0",
+    "strong-log-transformer": "~0.0.1"
   },
   "peerDependencies": {
     "strong-cluster-control": "~0.4.0"
