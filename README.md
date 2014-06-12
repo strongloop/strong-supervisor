@@ -66,8 +66,7 @@ The supervisor will attempt a clean shutdown of the cluster before exiting if it
 is signalled with SIGINT or SIGTERM, see
 [control.stop()](http://apidocs.strongloop.com/strong-cluster-control/#controlstopcallback).
 
-If the supervisor is detached, it will attempt a restart of the cluster if it is
-signalled with SIGHUP, see
+The supervisor will restart the cluster if it is signalled with SIGHUP, see
 [control.restart()](http://apidocs.strongloop.com/strong-cluster-control/#controlrestart).
 
 ## Installation
