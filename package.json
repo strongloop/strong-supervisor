@@ -50,5 +50,8 @@
   },
   "engine": {
     "node": ">=0.10.0"
+  },
+  "optionalDependencies": {
+    "node-syslog": "^1.1.7"
   }
 }
