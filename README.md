@@ -37,6 +37,12 @@ strong-cluster-control documentation).
 Clustering can be disabled using the `--size=off` option, or the size can be
 explicitly set to any value.
 
+### Environment
+
+Supervisor will load environment variable settings from a `.env` file in the
+applications root directory, if it exists (see
+[dotenv](https://www.npmjs.org/package/dotenv) for more information).
+
 ### Daemonization
 
 Supervisor can detach the master from the controlling terminal, allowing to run

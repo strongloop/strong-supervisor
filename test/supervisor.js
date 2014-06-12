@@ -79,7 +79,8 @@ describe('supervisor', function(done) {
 
   describe('module', function() {
     var EXPECT = [
-      /module-app listening/
+      /module-app listening/,
+      /VAR=.this var./,
     ];
 
     run('.', ['test/module-app'], EXPECT);
