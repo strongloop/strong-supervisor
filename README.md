@@ -50,15 +50,12 @@ as a daemon. This behaviour is optional, see the `--detach` option.
 
 ### Logging
 
-Supervisor can optionally direct the output of a detached daemon to a file, but
-it is not recommended to use node's stdio for logging, for several reasons:
+Supervisor collects the stdout and stderr of itself and its workers, and writes
+it to stdout, by default. It is possible to redirect this to a file, or
+a file per process with the use of the `%p` (process ID) and `%w` (worker ID)
+expansions in the log file name option.
 
-1. Node process stdout and stderr are synchronous, robust node servers should
-   not use synchronous APIs.
-2. The file is never reopened, so it cannot be rotated.
-3. The output lacks the conventional log format (time stamps, facilities, etc.).
-
-Use a log system such as Winston or Bunyan.
+The log file can be rotated with `SIGUSR2`, see Signal Handling below.
 
 ### PID file
 
@@ -72,7 +69,12 @@ The supervisor will attempt a clean shutdown of the cluster before exiting if it
 is signalled with SIGINT or SIGTERM, see
 [control.stop()](http://apidocs.strongloop.com/strong-cluster-control/#controlstopcallback).
 
-The supervisor will restart the cluster if it is signalled with SIGHUP, see
+If the supervisor is logging to file, it will reopen those files when
+signalled with SIGUSR2. This is useful in conjunction with tools like
+[logrotate](http://manpages.ubuntu.com/manpages/jaunty/man8/logrotate.8.html).
+
+If the supervisor is clustered, it will attempt a restart of the cluster if it is
+signalled with SIGHUP, see
 [control.restart()](http://apidocs.strongloop.com/strong-cluster-control/#controlrestart).
 
 ## Installation
@@ -99,12 +101,16 @@ Runner options:
   -h,--help          Print this message and exit.
   -v,--version       Print runner version and exit.
   -d,--detach        Detach master from terminal to run as a daemon (default
-                     is to not detach).
-  -l,--log FILE      When detaching, redirect terminal output to FILE, in
-                     the app's working directory if FILE path is not
-                     absolute (default is supervisor.log)
+                     is to not detach). When detaching, the --log option
+                     defaults to supervisor.log
+  -l,--log FILE      Write supervisor and worker terminal output to FILE,
+                     in the app's working directory if FILE path is not
+                     absolute.
+                     To create a log file per process, FILE supports simple
+                     substitutions of %p for process id and %w for worker id
+                     FILE defaults to "-", meaning log to stdout.
   -p,--pid FILE      Write supervisor's pid to FILE, failing if FILE
-                     already has a valid pid in it (default is not to)
+                     already has a valid pid in it (default is not to).
   --cluster N        Set the cluster size (default is off, but see below).
   --no-profile       Do not profile with StrongOps (default is to profile
                      if registration data is found).
