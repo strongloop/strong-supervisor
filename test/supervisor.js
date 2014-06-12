@@ -108,4 +108,18 @@ describe('supervisor', function(done) {
     run('.', ['--version', 'version-option'], [VERSION]);
     run('.', ['-v', 'v-option'], [VERSION]);
   });
+
+  describe('timestamping', function() {
+    var TS_WORKER = /^\d+-\d+-\d+T\d+:\d+:\d+.\d+Z pid:\d+ worker:\d+ .+/;
+    var TS_SUPER = /^\d+-\d+-\d+T\d+:\d+:\d+.\d+Z pid:\d+ worker:supervisor .+/;
+    var NO_TS_WORKER = /^pid:\d+ worker:\d+ .+/;
+
+    describe('worker logs', function() {
+      var EXPECT_TIMESTAMPS = [ TS_WORKER, TS_SUPER ];
+      var EXPECT_NO_TIMESTAMPS = [ NO_TS_WORKER, TS_SUPER ];
+
+      run('.', ['--cluster', '1', 'test/yes-app'], EXPECT_TIMESTAMPS);
+      run('.', ['--cluster', '1', '--no-timestamp-workers', 'test/yes-app'], EXPECT_NO_TIMESTAMPS);
+    });
+  });
 });
