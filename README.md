@@ -48,6 +48,10 @@ applications root directory, if it exists (see
 Supervisor can detach the master from the controlling terminal, allowing to run
 as a daemon. This behaviour is optional, see the `--detach` option.
 
+This can be useful when launching from a shell, but is not recommended for
+production use. For production use it is best to run the supervisor from an init
+script and let the init system handle daemonization.
+
 ### Logging
 
 Supervisor collects the stdout and stderr of itself and its workers, and writes
