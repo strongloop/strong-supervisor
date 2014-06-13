@@ -19,7 +19,7 @@ if((config.clustered && config.isMaster) || config.detach){
 }
 
 if(!config.clustered) {
-  log.error('supervisor running without clustering (unsupervised)');
+  console.log('supervisor running without clustering (unsupervised)');
 }
 
 // Reset argv to not include the runner (at argv[1]).
