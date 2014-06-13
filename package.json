@@ -38,7 +38,7 @@
   "dependencies": {
     "strong-agent": "~0.4.0",
     "strong-cluster-control": "~0.4.0",
-    "strong-log-transformer": "~0.0.1"
+    "strong-log-transformer": "~0.1.0"
   },
   "peerDependencies": {
     "strong-cluster-control": "~0.4.0"
@@ -49,5 +49,8 @@
   },
   "engine": {
     "node": ">=0.10.0"
+  },
+  "optionalDependencies": {
+    "node-syslog": "^1.1.7"
   }
 }
