@@ -51,9 +51,52 @@ as a daemon. This behaviour is optional, see the `--detach` option.
 ### Logging
 
 Supervisor collects the stdout and stderr of itself and its workers, and writes
-it to stdout, by default. It is possible to redirect this to a file, or
-a file per process with the use of the `%p` (process ID) and `%w` (worker ID)
-expansions in the log file name option.
+it to stdout, by default. It is possible to specify a log file with the `--log`
+option.
+
+Logging is most effective in cluster mode as it allows for complete capture of
+the application's stdout and stderr. If the application is not "cluster safe"
+but logging is still desired we recommend using `--cluster 1` to gain all of the
+logging and process supervision benefits without the potential problems of
+running multiple instances of your application code.
+
+#### Filename Expansions
+
+It is possible to specify per-process log files by using `%p` (process ID) and
+`%w` (worker ID) expansions in the file name. It is also possible to specify a
+command to pipe log messages to by prefixing the log name with a `|`.
+
+For example, the following will create a cluster and direct each process's logs
+to a separate instance of `logger`:
+
+```sh
+slr --cluster 4 --log '| logger -t "myApp worker:%w pid:%p"' myApp
+```
+
+#### Timestamps
+
+Each log line captured from a worker's stdout/stderr is prefixed with a
+timestamp, the process ID, and the worker ID. If the application's logs are
+already prefixed with timestamps, the timestamping can be disabled with the
+`--no-timestamp-workers`.
+
+The supervisor log messages are prefixed with a timestamp, the supervisor's
+process ID, and a worker ID of `supervisor`. If the supervisor is logging to
+stdout and is being captured by a logger that adds its own timestamps, these
+supervisor log timestamps can be disabled with the `--no-timestamp-supervisor`
+option.
+
+#### Syslog
+
+On platforms where syslog is supported, and when the optional node-syslog
+dependency has been successfully compiled, a `--syslog` option is available.
+When enabled, each log line from worker stdout/stderr and the supervisor is
+logged via a `syslog(3)` system call. In this mode, the supervisor does **NOT**
+timestamp the log entries, but **DOES** prepend process ID and worker ID since
+the system call is performed by the supervisor, preventing the standard syslog
+PID stamping from being accurate.
+
+#### Log Rotation
 
 The log file can be rotated with `SIGUSR2`, see Signal Handling below.
 
