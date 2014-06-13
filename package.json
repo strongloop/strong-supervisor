@@ -36,10 +36,10 @@
     "test": "PORT=0 mocha -R spec"
   },
   "dependencies": {
+    "dotenv": "~0.2.8",
     "strong-agent": "~0.4.0",
     "strong-cluster-control": "~0.4.0",
-    "strong-log-transformer": "~0.0.1",
-    "dotenv": "~0.2.8"
+    "strong-log-transformer": "~0.1.0"
   },
   "peerDependencies": {
     "strong-cluster-control": "~0.4.0"
