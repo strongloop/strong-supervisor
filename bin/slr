@@ -9,7 +9,8 @@ if(!config.profile) {
   }
 } else {
   require('strong-agent').profile(undefined, undefined, {
-    quiet: config.isWorker // Quiet in worker, to avoid repeated log messages
+    quiet: config.isWorker, // Quiet in worker, to avoid repeated log messages
+    logger: config.logger,
   });
 }
 
