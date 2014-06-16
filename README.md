@@ -150,12 +150,17 @@ Runner options:
   -d,--detach        Detach master from terminal to run as a daemon (default
                      is to not detach). When detaching, the --log option
                      defaults to supervisor.log
-  -l,--log FILE      Write supervisor and worker terminal output to FILE,
-                     in the app's working directory if FILE path is not
-                     absolute.
+  -l,--log FILE      When clustered, write supervisor and worker terminal
+                     output to FILE. The path given in FILE is relative to the
+                     the app's working directory if it is not absolute.
                      To create a log file per process, FILE supports simple
-                     substitutions of %p for process id and %w for worker id
+                     substitutions of %p for process ID and %w for worker ID.
                      FILE defaults to "-", meaning log to stdout.
+  --no-timestamp-workers
+                     Disable timestamping of worker log lines by supervisor.
+  --no-timestamp-supervisor
+                     Disable timestamping of supervisor log messages.
+  --syslog           Send supervisor and collected worker logs to syslog(3).
   -p,--pid FILE      Write supervisor's pid to FILE, failing if FILE
                      already has a valid pid in it (default is not to).
   --cluster N        Set the cluster size (default is off, but see below).
