@@ -6,7 +6,7 @@
     "name": "Dual MIT/StrongLoop",
     "url": "https://github.com/strongloop/strong-supervisor/blob/master/LICENSE"
   },
-  "version": "0.2.2",
+  "version": "0.2.3",
   "keywords": [
     "runner",
     "forever",
