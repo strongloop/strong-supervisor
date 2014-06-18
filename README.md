@@ -37,22 +37,72 @@ strong-cluster-control documentation).
 Clustering can be disabled using the `--size=off` option, or the size can be
 explicitly set to any value.
 
+### Environment
+
+Supervisor will load environment variable settings from a `.env` file in the
+applications root directory, if it exists (see
+[dotenv](https://www.npmjs.org/package/dotenv) for more information).
+
 ### Daemonization
 
 Supervisor can detach the master from the controlling terminal, allowing to run
 as a daemon. This behaviour is optional, see the `--detach` option.
 
+This can be useful when launching from a shell, but is not recommended for
+production use. For production use it is best to run the supervisor from an init
+script and let the init system handle daemonization.
+
 ### Logging
 
-Supervisor can optionally direct the output of a detached daemon to a file, but
-it is not recommended to use node's stdio for logging, for several reasons:
+Supervisor collects the stdout and stderr of itself and its workers, and writes
+it to stdout, by default. It is possible to specify a log file with the `--log`
+option.
 
-1. Node process stdout and stderr are synchronous, robust node servers should
-   not use synchronous APIs.
-2. The file is never reopened, so it cannot be rotated.
-3. The output lacks the conventional log format (time stamps, facilities, etc.).
+Logging is most effective in cluster mode as it allows for complete capture of
+the application's stdout and stderr. If the application is not "cluster safe"
+but logging is still desired we recommend using `--cluster 1` to gain all of the
+logging and process supervision benefits without the potential problems of
+running multiple instances of your application code.
 
-Use a log system such as Winston or Bunyan.
+#### Filename Expansions
+
+It is possible to specify per-process log files by using `%p` (process ID) and
+`%w` (worker ID) expansions in the file name. It is also possible to specify a
+command to pipe log messages to by prefixing the log name with a `|`.
+
+For example, the following will create a cluster and direct each process's logs
+to a separate instance of `logger`:
+
+```sh
+slr --cluster 4 --log '| logger -t "myApp worker:%w pid:%p"' myApp
+```
+
+#### Timestamps
+
+Each log line captured from a worker's stdout/stderr is prefixed with a
+timestamp, the process ID, and the worker ID. If the application's logs are
+already prefixed with timestamps, the timestamping can be disabled with the
+`--no-timestamp-workers`.
+
+The supervisor log messages are prefixed with a timestamp, the supervisor's
+process ID, and a worker ID of `supervisor`. If the supervisor is logging to
+stdout and is being captured by a logger that adds its own timestamps, these
+supervisor log timestamps can be disabled with the `--no-timestamp-supervisor`
+option.
+
+#### Syslog
+
+On platforms where syslog is supported, and when the optional node-syslog
+dependency has been successfully compiled, a `--syslog` option is available.
+When enabled, each log line from worker stdout/stderr and the supervisor is
+logged via a `syslog(3)` system call. In this mode, the supervisor does **NOT**
+timestamp the log entries, but **DOES** prepend process ID and worker ID since
+the system call is performed by the supervisor, preventing the standard syslog
+PID stamping from being accurate.
+
+#### Log Rotation
+
+The log file can be rotated with `SIGUSR2`, see Signal Handling below.
 
 ### PID file
 
@@ -66,7 +116,11 @@ The supervisor will attempt a clean shutdown of the cluster before exiting if it
 is signalled with SIGINT or SIGTERM, see
 [control.stop()](http://apidocs.strongloop.com/strong-cluster-control/#controlstopcallback).
 
-If the supervisor is detached, it will attempt a restart of the cluster if it is
+If the supervisor is logging to file, it will reopen those files when
+signalled with SIGUSR2. This is useful in conjunction with tools like
+[logrotate](http://manpages.ubuntu.com/manpages/jaunty/man8/logrotate.8.html).
+
+If the supervisor is clustered, it will attempt a restart of the cluster if it is
 signalled with SIGHUP, see
 [control.restart()](http://apidocs.strongloop.com/strong-cluster-control/#controlrestart).
 
@@ -94,12 +148,21 @@ Runner options:
   -h,--help          Print this message and exit.
   -v,--version       Print runner version and exit.
   -d,--detach        Detach master from terminal to run as a daemon (default
-                     is to not detach).
-  -l,--log FILE      When detaching, redirect terminal output to FILE, in
-                     the app's working directory if FILE path is not
-                     absolute (default is supervisor.log)
+                     is to not detach). When detaching, the --log option
+                     defaults to supervisor.log
+  -l,--log FILE      When clustered, write supervisor and worker terminal
+                     output to FILE. The path given in FILE is relative to the
+                     the app's working directory if it is not absolute.
+                     To create a log file per process, FILE supports simple
+                     substitutions of %p for process ID and %w for worker ID.
+                     FILE defaults to "-", meaning log to stdout.
+  --no-timestamp-workers
+                     Disable timestamping of worker log lines by supervisor.
+  --no-timestamp-supervisor
+                     Disable timestamping of supervisor log messages.
+  --syslog           Send supervisor and collected worker logs to syslog(3).
   -p,--pid FILE      Write supervisor's pid to FILE, failing if FILE
-                     already has a valid pid in it (default is not to)
+                     already has a valid pid in it (default is not to).
   --cluster N        Set the cluster size (default is off, but see below).
   --no-profile       Do not profile with StrongOps (default is to profile
                      if registration data is found).
@@ -113,7 +176,3 @@ Cluster size N is one of:
 Clustering defaults to off unless NODE_ENV is production, in which case it
 defaults to CPUs.
 ```
-
-## License
-
-MIT

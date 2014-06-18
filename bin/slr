@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 
 var config = require('../lib/config'); // May exit, depending on argv
+var log = config.logger;
 
 if(!config.profile) {
   if(config.isMaster) {
-    console.error('supervisor running without StrongOps (unprofiled)');
+    log.error('supervisor running without StrongOps (unprofiled)');
   }
 } else {
   require('strong-agent').profile(undefined, undefined, {
-    quiet: config.isWorker // Quiet in worker, to avoid repeated log messages
+    quiet: config.isWorker, // Quiet in worker, to avoid repeated log messages
+    logger: config.logger,
   });
 }
 
@@ -17,7 +19,7 @@ if((config.clustered && config.isMaster) || config.detach){
 }
 
 if(!config.clustered) {
-  console.error('supervisor running without clustering (unsupervised)');
+  console.log('supervisor running without clustering (unsupervised)');
 }
 
 // Reset argv to not include the runner (at argv[1]).
