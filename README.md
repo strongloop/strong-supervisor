@@ -157,12 +157,8 @@ Runner options:
   -d,--detach        Detach master from terminal to run as a daemon (default
                      is to not detach). When detaching, the --log option
                      defaults to supervisor.log
-  -l,--log FILE      When clustered, write supervisor and worker terminal
-                     output to FILE. The path given in FILE is relative to the
-                     the app's working directory if it is not absolute.
-                     To create a log file per process, FILE supports simple
-                     substitutions of %p for process ID and %w for worker ID.
-                     FILE defaults to "-", meaning log to stdout.
+  -l,--log FILE      When clustered, write supervisor and worker output
+                     to FILE (defaults to "-", meaning log to stdout).
   --no-timestamp-workers
                      Disable timestamping of worker log lines by supervisor.
   --no-timestamp-supervisor
@@ -174,6 +170,10 @@ Runner options:
   --cluster N        Set the cluster size (default is off, but see below).
   --no-profile       Do not profile with StrongOps (default is to profile
                      if registration data is found).
+
+Log FILE is a path relative to the app's working directory if it is not
+absolute. To create a log file per process, FILE supports simple
+substitutions of %p for process ID and %w for worker ID.
 
 Metrics can be sent to an alternative local collector, identified by STATS.
 The format for STATS is a URL: `statsd:[//host[:port]][/scope]`. The only
