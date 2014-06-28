@@ -28,8 +28,8 @@
     "url": "https://github.com/strongloop/strong-supervisor/issues"
   },
   "bin": {
-    "slr": "./bin/slr",
-    "sl-run": "./bin/slr"
+    "slr": "./bin/slr.js",
+    "sl-run": "./bin/slr.js"
   },
   "scripts": {
     "test": "PORT=0 mocha -R spec"
