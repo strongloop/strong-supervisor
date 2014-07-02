@@ -3,7 +3,7 @@ var fs = require('fs');
 var path = require('path');
 var spawn = require('child_process').spawn;
 
-var slr = path.resolve('bin/slr');
+var slr = path.resolve('bin/slr.js');
 var cwd = process.cwd();
 
 function once(fn) {
