@@ -26,6 +26,13 @@ use the `slc strongops --register` command from
 Profiling does not occur if the application is not registered, and it can be
 explicitly disabled using the `--no-profile` option.
 
+### Metrics
+
+Metrics can be published to an alternate collector, instead of StrongOps. The
+collector must support the statsd protocol, see
+[strong-agent-statsd](https://github.com/strongloop/strong-agent-statsd) for
+more information.
+
 ### Clustering
 
 Supervisor will run the application clustered, by default, maintaining a worker
@@ -150,22 +157,31 @@ Runner options:
   -d,--detach        Detach master from terminal to run as a daemon (default
                      is to not detach). When detaching, the --log option
                      defaults to supervisor.log
-  -l,--log FILE      When clustered, write supervisor and worker terminal
-                     output to FILE. The path given in FILE is relative to the
-                     the app's working directory if it is not absolute.
-                     To create a log file per process, FILE supports simple
-                     substitutions of %p for process ID and %w for worker ID.
-                     FILE defaults to "-", meaning log to stdout.
+  -l,--log FILE      When clustered, write supervisor and worker output
+                     to FILE (defaults to "-", meaning log to stdout).
   --no-timestamp-workers
                      Disable timestamping of worker log lines by supervisor.
   --no-timestamp-supervisor
                      Disable timestamping of supervisor log messages.
   --syslog           Send supervisor and collected worker logs to syslog(3).
+  --metrics STATS    Send metrics to local collector (default is StrongOps)
   -p,--pid FILE      Write supervisor's pid to FILE, failing if FILE
                      already has a valid pid in it (default is not to).
   --cluster N        Set the cluster size (default is off, but see below).
   --no-profile       Do not profile with StrongOps (default is to profile
                      if registration data is found).
+
+Log FILE is a path relative to the app's working directory if it is not
+absolute. To create a log file per process, FILE supports simple
+substitutions of %p for process ID and %w for worker ID.
+
+Metrics can be sent to an alternative local collector, identified by STATS.
+The format for STATS is a URL: `statsd:[//host[:port]][/scope]`. The only
+supported protocol is "statsd". Host is optional, and defaults to
+"localhost". Port is optional, and defaults to 8125, the standard statsd
+port. Scope is optional, and defaults to none. The scope supports the same
+substitutions as the log FILE, and will be prepended to the strong-agent
+metrics names, see strong-agent and strong-agent-statsd for details.
 
 Cluster size N is one of:
   - A number of workers to run

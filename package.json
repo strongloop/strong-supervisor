@@ -37,6 +37,7 @@
   "dependencies": {
     "dotenv": "~0.2.8",
     "strong-agent": "~0.4.0",
+    "strong-agent-statsd": "~0.1.2",
     "strong-cluster-control": "~0.4.0",
     "strong-log-transformer": "~0.1.0"
   },
