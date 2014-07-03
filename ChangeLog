@@ -1,3 +1,24 @@
+2014-07-02, Version 0.2.4
+
+* metrics: fix wrong url part being used for host (Sam Roberts)
+
+* Move log FILE usage details to end of output (Sam Roberts)
+
+* Disable metrics test that causes loopback to fail (Sam Roberts)
+
+* Support using the statsd middleware (Sam Roberts)
+
+* Rename slr script to slr.js (Sam Roberts)
+
+* restart: follow symlinks when restarting cluster (Sam Roberts)
+
+* chdir: tracks PWD like shell `cd` builtin does (Sam Roberts)
+
+* gitignore: sort, and remove irrelevant entries (Sam Roberts)
+
+* test: install test dependencies in top-level (Sam Roberts)
+
+
 2014-06-18, Version 0.2.3
 
 * version: include strong-agent, cluster-control (Sam Roberts)

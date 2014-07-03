@@ -6,7 +6,7 @@
     "name": "Dual MIT/StrongLoop",
     "url": "https://github.com/strongloop/strong-supervisor/blob/master/LICENSE"
   },
-  "version": "0.2.3",
+  "version": "0.2.4",
   "keywords": [
     "runner",
     "forever",
@@ -28,16 +28,16 @@
     "url": "https://github.com/strongloop/strong-supervisor/issues"
   },
   "bin": {
-    "slr": "./bin/slr",
-    "sl-run": "./bin/slr"
+    "slr": "./bin/slr.js",
+    "sl-run": "./bin/slr.js"
   },
   "scripts": {
-    "pretest": "./test-install.sh",
     "test": "PORT=0 mocha -R spec"
   },
   "dependencies": {
     "dotenv": "~0.2.8",
     "strong-agent": "~0.4.0",
+    "strong-agent-statsd": "~0.1.2",
     "strong-cluster-control": "~0.4.0",
     "strong-log-transformer": "~0.1.0"
   },
@@ -46,6 +46,9 @@
   },
   "devDependencies": {
     "mocha": "~1.16.2",
+    "loopback": "1.4.x",
+    "express": "~3.2.4",
+    "optimist": "~0.6.0",
     "debug": "~0.7.4"
   },
   "engine": {

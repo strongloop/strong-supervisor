@@ -8,10 +8,13 @@ if(!config.profile) {
     log.error('supervisor running without StrongOps (unprofiled)');
   }
 } else {
-  require('strong-agent').profile(undefined, undefined, {
-    quiet: config.isWorker, // Quiet in worker, to avoid repeated log messages
-    logger: config.logger,
-  });
+  // At the moment, sending metrics excludes having a control connection
+  if (!config.sendMetrics()) {
+    require('strong-agent').profile(undefined, undefined, {
+      quiet: config.isWorker, // Quiet in worker, to avoid repeated log messages
+      logger: config.logger,
+    });
+  }
 }
 
 if((config.clustered && config.isMaster) || config.detach){

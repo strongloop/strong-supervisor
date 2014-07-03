@@ -1,8 +1,9 @@
 var debug = require('debug')('supervisor:test');
-var spawn = require('child_process').spawn;
+var fs = require('fs');
 var path = require('path');
+var spawn = require('child_process').spawn;
 
-var slr = path.resolve('bin/slr');
+var slr = path.resolve('bin/slr.js');
 var cwd = process.cwd();
 
 function once(fn) {
@@ -29,24 +30,30 @@ describe('supervisor', function(done) {
     }).kill('SIGKILL');
   });
 
+  function runSlr(dir, args, expectations, done) {
+    done = once(done);
+    process.chdir(dir);
+    child = spawn(slr, args).on('error', done);
+
+    child.stdout.on('data', data);
+    child.stderr.on('data', data);
+
+    return child;
+
+    function data(data) {
+      debug('> ' + data)
+      expectations = expectations.filter(function(expect) {
+        return !expect.test(data);
+      });
+      if(expectations.length == 0) {
+        return done();
+      }
+    }
+  }
+
   function run(dir, args, expectations) {
     it('should run ['+args.join(',')+'] from '+dir, function(done) {
-      done = once(done);
-      process.chdir(dir);
-      child = spawn(slr, args).on('error', done);
-
-      child.stdout.on('data', data);
-      child.stderr.on('data', data);
-
-      function data(data) {
-        debug('> ' + data)
-        expectations = expectations.filter(function(expect) {
-          return !expect.test(data);
-        });
-        if(expectations.length == 0) {
-          return done();
-        }
-      }
+      runSlr(dir, args, expectations, done);
     });
   }
 
@@ -130,6 +137,36 @@ describe('supervisor', function(done) {
 
       run('.', ['--cluster', '1', 'test/yes-app'], EXPECT_TIMESTAMPS);
       run('.', ['--cluster', '1', '--no-timestamp-supervisor', 'test/yes-app'], EXPECT_NO_TIMESTAMPS);
+    });
+  });
+
+  describe('SIGHUP of supervisor', function() {
+    it('should chdir into PWD before restarting', function(done) {
+      var EXPECT = [
+        /PWD=.*.test.x-app/,
+        /CWD=.*.test.v1-app/,
+        /version=.0.0.0/,
+        /CWD=.*.test.v2-app/,
+        /version=.1.0.0/,
+      ];
+
+      function symlink(from) {
+        // Delete last symlink, if it exists
+        try {
+          fs.unlinkSync('test/x-app');
+        } catch(er) {
+        };
+        fs.symlinkSync(from, 'test/x-app');
+      }
+
+      symlink('v1-app');
+      runSlr('.', ['--cluster=1', 'test/x-app'], EXPECT, done)
+        .stdout.on('data', function(data) {
+          if (!/version=/.test(data)) return;
+
+          symlink('v2-app');
+          child.kill('SIGHUP');
+        });
     });
   });
 });
