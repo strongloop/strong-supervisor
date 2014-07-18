@@ -77,7 +77,7 @@ exports.runCtl = {
 
 // run supervisor
 function supervise(app, args) {
-  var run = require.resolve('../bin/slr');
+  var run = require.resolve('../bin/sl-run');
   var ctl = path.join(app, '..', 'runctl');
   try {
     fs.unlinkSync(ctl);

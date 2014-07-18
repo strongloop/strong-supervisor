@@ -8,16 +8,16 @@
   },
   "version": "0.2.4",
   "keywords": [
-    "runner",
-    "forever",
-    "supervisor",
     "cluster",
+    "forever",
     "master",
-    "strong-cluster-control",
+    "runner",
     "strong-agent",
-    "strongops",
+    "strong-cli",
+    "strong-cluster-control",
     "strongloop",
-    "strong-cli"
+    "strongops",
+    "supervisor"
   ],
   "homepage": "https://github.com/strongloop/strong-supervisor",
   "repository": {
@@ -28,10 +28,10 @@
     "url": "https://github.com/strongloop/strong-supervisor/issues"
   },
   "bin": {
+    "sl-run": "./bin/sl-run.js",
     "sl-runctl": "./bin/sl-runctl.js",
-    "slrc": "./bin/sl-runctl.js",
-    "slr": "./bin/slr.js",
-    "sl-run": "./bin/slr.js"
+    "slr": "./bin/sl-run.js",
+    "slrc": "./bin/sl-runctl.js"
   },
   "scripts": {
     "test": "mocha -R spec",
@@ -48,9 +48,9 @@
     "strong-log-transformer": "~0.1.0"
   },
   "devDependencies": {
-    "mocha": "~1.16.2",
-    "loopback": "1.4.x",
     "express": "~3.2.4",
+    "loopback": "1.4.x",
+    "mocha": "~1.16.2",
     "optimist": "~0.6.0",
     "shelljs": "^0.3.0",
     "tap": "~0.4.11"
@@ -59,6 +59,6 @@
     "node": ">=0.10.0"
   },
   "optionalDependencies": {
-    "node-syslog": "^1.1.7"
+    "node-syslog": "~1.1.7"
   }
 }
