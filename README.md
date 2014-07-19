@@ -15,13 +15,15 @@ supervisor will do that for you. See the example applications in `test/`.
 
 ## Features
 
-### StrongOps
+### Monitoring with StrongOps agent
 
-Supervisor and its workers are automatically monitored using
-[strong-agent](https://github.com/strongloop/strong-agent),
-if the application has been registered. Registration is easy,
-use the `slc strongops --register` command from
-[strong-cli](https://github.com/strongloop/strong-cli).
+Supervisor and its workers are monitored using
+[strong-agent](https://github.com/strongloop/strong-agent).
+
+This requires a `strongloop.json` configuration file, which can be generated
+using the `slc strongops` command from
+[strong-cli](https://github.com/strongloop/strong-cli) after
+[registration](https://strongloop.com/register/).
 
 Profiling does not occur if the application is not registered, and it can be
 explicitly disabled using the `--no-profile` option.
@@ -33,16 +35,22 @@ collector must support the statsd protocol, see
 [strong-agent-statsd](https://github.com/strongloop/strong-agent-statsd) for
 more information.
 
+### Profiling control
+
+Expensive profiling (such as object tracking or call tracing) can by dynamically
+started and stopped using the CLI.
+
 ### Clustering
 
 Supervisor will run the application clustered, by default, maintaining a worker
 per CPU. It does this using
-[strong-cluster-control](https://github.com/strongloop/strong-cluster-control),
-this behaviour is configurable (see `loadOptions()` in the
-strong-cluster-control documentation).
+[strong-cluster-control](https://github.com/strongloop/strong-cluster-control).
 
-Clustering can be disabled using the `--size=off` option, or the size can be
-explicitly set to any value.
+Clustering can be disabled using the `--cluster=off` option, or the size can be
+explicitly set to any numeric value (including `0`), or to `--cluster=cpus` to
+run a worker per CPU.
+
+Note that a number of features are unavailable when clustering is disabled.
 
 ### Environment
 
@@ -133,9 +141,15 @@ signalled with SIGHUP, see
 
 ## Installation
 
+    npm install -g strong-cli
+
+or
+
     npm install -g strong-supervisor
 
 ## Usage
+
+### slc run
 
 ``` text
 usage: slc run [options] [app [app-options...]]
@@ -191,4 +205,28 @@ Cluster size N is one of:
 
 Clustering defaults to off unless NODE_ENV is production, in which case it
 defaults to CPUs.
+```
+
+### slc runctl
+
+```
+  Usage: slc runctl [options] [command]
+  Usage: slrc [options] [command]
+
+  Commands:
+
+    status                 report status of cluster workers, the default command
+    set-size               set-size N, set cluster size to N workers
+    stop                   stop, shutdown all workers and stop controller
+    restart                restart, restart all workers
+    start-tracking-objects  start-tracking-objects TARGET, on a worker ID or process PID
+    stop-tracking-objects  stop-tracking-objects TARGET, on a worker ID or process PID
+    disconnect             disconnect all workers
+    fork                   fork one worker
+
+  Options:
+
+    -h, --help               output usage information
+    -V, --version            output the version number
+    -p,--path,--port <path>  name of control socket, defaults to runctl
 ```

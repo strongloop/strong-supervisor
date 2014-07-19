@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+var debug = require('debug')('strong-supervisor:runctl');
+var util = require('util');
 var version = require('../package.json').version;
 
 cli(process.argv, version, function(erMsg) {
@@ -84,6 +86,24 @@ function cli(argv, version, cb) {
   });
 
   program
+  .command('start-tracking-objects')
+  .description('start-tracking-objects TARGET, on a worker ID or process PID')
+  .action(function(target) {
+    request.cmd = 'start-tracking-objects';
+    request.target = target;
+    display = function(){};
+  });
+
+  program
+  .command('stop-tracking-objects')
+  .description('stop-tracking-objects TARGET, on a worker ID or process PID')
+  .action(function(target) {
+    request.cmd = 'stop-tracking-objects';
+    request.target = target;
+    display = function(){};
+  });
+
+  program
   .command('disconnect')
   .description('disconnect all workers')
   .action(function() {
@@ -114,7 +134,11 @@ function cli(argv, version, cb) {
     }
 
     if(rsp.error) {
-      return cb('command', request.cmd, 'failed with', rsp.error);
+      return cb(util.format(
+        'command %s failed with: %s',
+        request.cmd,
+        rsp.error
+      ));
     }
     display(rsp);
   }

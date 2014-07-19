@@ -8,6 +8,7 @@ util = require('util');
 
 // module locals
 var child = require('child_process');
+var dgram = require('dgram');
 
 // Skip when run by mocha
 exports.skip = function skip() {
@@ -32,13 +33,49 @@ process.on('exit', function(status) {
 
 // Utility functions
 
+exports.statsd = function statsd(callback) {
+  var server = dgram.createSocket('udp4');
+  server.reported = [];
+
+  server.on('message', function(data) {
+    console.log('statsd receives metric: %s', data);
+    server.reported.push(data.toString());
+  });
+
+  server.bind(listening);
+
+  server.waitfor = function(regex, callback) {
+    waitForStats();
+
+    function waitForStats() {
+      function found(stat) {
+        return regex.test(stat);
+      }
+
+      if (server.reported.some(found)) {
+        return callback();
+      }
+
+      setTimeout(waitForStats, 2000);
+    }
+  };
+
+  function listening(er) {
+    console.log('statsd listening:', er || server.address());
+    assert.ifError(er);
+    server.port = server.address().port;
+    return callback(server);
+  }
+}
+
 exports.runCtl = {
   supervise: supervise,
   waiton: waiton,
   expect: expect,
+  failon: failon,
 };
 
-// run supervisor as master with zero workers
+// run supervisor
 function supervise(app, args) {
   var run = require.resolve('../bin/slr');
   var ctl = path.join(app, '..', 'runctl');
@@ -48,7 +85,11 @@ function supervise(app, args) {
     console.log('no `%s` to cleanup: %s', ctl, er);
   }
 
-  var c = child.fork(run, args || ['--cluster=0', '--no-profile', app]);
+  args = ['--cluster=0'].concat(args || []).concat([app]);
+
+  console.log('supervise %s with %j', run, args);
+
+  var c = child.fork(run, args);
 
   // don't let it live longer than us!
   // XXX(sam) once sl-runctl et. al. self-exit on loss of parent, we
@@ -76,11 +117,22 @@ function waiton(cmd, output) {
   }
 }
 
-// Expect cmd to write specific output
+// Expect cmd to succeed and write specific output
 function expect(cmd, output) {
   var out = runctl(cmd);
 
   assert.equal(out.code, 0);
+
+  if (output) {
+    assert(output.test(out.output), output);
+  }
+}
+
+// Expect cmd to fail and write specific output
+function failon(cmd, output) {
+  var out = runctl(cmd);
+
+  assert.notEqual(out.code, 0);
 
   if (output) {
     assert(output.test(out.output), output);
@@ -97,12 +149,13 @@ function runctl(cmd) {
   return out;
 }
 
-function pause() {
+function pause(secs) {
+  var secs = secs || 1;
   var start = process.hrtime();
   while (true) {
     var ts = process.hrtime(start);
-    if (ts[0])
-      return; // wait at least a second
+    if (ts[0] >= secs)
+      return;
   }
 }
 
