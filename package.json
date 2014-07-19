@@ -34,7 +34,7 @@
     "sl-run": "./bin/slr.js"
   },
   "scripts": {
-    "test": "PORT=0 mocha -R spec"
+    "test": "mocha -R spec"
   },
   "dependencies": {
     "commander": "~1.3.0",
