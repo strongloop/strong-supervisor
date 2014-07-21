@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-var debug = require('debug')('strong-supervisor:runctl');
+var debug = require('../lib/debug')('runctl');
+var fs = require('fs');
 var util = require('util');
 var version = require('../package.json').version;
 
@@ -22,7 +23,6 @@ function cli(argv, version, cb) {
 
   var ADDR = 'runctl';
   var client = require('strong-control-channel/client');
-  var debug = require('debug')('strong-supervisor:runctl');
 
   var request = {
     cmd: 'status'
@@ -86,24 +86,6 @@ function cli(argv, version, cb) {
   });
 
   program
-  .command('objects-start <T>')
-  .description('start tracking objects on T, a worker ID or process PID')
-  .action(function(target) {
-    request.cmd = 'start-tracking-objects';
-    request.target = target;
-    display = function(){};
-  });
-
-  program
-  .command('objects-stop <T>')
-  .description('stop tracking objects on T, a worker ID or process PID')
-  .action(function(target) {
-    request.cmd = 'stop-tracking-objects';
-    request.target = target;
-    display = function(){};
-  });
-
-  program
   .command('disconnect')
   .description('disconnect all workers')
   .action(function() {
@@ -117,6 +99,67 @@ function cli(argv, version, cb) {
   .action(function() {
     request.cmd = 'fork';
     display = console.log;
+  });
+
+  program
+  .command('objects-start <T>')
+  .description('start tracking objects on T, a worker ID or process PID')
+  .action(function(target) {
+    request.cmd = 'start-tracking-objects';
+    request.target = target;
+    display = function(){};
+  });
+
+  program
+  .command('objects-stop <T>')
+  .description('stop tracking objects on T')
+  .action(function(target) {
+    request.cmd = 'stop-tracking-objects';
+    request.target = target;
+    display = function(){};
+  });
+
+  program
+  .command('cpu-start <T>')
+  .description('start CPU profiling on T, a worker ID or process PID')
+  .action(function(target) {
+    request.cmd = 'start-cpu-profiling';
+    request.target = target;
+    display = function(){
+      console.log('Profiler started, use cpu-stop to get profile');
+    };
+  });
+
+  program
+  .command('cpu-stop <T> [NAME]')
+  .description('stop CPU profiling on T, save as \"NAME.cpuprofile\"')
+  .action(function(target, name) {
+    if (!name)
+      name = util.format('node.%s', target);
+    request.cmd = 'stop-cpu-profiling';
+    request.target = target;
+    display = function(response){
+      var filename = name + '.cpuprofile'; // Required by Chrome
+      fs.writeFileSync(filename, response.profile);
+      console.log('CPU profile written to `%s`, load into Chrom Dev Tools',
+                  filename);
+    };
+  });
+
+  program.on('--help', function() {
+    console.log([
+      '  Profiling:',
+      '',
+      '    Either a node cluster worker ID, or an operating system process',
+      '    ID can be used to identify the node instance to target to start',
+      '    profiling of objects or CPU. The special worker ID `0` can be used',
+      '    to identify the master.',
+      '',
+      '    Object metrics are published, see the `--metrics` option to `run`.',
+      '',
+      '    CPU profiles must be loaded into Chrome Dev Tools. The NAME is',
+      '    optional, profiles default to being named `node.<PID>.cpuprofile`.'
+    ].join('\n'));
   });
 
   program
@@ -135,7 +178,7 @@ function cli(argv, version, cb) {
 
     if(rsp.error) {
       return cb(util.format(
-        'command %s failed with: %s',
+        'Command %s failed with: %s',
         request.cmd,
         rsp.error
       ));

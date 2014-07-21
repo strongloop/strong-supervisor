@@ -1,3 +1,4 @@
+*.cpuprofile
 *.dat
 *.gz
 *.log

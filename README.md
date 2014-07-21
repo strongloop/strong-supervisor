@@ -38,7 +38,14 @@ more information.
 ### Profiling control
 
 Expensive profiling (such as object tracking or call tracing) can by dynamically
-started and stopped using the CLI.
+started and stopped using the CLI (by worker ID or by process ID). The object
+count and size information is reported as a metric.
+
+### CPU profiling
+
+CPU profiling can be initiated on the master or any workers from the CLI (by
+worker ID or by process ID), and the CPU profile when stopped is written into a
+file that can be opened in the Chrome Dev Tools.
 
 ### Clustering
 
@@ -216,14 +223,28 @@ defaults to CPUs.
     set-size <N>           set cluster size to N workers
     stop                   stop, shutdown all workers and stop controller
     restart                restart, restart all workers
-    objects-start <T>      start tracking objects on T, a worker ID or process PID
-    objects-stop <T>       stop tracking objects on T, a worker ID or process PID
     disconnect             disconnect all workers
     fork                   fork one worker
+    objects-start <T>      start tracking objects on T, a worker ID or process PID
+    objects-stop <T>       stop tracking objects on T
+    cpu-start <T>          start CPU profiling on T, a worker ID or process PID
+    cpu-stop <T> [NAME]    stop CPU profiling on T, save as "NAME.cpuprofile"
 
   Options:
 
     -h, --help               output usage information
     -V, --version            output the version number
     -p,--path,--port <path>  name of control socket, defaults to runctl
+
+  Profiling:
+
+    Either a node cluster worker ID, or an operating system process
+    ID can be used to identify the node instance to target to start
+    profiling of objects or CPU. The special worker ID `0` can be used
+    to identify the master.
+
+    Object metrics are published, see the `--metrics` option to `run`.
+
+    CPU profiles must be loaded into Chrome Dev Tools. The NAME is
+    optional, profiles default to being named `node.<PID>.cpuprofile`.
 ```
