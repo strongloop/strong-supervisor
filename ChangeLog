@@ -1,3 +1,30 @@
+2014-07-21, Version 0.3.0
+
+* metrics: support `--metrics X` and `--metrics=X` (Sam Roberts)
+
+* Allow control channel and metrics simultaneously (Sam Roberts)
+
+* package: cleanup, sort, and bin script rename (Sam Roberts)
+
+* runctl: support start and stop of object tracking (Sam Roberts)
+
+* package: add tap test script (Sam Roberts)
+
+* test: refactor runctl test into a helper module (Sam Roberts)
+
+* run: unlink control channel on startup (Sam Roberts)
+
+* test: use ephemeral ports in test servers (Sam Roberts)
+
+* package: update debug to 1.x (Sam Roberts)
+
+* runctl: run-time control of supervisor (Sam Roberts)
+
+* Ran file through fixjsstyle (Krishna Raman)
+
+* Fix clustered mode SIGINT/SIGTERM exit code (Krishna Raman)
+
+
 2014-07-02, Version 0.2.4
 
 * metrics: fix wrong url part being used for host (Sam Roberts)

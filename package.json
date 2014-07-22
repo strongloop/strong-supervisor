@@ -6,7 +6,7 @@
     "name": "Dual MIT/StrongLoop",
     "url": "https://github.com/strongloop/strong-supervisor/blob/master/LICENSE"
   },
-  "version": "0.2.4",
+  "version": "0.3.0",
   "keywords": [
     "cluster",
     "forever",
@@ -52,7 +52,7 @@
     "loopback": "1.4.x",
     "mocha": "~1.16.2",
     "optimist": "~0.6.0",
-    "shelljs": "^0.3.0",
+    "shelljs": "~0.3.0",
     "tap": "~0.4.11"
   },
   "engine": {
