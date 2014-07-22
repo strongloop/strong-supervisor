@@ -8,3 +8,4 @@ npm-debug.log
 pids
 strongloop.json
 test/x-app
+_test-link

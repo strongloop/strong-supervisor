@@ -6,18 +6,18 @@
     "name": "Dual MIT/StrongLoop",
     "url": "https://github.com/strongloop/strong-supervisor/blob/master/LICENSE"
   },
-  "version": "0.2.4",
+  "version": "0.3.0",
   "keywords": [
-    "runner",
-    "forever",
-    "supervisor",
     "cluster",
+    "forever",
     "master",
-    "strong-cluster-control",
+    "runner",
     "strong-agent",
-    "strongops",
+    "strong-cli",
+    "strong-cluster-control",
     "strongloop",
-    "strong-cli"
+    "strongops",
+    "supervisor"
   ],
   "homepage": "https://github.com/strongloop/strong-supervisor",
   "repository": {
@@ -28,33 +28,37 @@
     "url": "https://github.com/strongloop/strong-supervisor/issues"
   },
   "bin": {
-    "slr": "./bin/slr.js",
-    "sl-run": "./bin/slr.js"
+    "sl-run": "./bin/sl-run.js",
+    "sl-runctl": "./bin/sl-runctl.js",
+    "slr": "./bin/sl-run.js",
+    "slrc": "./bin/sl-runctl.js"
   },
   "scripts": {
-    "test": "PORT=0 mocha -R spec"
+    "test": "mocha -R spec",
+    "tap": "tap test/test-*.js"
   },
   "dependencies": {
+    "commander": "~1.3.0",
+    "debug": "~1.0.0",
     "dotenv": "~0.2.8",
     "strong-agent": "~0.4.0",
     "strong-agent-statsd": "~0.1.2",
-    "strong-cluster-control": "~0.4.0",
+    "strong-cluster-control": "~0.5.0",
+    "strong-control-channel": "~0.2.0",
     "strong-log-transformer": "~0.1.0"
   },
-  "peerDependencies": {
-    "strong-cluster-control": "~0.4.0"
-  },
   "devDependencies": {
-    "mocha": "~1.16.2",
-    "loopback": "1.4.x",
     "express": "~3.2.4",
+    "loopback": "1.4.x",
+    "mocha": "~1.16.2",
     "optimist": "~0.6.0",
-    "debug": "~0.7.4"
+    "shelljs": "~0.3.0",
+    "tap": "~0.4.11"
   },
   "engine": {
     "node": ">=0.10.0"
   },
   "optionalDependencies": {
-    "node-syslog": "^1.1.7"
+    "node-syslog": "~1.1.7"
   }
 }
