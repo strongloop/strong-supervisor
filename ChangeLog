@@ -1,3 +1,10 @@
+2014-07-23, Version 0.3.1
+
+* Add __module so `slc -v` can report agent version (Krishna Raman)
+
+* Update package license to match LICENSE.md (Sam Roberts)
+
+
 2014-07-21, Version 0.3.0
 
 * metrics: support `--metrics X` and `--metrics=X` (Sam Roberts)
