@@ -1,6 +1,6 @@
 var assert = require('assert');
 var chdir = require('../lib/chdir');
-var debug = require('debug')('supervisor:test');
+var debug = require('debug')('strong-supervisor:test');
 var env = process.env;
 var fs = require('fs');
 var path = require('path');
