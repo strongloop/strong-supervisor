@@ -4,7 +4,7 @@ var app = module.exports = loopback();
 var started = new Date();
 
 app.configure(function(){
-  app.set('port', options.port || process.env.PORT || 0);
+  app.set('port', process.env.PORT || 0);
 });
 
 /*
