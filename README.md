@@ -22,7 +22,7 @@ Supervisor and its workers are monitored using
 
 This requires a `strongloop.json` configuration file, which can be generated
 using the `slc strongops` command from
-[strong-cli](https://github.com/strongloop/strong-cli) after
+[strongloop](https://github.com/strongloop/strongloop) after
 [registration](https://strongloop.com/register/).
 
 Profiling does not occur if the application is not registered, and it can be
@@ -140,10 +140,6 @@ signalled with SIGHUP, see
 [control.restart()](http://apidocs.strongloop.com/strong-cluster-control/#controlrestart).
 
 ## Installation
-
-    npm install -g strong-cli
-
-or
 
     npm install -g strong-supervisor
 

@@ -4,7 +4,7 @@
   "author": "Sam Roberts <sam@strongloop.com>",
   "license": {
     "name": "Dual Artistic/StrongLoop",
-    "url": "https://github.com/strongloop/strong-supervisor/blob/master/LICENSE"
+    "url": "https://github.com/strongloop/strong-supervisor/blob/master/LICENSE.md"
   },
   "version": "0.3.1",
   "main": "index.js",
@@ -14,7 +14,6 @@
     "master",
     "runner",
     "strong-agent",
-    "strong-cli",
     "strong-cluster-control",
     "strongloop",
     "strongops",
