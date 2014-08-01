@@ -118,9 +118,9 @@ describe('supervisor', function(done) {
 
   describe('timestamping', function() {
     var TS_WORKER = /^\d+-\d+-\d+T\d+:\d+:\d+.\d+Z pid:\d+ worker:\d+ .+/;
-    var TS_SUPER = /^\d+-\d+-\d+T\d+:\d+:\d+.\d+Z pid:\d+ worker:supervisor .+/;
+    var TS_SUPER = /^\d+-\d+-\d+T\d+:\d+:\d+.\d+Z pid:\d+ worker:0 .+/;
     var NO_TS_WORKER = /^pid:\d+ worker:\d+ .+/;
-    var NO_TS_SUPER = /^pid:\d+ worker:supervisor .+/;
+    var NO_TS_SUPER = /^pid:\d+ worker:0 .+/;
 
     describe('worker logs', function() {
       var EXPECT_TIMESTAMPS = [ TS_WORKER, TS_SUPER ];
