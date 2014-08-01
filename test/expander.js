@@ -2,9 +2,9 @@
 
 var assert = require('assert');
 
-var logname = require('../lib/logname');
+var expander = require('../lib/expander');
 
-describe('logname.generate', function() {
+describe('expander.expand', function() {
   var example_worker = { id: 1, pid: 1234 };
   var examples = [
     { given: 'supervisor.log', expect: 'supervisor.log' },
@@ -12,7 +12,7 @@ describe('logname.generate', function() {
   ];
   examples.forEach(function (e) {
     it('generates "' + e.expect + '" from "' + e.given + '"', function() {
-      var result = logname.generate(e.given, example_worker);
+      var result = expander.expand(e.given, example_worker);
       assert.equal(result, e.expect);
     });
   });
