@@ -25,7 +25,7 @@ exports.skip = function skip() {
 exports.pass = false;
 
 process.on('exit', function(status) {
-  if (status === 0) {
+  if (require.main == module && status === 0) {
     assert(exports.pass);
     console.log('PASS');
   }
