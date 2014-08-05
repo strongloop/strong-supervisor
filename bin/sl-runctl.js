@@ -61,8 +61,8 @@ function cli(argv, version, cb) {
   }
 
   program
-  .command('set-size')
-  .description('set-size N, set cluster size to N workers')
+  .command('set-size <N>')
+  .description('set cluster size to N workers')
   .action(function(size) {
     request.cmd = 'set-size';
     request.size = parseInt(size, 10);
@@ -86,8 +86,8 @@ function cli(argv, version, cb) {
   });
 
   program
-  .command('start-tracking-objects')
-  .description('start-tracking-objects TARGET, on a worker ID or process PID')
+  .command('objects-start <T>')
+  .description('start tracking objects on T, a worker ID or process PID')
   .action(function(target) {
     request.cmd = 'start-tracking-objects';
     request.target = target;
@@ -95,8 +95,8 @@ function cli(argv, version, cb) {
   });
 
   program
-  .command('stop-tracking-objects')
-  .description('stop-tracking-objects TARGET, on a worker ID or process PID')
+  .command('objects-stop <T>')
+  .description('stop tracking objects on T, a worker ID or process PID')
   .action(function(target) {
     request.cmd = 'stop-tracking-objects';
     request.target = target;
