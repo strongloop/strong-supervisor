@@ -199,7 +199,7 @@ Cluster size N is one of:
   - The string "off" to run unclustered, in which case the app
     will *NOT* be supervisable or controllable, but will be monitored.
 
-Clustering defaults to off unless NODE_ENV is production, in which case it
+Clustering defaults to off unless `NODE_ENV` is production, in which case it
 defaults to CPUs.
 ```
 
@@ -212,11 +212,11 @@ defaults to CPUs.
   Commands:
 
     status                 report status of cluster workers, the default command
-    set-size               set-size N, set cluster size to N workers
+    set-size <N>           set cluster size to N workers
     stop                   stop, shutdown all workers and stop controller
     restart                restart, restart all workers
-    start-tracking-objects  start-tracking-objects TARGET, on a worker ID or process PID
-    stop-tracking-objects  stop-tracking-objects TARGET, on a worker ID or process PID
+    objects-start <T>      start tracking objects on T, a worker ID or process PID
+    objects-stop <T>       stop tracking objects on T, a worker ID or process PID
     disconnect             disconnect all workers
     fork                   fork one worker
 
