@@ -1,9 +1,8 @@
 var debug = require('debug')('supervisor:test');
 var fs = require('fs');
-var path = require('path');
 var spawn = require('child_process').spawn;
 
-var slr = path.resolve('bin/slr.js');
+var slr = require.resolve('../bin/sl-run');
 var cwd = process.cwd();
 
 function once(fn) {

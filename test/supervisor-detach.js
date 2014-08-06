@@ -5,7 +5,7 @@ var assert = require('assert');
 var path = require('path');
 var fs = require('fs');
 
-var slr = path.resolve('bin/slr.js');
+var slr = require.resolve('../bin/sl-run');
 
 var exp = /^supervisor (\d+) detached process (\d+), output logged to '(\S+)'$/mg;
 
