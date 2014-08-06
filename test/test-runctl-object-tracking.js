@@ -32,18 +32,21 @@ helper.statsd(function(statsd) {
   waiton('status', /worker count: 1/);
   expect('status', /worker id 1:/);
 
-  expect('start-tracking-objects 0');
-  expect('start-tracking-objects 1');
-  failon('start-tracking-objects 6', /6 not found/);
+  failon('objects-start', /missing required argument/);
+  failon('objects-stop', /missing required argument/);
+
+  expect('objects-start 0');
+  expect('objects-start 1');
+  failon('objects-start 6', /6 not found/);
 
   console.log('Waiting for stats...');
 
   statsd.waitfor(/object.*count:/, function() {
     statsd.close();
 
-    expect('stop-tracking-objects 0');
-    expect('stop-tracking-objects 1');
-    failon('stop-tracking-objects 6', /6 not found/);
+    expect('objects-stop 0');
+    expect('objects-stop 1');
+    failon('objects-stop 6', /6 not found/);
 
     expect('stop');
 
