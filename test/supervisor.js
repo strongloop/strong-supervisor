@@ -1,4 +1,4 @@
-var debug = require('debug')('supervisor:test');
+var debug = require('./debug');
 var fs = require('fs');
 var spawn = require('child_process').spawn;
 

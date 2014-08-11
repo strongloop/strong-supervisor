@@ -1,5 +1,5 @@
 var assert = require('assert');
-var debug = require('debug')('supervisor:test');
+var debug = require('./debug');
 var dgram = require('dgram');
 var send = require('../lib/metrics');
 
