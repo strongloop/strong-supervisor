@@ -1,6 +1,6 @@
 // test globals
 assert = require('assert');
-debug = require('debug')('strong-supervisor:test');
+debug = require('./debug');
 fs = require('fs');
 path = require('path');
 shell = require('shelljs/global');

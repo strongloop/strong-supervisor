@@ -1,6 +1,6 @@
 var assert = require('assert');
 var fs = require('fs');
-var debug = require('debug')('supervisor:test');
+var debug = require('./debug');
 var pidfile = require('../lib/pidfile');
 
 var FILE = 'test.pid';
