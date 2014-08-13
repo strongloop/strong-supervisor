@@ -2,6 +2,7 @@
 
 var debug = require('../lib/debug')('runctl');
 var fs = require('fs');
+var path = require('path');
 var util = require('util');
 var version = require('../package.json').version;
 
@@ -102,6 +103,23 @@ function cli(argv, version, cb) {
   });
 
   program
+  .command('heap-snapshot <T> [NAME]')
+  .description('dump heap objects for T, a worker ID or process PID, ' +
+               'save as \"NAME.heapsnapshot\"')
+  .action(function(target, name) {
+    name = name || util.format('heapdump-%d-%d', target, Date.now());
+    name = name + '.heapsnapshot';
+    var filePath = path.resolve(name);
+    request.cmd = 'heap-snapshot';
+    request.target = target;
+    request.filePath = filePath;
+    display = function(res) {
+      console.log('Heap dump written to `%s`, load into Chrome Dev Tools',
+                  filePath);
+    };
+  });
+
+  program
   .command('objects-start <T>')
   .description('start tracking objects on T, a worker ID or process PID')
   .action(function(target) {
@@ -141,7 +159,7 @@ function cli(argv, version, cb) {
     display = function(response){
       var filename = name + '.cpuprofile'; // Required by Chrome
       fs.writeFileSync(filename, response.profile);
-      console.log('CPU profile written to `%s`, load into Chrom Dev Tools',
+      console.log('CPU profile written to `%s`, load into Chrome Dev Tools',
                   filename);
     };
   });
@@ -152,8 +170,12 @@ function cli(argv, version, cb) {
       '',
       '    Either a node cluster worker ID, or an operating system process',
       '    ID can be used to identify the node instance to target to start',
-      '    profiling of objects or CPU. The special worker ID `0` can be used',
-      '    to identify the master.',
+      '    profiling of objects or CPU or to generate a snapshot of the heap.',
+      '    The special worker ID `0` can be used to identify the master.',
+      '',
+      '    Heap snapshots must be loaded into Chrome Dev Tools. The NAME is',
+      '    optional, snapshots default to being named ',
+      '    `heap-<PID>-<DATE>.heapshapshot`.',
       '',
       '    Object metrics are published, see the `--metrics` option to `run`.',
       '',
