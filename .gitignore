@@ -1,4 +1,5 @@
 *.cpuprofile
+*.heapsnapshot
 *.dat
 *.gz
 *.log
