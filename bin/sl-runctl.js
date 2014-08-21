@@ -103,23 +103,6 @@ function cli(argv, version, cb) {
   });
 
   program
-  .command('heap-snapshot <T> [NAME]')
-  .description('dump heap objects for T, a worker ID or process PID, ' +
-               'save as \"NAME.heapsnapshot\"')
-  .action(function(target, name) {
-    name = name || util.format('heapdump-%d-%d', target, Date.now());
-    name = name + '.heapsnapshot';
-    var filePath = path.resolve(name);
-    request.cmd = 'heap-snapshot';
-    request.target = target;
-    request.filePath = filePath;
-    display = function(res) {
-      console.log('Heap dump written to `%s`, load into Chrome Dev Tools',
-                  filePath);
-    };
-  });
-
-  program
   .command('objects-start <T>')
   .description('start tracking objects on T, a worker ID or process PID')
   .action(function(target) {
@@ -164,6 +147,24 @@ function cli(argv, version, cb) {
     };
   });
 
+  program
+  .command('heap-snapshot <T> [NAME]')
+  .description('Snapshot heap objects for T, a worker ID or process PID, ' +
+               'save as \"NAME.heapsnapshot\"')
+  .action(function(target, name) {
+    name = name || util.format('node.%s', target);
+    name = name + '.heapsnapshot';
+    var filePath = path.resolve(name);
+    request.cmd = 'heap-snapshot';
+    request.target = target;
+    request.filePath = filePath;
+    display = function(res) {
+      console.log('Heap dump written to `%s`, load into Chrome Dev Tools',
+                  filePath);
+    };
+  });
+
+
   program.on('--help', function() {
     console.log([
       '  Profiling:',
@@ -173,14 +174,14 @@ function cli(argv, version, cb) {
       '    profiling of objects or CPU or to generate a snapshot of the heap.',
       '    The special worker ID `0` can be used to identify the master.',
       '',
-      '    Heap snapshots must be loaded into Chrome Dev Tools. The NAME is',
-      '    optional, snapshots default to being named ',
-      '    `heap-<PID>-<DATE>.heapshapshot`.',
-      '',
       '    Object metrics are published, see the `--metrics` option to `run`.',
       '',
       '    CPU profiles must be loaded into Chrome Dev Tools. The NAME is',
-      '    optional, profiles default to being named `node.<PID>.cpuprofile`.'
+      '    optional, profiles default to being named `node.<PID>.cpuprofile`.',
+      '',
+      '    Heap snapshots must be loaded into Chrome Dev Tools. The NAME is',
+      '    optional, snapshots default to being named ',
+      '    `node.<PID>.heapshapshot`.',
     ].join('\n'));
   });
 

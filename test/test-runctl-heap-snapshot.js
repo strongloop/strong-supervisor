@@ -26,10 +26,10 @@ expect('set-size 1');
 waiton('status', /worker count: 1/);
 expect('status', /worker id 1:/);
 
-expect('heap-snapshot 0', /heapdump-0-.*\.heapsnapshot/);
-expect('heap-snapshot 1', /heapdump-1-.*\.heapsnapshot/);
+expect('heap-snapshot 0', /node\.0.*\.heapsnapshot/);
+expect('heap-snapshot 1', /node\.1.*\.heapsnapshot/);
 var name = 'foo-' + Date.now();
-expect('heap-snapshot 1 ' + name, /foo-.*\.heapsnapshot/);
+expect('heap-snapshot 1 ' + name, /foo.*\.heapsnapshot/);
 failon('heap-snapshot 1 /does/not/exist', /ENOENT/);
 expect('stop');
 
