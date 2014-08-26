@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
-var debug = require('debug')('strong-supervisor:runctl');
+var debug = require('../lib/debug')('runctl');
+var fs = require('fs');
+var path = require('path');
 var util = require('util');
 var version = require('../package.json').version;
 
@@ -22,7 +24,6 @@ function cli(argv, version, cb) {
 
   var ADDR = 'runctl';
   var client = require('strong-control-channel/client');
-  var debug = require('debug')('strong-supervisor:runctl');
 
   var request = {
     cmd: 'status'
@@ -86,6 +87,22 @@ function cli(argv, version, cb) {
   });
 
   program
+  .command('disconnect')
+  .description('disconnect all workers')
+  .action(function() {
+    request.cmd = 'disconnect';
+    display = console.log;
+  });
+
+  program
+  .command('fork')
+  .description('fork one worker (it will be killed if size is exceeded)')
+  .action(function() {
+    request.cmd = 'fork';
+    display = console.log;
+  });
+
+  program
   .command('objects-start <T>')
   .description('start tracking objects on T, a worker ID or process PID')
   .action(function(target) {
@@ -96,7 +113,7 @@ function cli(argv, version, cb) {
 
   program
   .command('objects-stop <T>')
-  .description('stop tracking objects on T, a worker ID or process PID')
+  .description('stop tracking objects on T')
   .action(function(target) {
     request.cmd = 'stop-tracking-objects';
     request.target = target;
@@ -104,19 +121,68 @@ function cli(argv, version, cb) {
   });
 
   program
-  .command('disconnect')
-  .description('disconnect all workers')
-  .action(function() {
-    request.cmd = 'disconnect';
-    display = console.log;
+  .command('cpu-start <T>')
+  .description('start CPU profiling on T, a worker ID or process PID')
+  .action(function(target) {
+    request.cmd = 'start-cpu-profiling';
+    request.target = target;
+    display = function(){
+      console.log('Profiler started, use cpu-stop to get profile');
+    };
   });
 
   program
-  .command('fork')
-  .description('fork one worker')
-  .action(function() {
-    request.cmd = 'fork';
-    display = console.log;
+  .command('cpu-stop <T> [NAME]')
+  .description('stop CPU profiling on T, save as \"NAME.cpuprofile\"')
+  .action(function(target, name) {
+    if (!name)
+      name = util.format('node.%s', target);
+    request.cmd = 'stop-cpu-profiling';
+    request.target = target;
+    display = function(response){
+      var filename = name + '.cpuprofile'; // Required by Chrome
+      fs.writeFileSync(filename, response.profile);
+      console.log('CPU profile written to `%s`, load into Chrome Dev Tools',
+                  filename);
+    };
+  });
+
+  program
+  .command('heap-snapshot <T> [NAME]')
+  .description('Snapshot heap objects for T, a worker ID or process PID, ' +
+               'save as \"NAME.heapsnapshot\"')
+  .action(function(target, name) {
+    name = name || util.format('node.%s', target);
+    name = name + '.heapsnapshot';
+    var filePath = path.resolve(name);
+    request.cmd = 'heap-snapshot';
+    request.target = target;
+    request.filePath = filePath;
+    display = function(res) {
+      console.log('Heap dump written to `%s`, load into Chrome Dev Tools',
+                  filePath);
+    };
+  });
+
+
+  program.on('--help', function() {
+    console.log([
+      '  Profiling:',
+      '',
+      '    Either a node cluster worker ID, or an operating system process',
+      '    ID can be used to identify the node instance to target to start',
+      '    profiling of objects or CPU or to generate a snapshot of the heap.',
+      '    The special worker ID `0` can be used to identify the master.',
+      '',
+      '    Object metrics are published, see the `--metrics` option to `run`.',
+      '',
+      '    CPU profiles must be loaded into Chrome Dev Tools. The NAME is',
+      '    optional, profiles default to being named `node.<PID>.cpuprofile`.',
+      '',
+      '    Heap snapshots must be loaded into Chrome Dev Tools. The NAME is',
+      '    optional, snapshots default to being named ',
+      '    `node.<PID>.heapshapshot`.',
+    ].join('\n'));
   });
 
   program
@@ -135,7 +201,7 @@ function cli(argv, version, cb) {
 
     if(rsp.error) {
       return cb(util.format(
-        'command %s failed with: %s',
+        'Command %s failed with: %s',
         request.cmd,
         rsp.error
       ));

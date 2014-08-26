@@ -1,3 +1,43 @@
+2014-08-26, Version 0.3.3
+===========================
+
+ * Make cpu and heap profiling file names consistent (Sam Roberts)
+
+ * Add *.heapsnapshot to .gitignore (Krishna Raman)
+
+ * runctl: don't attach runctl server in workers (Sam Roberts)
+
+ * runctl: add heap-snapshot command (Krishna Raman)
+
+ * run: support control and exit via node ipc (Sam Roberts)
+
+ * run: fix --no-channel option (Sam Roberts)
+
+ * control: refactor control channel naming (Sam Roberts)
+
+ * runctl: clarify fork response and usage (Sam Roberts)
+
+ * Allow master logging in --metrics mode (Ryan Graham)
+
+ * Export supervisor's logger in worker processes (Ryan Graham)
+
+ * cluster: use 0 as cluster master's worker id (Ryan Graham)
+
+ * logger: only use log transformer in clustered mode (Ryan Graham)
+
+ * cpu-start/stop: command line CPU profiling (Sam Roberts)
+
+ * test: use a common debug wrapper (Sam Roberts)
+
+ * debug: introduce a debug wrapper (Sam Roberts)
+
+ * Generate useful default scope for statsd metrics (Ryan Graham)
+
+ * Add %a and %h to core string expander (Ryan Graham)
+
+ * Rename logname.generate to expander.expand (Ryan Graham)
+
+
 2014-08-06, Version 0.3.2
 =========================
 

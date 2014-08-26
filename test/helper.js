@@ -1,6 +1,6 @@
 // test globals
 assert = require('assert');
-debug = require('debug')('strong-supervisor:test');
+debug = require('./debug');
 fs = require('fs');
 path = require('path');
 shell = require('shelljs/global');
@@ -135,7 +135,7 @@ function failon(cmd, output) {
   assert.notEqual(out.code, 0);
 
   if (output) {
-    assert(output.test(out.output), output);
+    assert(output.test(out.output), out.output);
   }
 }
 
