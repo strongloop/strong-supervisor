@@ -3,6 +3,11 @@ var helper = require('./helper');
 
 if (helper.skip()) return;
 
+if (!process.env.STRONGLOOP_LICENSE) {
+  console.log('ok 1 # skip because no license to run object-tracking');
+  process.exit(0);
+}
+
 var rc = helper.runCtl;
 var supervise = rc.supervise;
 var expect = rc.expect;
