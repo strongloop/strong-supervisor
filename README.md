@@ -187,12 +187,15 @@ Runner options:
   --no-timestamp-supervisor
                      Disable timestamping of supervisor log messages.
   --syslog           Send supervisor and collected worker logs to syslog(3).
-  --metrics STATS    Send metrics to local collector (default is StrongOps)
+  --metrics STATS    Send metrics to local collector (default is not to)
   -p,--pid FILE      Write supervisor's pid to FILE, failing if FILE
                      already has a valid pid in it (default is not to).
   --cluster N        Set the cluster size (default is off, but see below).
-  --no-profile       Do not profile with StrongOps (default is to profile
-                     if registration data is found).
+  --no-profile       Disable reporting profile data to StrongOps (default
+                     is to profile if registration data is found). Does
+                     not affect local reporting using --metrics option.
+  --no-channel       Do not listen for run-time control messages (default
+                     is to listen on "runctl" when clustered).
 
 Log FILE is a path relative to the app's working directory if it is not
 absolute. To create a log file per process, FILE supports simple

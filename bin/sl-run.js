@@ -20,8 +20,10 @@ if(!config.profile) {
     quiet: config.isWorker, // Quiet in worker, to avoid repeated log messages
     logger: config.logger,
   });
-  config.sendMetrics();
 }
+
+// starts metrics reporting if --metrics was set, or does nothing
+config.sendMetrics();
 
 if((config.clustered && config.isMaster) || config.detach){
   return config.start();

@@ -1,3 +1,11 @@
+2014-09-02, Version 0.3.4
+=========================
+
+ * test: skip object tracking test (Sam Roberts)
+
+ * Allow --metrics and --no-profile at the same time (Ryan Graham)
+
+
 2014-08-26, Version 0.3.3
 ===========================
 
