@@ -1,3 +1,11 @@
+2014-09-05, Version 1.0.0
+=========================
+
+ * test: fix skipping of tap helper by mocha (Sam Roberts)
+
+ * runctl: add npm ls-like package listing (Sam Roberts)
+
+
 2014-09-02, Version 0.3.4
 =========================
 
