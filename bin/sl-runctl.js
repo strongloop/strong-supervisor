@@ -2,6 +2,7 @@
 
 var debug = require('../lib/debug')('runctl');
 var fs = require('fs');
+var npmls = require('strong-npm-ls');
 var path = require('path');
 var util = require('util');
 var version = require('../package.json').version;
@@ -162,6 +163,17 @@ function cli(argv, version, cb) {
       console.log('Heap dump written to `%s`, load into Chrome Dev Tools',
                   filePath);
     };
+  });
+
+  program
+  .command('ls [DEPTH]')
+  .description('list application dependencies')
+  .action(function(depth) {
+    depth = depth == null ? Number.MAX_VALUE : +depth;
+    request.cmd = 'npm-ls';
+    display = function displayLsResponse(rsp) {
+      console.log(npmls.printable(rsp, depth));
+    }
   });
 
 
