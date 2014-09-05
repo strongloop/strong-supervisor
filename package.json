@@ -9,12 +9,14 @@
   "version": "0.3.4",
   "main": "index.js",
   "keywords": [
+    "agent",
     "cluster",
     "forever",
     "master",
+    "pm",
+    "process",
     "runner",
-    "strong-agent",
-    "strong-cluster-control",
+    "supervisor",
     "strongloop",
     "strongops",
     "supervisor"
