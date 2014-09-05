@@ -239,6 +239,7 @@ defaults to CPUs.
     objects-stop <T>       stop tracking objects on T
     cpu-start <T>          start CPU profiling on T, a worker ID or process PID
     cpu-stop <T> [NAME]    stop CPU profiling on T, save as "NAME.cpuprofile"
+    ls [DEPTH]             list application dependencies
 
   Options:
 

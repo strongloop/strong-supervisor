@@ -5,6 +5,7 @@ if (helper.skip()) return;
 
 if (!process.env.STRONGLOOP_LICENSE) {
   console.log('ok 1 # skip because no license to run object-tracking');
+  helper.pass = true;
   process.exit(0);
 }
 
