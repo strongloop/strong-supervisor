@@ -20,12 +20,15 @@ exports.skip = function skip() {
   }
 }
 
+// if helper is being run directly by mocha, skip it.
+if (exports.skip()) return;
+
 // Assert if test does not explicitly say it passed, guards against accidental
 // exit with `0`.
 exports.pass = false;
 
 process.on('exit', function(status) {
-  if (require.main == module && status === 0) {
+  if (status === 0) {
     assert(exports.pass);
     console.log('PASS');
   }
