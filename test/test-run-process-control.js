@@ -1,3 +1,7 @@
+var helper = require('./helper');
+
+if (helper.skip()) return;
+
 var assert = require('assert');
 var async = require('async');
 var control = require('strong-control-channel/process');
