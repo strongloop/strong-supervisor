@@ -1,0 +1,8 @@
+{
+  "module-app/index": [
+    { "type": "increment", "line": 20, "metric": "get.delay" },
+    { "type": "decrement", "line": 21, "metric": "get.delay" },
+    { "type": "timer-start", "line": 20, "metric": "get.delay", "context": "res" },
+    { "type": "timer-stop", "line": 21, "metric": "get.delay", "context": "res" }
+  ]
+}
