@@ -1,3 +1,13 @@
+2014-09-11, Version 1.0.1
+=========================
+
+ * Make heapdump an optional dependency (Krishna Raman)
+
+ * test: mark test as TAP only (Ryan Graham)
+
+ * package: add keywords (Sam Roberts)
+
+
 2014-09-05, Version 1.0.0
 =========================
 
