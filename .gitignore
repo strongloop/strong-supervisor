@@ -10,4 +10,5 @@ npm-debug.log
 pids
 strongloop.json
 test/x-app
+_patch.json
 _test-link

@@ -13,6 +13,10 @@ utility, or the
 either strong-cluster-control or strong-agent in your application. The
 supervisor will do that for you. See the example applications in `test/`.
 
+Metrics-related features are not supported without a StrongLoop license, please
+contact FIXME.
+
+
 ## Features
 
 ### Monitoring with StrongOps agent
@@ -34,6 +38,13 @@ Metrics can be published to an alternate collector, instead of StrongOps. The
 collector must support the statsd protocol, see
 [strong-agent-statsd](https://github.com/strongloop/strong-agent-statsd) for
 more information.
+
+### Dynamic Metrics Injection
+
+Custom metrics can be patched dynamically into running code to report counts or
+timers using the `patch` command. See
+[strong-agent](https://github.com/strongloop/strong-agent#custom-metrics)
+for a description of the patch format.
 
 ### Profiling control
 
@@ -233,12 +244,13 @@ defaults to CPUs.
     stop                   stop, shutdown all workers and stop controller
     restart                restart, restart all workers
     disconnect             disconnect all workers
-    fork                   fork one worker
-    heap-snapshot <T> [NAME] dump heap objects for T, a worker ID or process PID, save as "NAME.heapsnapshot"
+    fork                   fork one worker (it will be killed if size is exceeded)
     objects-start <T>      start tracking objects on T, a worker ID or process PID
     objects-stop <T>       stop tracking objects on T
     cpu-start <T>          start CPU profiling on T, a worker ID or process PID
     cpu-stop <T> [NAME]    stop CPU profiling on T, save as "NAME.cpuprofile"
+    heap-snapshot <T> [NAME] snapshot heap objects for T, a worker ID or process PID, save as "NAME.heapsnapshot"
+    patch <T> <FILE>       apply patch FILE to T
     ls [DEPTH]             list application dependencies
 
   Options:
@@ -254,12 +266,12 @@ defaults to CPUs.
     profiling of objects or CPU or to generate a snapshot of the heap.
     The special worker ID `0` can be used to identify the master.
 
-    Heap snapshots must be loaded into Chrome Dev Tools. The NAME is
-    optional, snapshots default to being named 
-    `heap-<PID>-<DATE>.heapshapshot`.
-
     Object metrics are published, see the `--metrics` option to `run`.
 
     CPU profiles must be loaded into Chrome Dev Tools. The NAME is
     optional, profiles default to being named `node.<PID>.cpuprofile`.
+
+    Heap snapshots must be loaded into Chrome Dev Tools. The NAME is
+    optional, snapshots default to being named
+    `node.<PID>.heapshapshot`.
 ```

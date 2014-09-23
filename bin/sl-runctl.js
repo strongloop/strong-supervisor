@@ -150,7 +150,7 @@ function cli(argv, version, cb) {
 
   program
   .command('heap-snapshot <T> [NAME]')
-  .description('Snapshot heap objects for T, a worker ID or process PID, ' +
+  .description('snapshot heap objects for T, a worker ID or process PID, ' +
                'save as \"NAME.heapsnapshot\"')
   .action(function(target, name) {
     name = name || util.format('node.%s', target);
@@ -163,6 +163,17 @@ function cli(argv, version, cb) {
       console.log('Heap dump written to `%s`, load into Chrome Dev Tools',
                   filePath);
     };
+  });
+
+  program
+  .command('patch <T> <FILE>')
+  .description('apply patch FILE to T')
+  .action(function(target, file) {
+    request.cmd = 'patch';
+    request.target = target;
+    request.patch = JSON.parse(fs.readFileSync(file));
+    display = function(rsp) {
+    }
   });
 
   program
@@ -192,7 +203,7 @@ function cli(argv, version, cb) {
       '    optional, profiles default to being named `node.<PID>.cpuprofile`.',
       '',
       '    Heap snapshots must be loaded into Chrome Dev Tools. The NAME is',
-      '    optional, snapshots default to being named ',
+      '    optional, snapshots default to being named',
       '    `node.<PID>.heapshapshot`.',
     ].join('\n'));
   });

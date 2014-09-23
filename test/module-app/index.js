@@ -16,6 +16,12 @@ app.get('/', (function(){
   }
 })());
 
+app.get('/delay', function(req, res){
+  setTimeout(function() { // line 20
+    res.send('OK\n'); // line 21
+  }, Math.random() * 100);
+});
+
 var server = app.listen(app.get('port'), function() {
   console.log('module-app listening on http://localhost:%d',
               server.address().port);
