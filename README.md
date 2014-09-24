@@ -13,8 +13,9 @@ utility, or the
 either strong-cluster-control or strong-agent in your application. The
 supervisor will do that for you. See the example applications in `test/`.
 
-Metrics-related features are not supported without a StrongLoop license, please
-contact FIXME.
+Metrics-related features (`slc run --metrics`, `slc runctl patch`, `slc runctl
+objects-start`, etc.), requires a license, please contact
+[sales@strongloop.com](mailto:sales@strongloop.com).
 
 
 ## Features
