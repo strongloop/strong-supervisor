@@ -220,7 +220,8 @@ supported protocol is "statsd". Host is optional, and defaults to
 port. Scope is optional, and defaults to "%a.%h.%w". The scope supports
 the same substitutions as the log FILE (with the addition of %a for app
 name and %h for hostname) and will be prepended to the strong-agent metrics
-names, see strong-agent and strong-agent-statsd for details.
+names, see strong-agent and strong-agent-statsd for details. The
+`STRONGLOOP_METRICS` environment variable may be used to specify STATS.
 
 Cluster size N is one of:
   - A number of workers to run
@@ -228,8 +229,8 @@ Cluster size N is one of:
   - The string "off" to run unclustered, in which case the app
     will *NOT* be supervisable or controllable, but will be monitored.
 
-Clustering defaults to off unless `NODE_ENV` is production, in which case it
-defaults to CPUs.
+Clustering defaults to off unless `NODE_ENV` is "production", in which case
+it defaults to "CPUs".
 ```
 
 ### slc runctl
