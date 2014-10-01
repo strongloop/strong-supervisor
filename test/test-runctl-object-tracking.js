@@ -38,8 +38,8 @@ helper.statsd(function(statsd) {
   waiton('status', /worker count: 1/);
   expect('status', /worker id 1:/);
 
-  failon('objects-start', /missing required argument/);
-  failon('objects-stop', /missing required argument/);
+  failon('objects-start', /missing argument/);
+  failon('objects-stop', /missing argument/);
 
   expect('objects-start 0');
   expect('objects-start 1');
