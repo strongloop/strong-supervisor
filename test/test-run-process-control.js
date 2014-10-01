@@ -26,7 +26,7 @@ async.series([
   disconnect,
 ], function(er) {
   assert.ifError(er);
-  console.log('PASS');
+  helper.pass = true;
   process.exit(0);
 });
 
