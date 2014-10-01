@@ -173,6 +173,7 @@ function cli(argv, version, cb) {
     request.target = target;
     request.patch = JSON.parse(fs.readFileSync(file));
     display = function(rsp) {
+      console.log('OK');
     }
   });
 
