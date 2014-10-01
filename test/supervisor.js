@@ -56,7 +56,7 @@ describe('supervisor', function(done) {
     });
   }
 
-  describe('loopback', function() {
+  describe.skip('loopback', function() {
     var EXPECT = [
       /LoopBack server listening/,
       /profiling/
