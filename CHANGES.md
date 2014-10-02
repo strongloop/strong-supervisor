@@ -1,3 +1,27 @@
+2014-10-02, Version 1.1.0
+=========================
+
+ * runctl: replace commander with getopt (Sam Roberts)
+
+ * test: fix test, it must set `pass` before exit (Sam Roberts)
+
+ * Update contribution guidelines (Ryan Graham)
+
+ * test: disable loopback 1.0 tests, which never pass (Sam Roberts)
+
+ * patch: print OK on succesful patch (Sam Roberts)
+
+ * patch: report failure to find script name (Sam Roberts)
+
+ * package: document STRONGLOOP_METRICS (Sam Roberts)
+
+ * package: describe how to get a metrics license (Sam Roberts)
+
+ * package: depend on strong-agent ^1.0.0 (Sam Roberts)
+
+ * runctl: support patching metrics in dynamically (Sam Roberts)
+
+
 2014-09-11, Version 1.0.1
 =========================
 
