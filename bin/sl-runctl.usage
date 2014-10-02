@@ -1,0 +1,34 @@
+usage: %MAIN% [options] [command ...]
+
+Options:
+
+  -h,--help       Print this message and exit.
+  -v,--version    Print version and exit.
+  -p,--path,--port <path> Path or port of control socket, defaults to %ADDR%.
+
+Commands:
+
+  status                     Report status of cluster workers, the default.
+  set-size <N>               Set cluster size to N workers.
+  stop                       Stop, shutdown all workers and stop controller.
+  restart                    Restart, restart all workers.
+  ls [DEPTH]                 List application dependencies.
+  objects-start <ID>         Start tracking objects on ID.
+  objects-stop <ID>          Stop tracking objects on ID.
+      Object metrics are published, see the `--metrics` option to `slc run`.
+
+  cpu-start <ID>             Start CPU profiling on ID.
+  cpu-stop <ID> [NAME]       Stop CPU profiling on ID, save as "NAME.cpuprofile".
+      CPU profiles must be loaded into Chrome Dev Tools. The NAME is optional,
+      profiles default to being named `node.<PID>.cpuprofile`.
+
+  heap-snapshot <ID> [NAME]  Snapshot heap objects for ID, save as
+                             "NAME.heapsnapshot".
+      Heap snapshots must be loaded into Chrome Dev Tools. The NAME is
+      optional, snapshots default to being named `node.<PID>.heapshapshot`.
+
+  patch <ID> <FILE>          Apply patch FILE to ID.
+
+
+Commands specific to a worker ID accept either a process ID or cluster worker
+ID, and use an ID of `0` to mean the cluster master.
