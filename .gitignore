@@ -6,6 +6,7 @@
 *.out
 *.pid
 *.tgz
+.statsd.json
 _patch.json
 _test-link
 node_modules
