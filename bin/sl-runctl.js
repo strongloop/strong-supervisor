@@ -169,25 +169,32 @@ function requestCpuStop(target) {
   var name = optionalArg(util.format('node.%s', target));
   request.cmd = 'stop-cpu-profiling';
   request.target = target;
-  display = function(response){
-    var filename = name + '.cpuprofile'; // Required by Chrome
-    fs.writeFileSync(filename, response.profile);
+  // .cpuprofile extention Required by Chrome
+  request.filePath = path.resolve(name + '.cpuprofile');
+
+  display = function(res) {
+    if (res.error) {
+      return console.log('Unable to write CPU profile to `%s`: %s', res.error);
+    }
     console.log('CPU profile written to `%s`, load into Chrome Dev Tools',
-                filename);
+      res.filePath);
   };
 }
 
 function requestHeapSnapshot() {
   var target = requiredArg();
   var name = optionalArg(util.format('node.%s', target));
-  var filePath = path.resolve(name);
   request.cmd = 'heap-snapshot';
   request.target = target;
-  request.filePath = filePath;
-  // FIXME not clear from original code whether snapshot has an extension
+  // .heapdump extention Required by Chrome
+  request.filePath = path.resolve(name + '.heapdump');
+
   display = function(res) {
+    if (res.error) {
+      return console.log('Unable to write heap to `%s`: %s', res.error);
+    }
     console.log('Heap written to `%s.heapsnapshot`, load into Chrome Dev Tools',
-                filePath);
+      res.filePath);
   };
 }
 
