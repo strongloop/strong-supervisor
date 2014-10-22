@@ -22,9 +22,9 @@ describe('metrics', function() {
     assert.equal(metrics.send(), false);
   });
 
-  it('returns false when STRONGLOOP_METRICS not supported', function() {
+  it('throws when STRONGLOOP_METRICS not supported', function() {
     process.env.STRONGLOOP_METRICS = 'some-protocol://localhost:80/path';
-    assert.equal(metrics.send(), false);
+    assert.throws(metrics.send.bind(), /url format unknown/);
   });
 
   it.skip('returns true when STRONGLOOP_METRICS is statsd', function() {
