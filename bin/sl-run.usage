@@ -1,0 +1,53 @@
+usage: %MAIN% [options] [app [app-options...]]
+
+Run an app, allowing it to be profiled (using StrongOps) and supervised.
+
+`app` can be a node file to run or a package directory. The default value is
+".", the current working directory. Packages will be run by requiring the first
+that is found of:
+  1. server.js
+  2. app.js
+  3. `main` property of package.json
+  4. index.js
+
+Options:
+  -h,--help          Print this message and exit.
+  -v,--version       Print runner version and exit.
+  -d,--detach        Detach master from terminal to run as a daemon (default is
+		       to not detach). When detaching, the --log option
+		       defaults to supervisor.log
+  -l,--log FILE      When clustered, write supervisor and worker output to FILE
+                       (defaults to "-", meaning log to stdout).
+  --no-timestamp-workers
+                     Disable timestamping of worker log lines by supervisor.
+  --no-timestamp-supervisor
+                     Disable timestamping of supervisor log messages.
+  --syslog           Send supervisor and collected worker logs to syslog,
+                       unsupported on Windows.
+  --metrics BACKEND  Send metrics to custom backend (default is no custom).
+  -p,--pid FILE      Write supervisor's pid to FILE, failing if FILE already
+                       has a valid pid in it (default is no pid file).
+  --cluster N        Set the cluster size (default is off, but see below).
+  --no-profile       Disable reporting profile data to StrongOps (default is to
+		       profile if registration data is found). Does not affect
+		       local reporting using --metrics option.
+  --no-channel       Do not listen for run-time control messages (default is to
+                       listen on "runctl" when clustered).
+
+Log FILE is a path relative to the app's working directory if it is not
+absolute. To create a log file per process, FILE supports simple substitutions
+of %p for process ID and %w for worker ID.
+
+Supported metrics backends are:
+
+- `statsd://[<host>][:<port>][/<scope>]`
+
+Cluster size N is one of:
+
+- A number of workers to run
+- A string containing "cpu" to run a worker per CPU
+- The string "off" to run unclustered, in which case the app will *NOT* be
+  supervisable or controllable, but will be monitored.
+
+Clustering defaults to off unless `NODE_ENV` is "production", in which case it
+defaults to "CPUs".
