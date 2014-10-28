@@ -48,7 +48,8 @@
     "strong-cluster-control": "^1.0.0",
     "strong-control-channel": "^1.1.0",
     "strong-log-transformer": "^1.0.0",
-    "strong-npm-ls": "^1.0.0"
+    "strong-npm-ls": "^1.0.0",
+    "strong-statsd": "^1.0.0"
   },
   "devDependencies": {
     "async": "~0.9.0",

@@ -4,8 +4,8 @@ var dgram = require('dgram');
 var send = require('../lib/metrics');
 
 var logger = {
-  info: debug.bind(null, 'INFO'),
-  warn: debug.bind(null, 'WARN'),
+  info: debug,
+  warn: debug,
 };
 
 var metrics = {
@@ -14,16 +14,17 @@ var metrics = {
 };
 
 describe('metrics', function() {
+  afterEach(function() {
+    delete process.env.STRONGLOOP_METRICS;
+  });
+
   it('returns false when STRONGLOOP_METRICS not in env', function() {
     assert.equal(metrics.send(), false);
   });
-  it('returns false when STRONGLOOP_METRICS not a URL', function() {
-    process.env.STRONGLOOP_METRICS = 'statsd';
-    assert.equal(metrics.send(), false);
-  });
-  it('returns false when STRONGLOOP_METRICS not supported', function() {
+
+  it('throws when STRONGLOOP_METRICS not supported', function() {
     process.env.STRONGLOOP_METRICS = 'some-protocol://localhost:80/path';
-    assert.equal(metrics.send(), false);
+    assert.throws(metrics.send.bind(), /url format unknown/);
   });
 
   it.skip('returns true when STRONGLOOP_METRICS is statsd', function() {

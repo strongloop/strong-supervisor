@@ -22,12 +22,12 @@ if(!config.profile) {
   });
 }
 
-// starts metrics reporting if --metrics was set, or does nothing
-config.sendMetrics();
-
 if((config.clustered && config.isMaster) || config.detach){
   return config.start();
 }
+
+// starts metrics reporting if --metrics was set, or does nothing
+config.sendMetrics();
 
 if(!config.clustered) {
   console.log('supervisor running without clustering (unsupervised)');
