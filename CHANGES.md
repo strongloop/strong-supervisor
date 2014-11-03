@@ -1,3 +1,15 @@
+2014-11-03, Version 1.1.1
+=========================
+
+ * run: refactor usage into a text file (Sam Roberts)
+
+ * package: cluster-control and log-transformer 1.x (Sam Roberts)
+
+ * Make cpu-stop consistent with heap-snapshot (Krishna Raman)
+
+ * runctl: notify parent process of worker status (Sam Roberts)
+
+
 2014-10-02, Version 1.1.0
 =========================
 
@@ -32,7 +44,7 @@
  * package: add keywords (Sam Roberts)
 
 
-2014-09-05, Version 1.0.0
+2014-09-08, Version 1.0.0
 =========================
 
  * test: fix skipping of tap helper by mocha (Sam Roberts)
@@ -49,7 +61,7 @@
 
 
 2014-08-26, Version 0.3.3
-===========================
+=========================
 
  * Make cpu and heap profiling file names consistent (Sam Roberts)
 
@@ -115,6 +127,12 @@
 2014-07-21, Version 0.3.0
 =========================
 
+ * test: git ignore _test-link (Sam Roberts)
+
+ * Update strong-control-channel dependency to 0.2.0 (Sam Roberts)
+
+ * run: fix missing require in lib/channel (Sam Roberts)
+
  * metrics: support `--metrics X` and `--metrics=X` (Sam Roberts)
 
  * Allow control channel and metrics simultaneously (Sam Roberts)
@@ -140,7 +158,7 @@
  * Fix clustered mode SIGINT/SIGTERM exit code (Krishna Raman)
 
 
-2014-07-02, Version 0.2.4
+2014-07-03, Version 0.2.4
 =========================
 
  * metrics: fix wrong url part being used for host (Sam Roberts)
@@ -252,3 +270,138 @@
  * Update README with current usage information (Sam Roberts)
 
  * test: Use ephemeral ports for test apps (Ryan Graham)
+
+
+2014-02-19, Version 0.2.0
+=========================
+
+ * Depend on strong-cluster-control 0.4.0 (Sam Roberts)
+
+ * Describe command as 'slc run' when run by slc (Sam Roberts)
+
+ * Prefer cluster to size in command line and config (Sam Roberts)
+
+ * Apply Dual MIT/StrongLoop license (Sam Roberts)
+
+ * Fix malformed URLs in README (Sam Roberts)
+
+
+2014-02-13, Version 0.1.2
+=========================
+
+
+
+2014-02-13, Version finish
+==========================
+
+ * Depend on 0.3 branch of strong-agent (Sam Roberts)
+
+ * Fix heading indentation mismatches (Sam Roberts)
+
+
+2014-01-27, Version 0.1.1
+=========================
+
+ * Change lb-app to private, in package.json (Sam Roberts)
+
+ * Install test dependencies in pretest (Sam Roberts)
+
+ * Use a --size of 'off' to get no clustering (Sam Roberts)
+
+
+2014-01-25, Version 0.1.0
+=========================
+
+ * Update strong-cluster-control dependency to ~0.3.0 (Sam Roberts)
+
+ * Review and tweak README and sl-run help message (Sam Roberts)
+
+ * Add sl-run as a CLI name (Sam Roberts)
+
+ * Update README to describe the supervisor features (Sam Roberts)
+
+ * Log supervisor master pid on startup (Sam Roberts)
+
+ * Log changes in size setting (Sam Roberts)
+
+ * Quote the control path in log output (Sam Roberts)
+
+ * Use strong-agent quiet option in workers (Sam Roberts)
+
+ * Cluster size defaults to number of CPUs (Sam Roberts)
+
+ * use standard signals to shutdown or restart (Sam Roberts)
+
+ * Increase test timeouts, CI is slow (Sam Roberts)
+
+ * update readme with module usage information (Sam Roberts)
+
+ * MIT license (Sam Roberts)
+
+ * write pid to a file if requested (Sam Roberts)
+
+ * detached children redirect output to a file (Sam Roberts)
+
+ * supervisor can run detached (as a daemon) (Sam Roberts)
+
+ * Print the port that will be listened to (Sam Roberts)
+
+ * StrongOps profiling can optionally be disabled (Sam Roberts)
+
+ * Log supervisor and worker activity to console (Sam Roberts)
+
+ * cleanup whitespace in generated files (Sam Roberts)
+
+ * require application as if it was the main module (Sam Roberts)
+
+ * test help and version arguments (Sam Roberts)
+
+ * fix test assumptions about truth and arguments (Sam Roberts)
+
+ * arguments should be passed thru to app (Sam Roberts)
+
+ * test runner with module app (Sam Roberts)
+
+ * install test dependencies (Sam Roberts)
+
+ * express module app for testing runner (Sam Roberts)
+
+ * test runner with express app (Sam Roberts)
+
+ * test supervisor with loopback (Sam Roberts)
+
+ * pull config evaluation into its own module (Sam Roberts)
+
+ * sort package.json properties meaningfully (Sam Roberts)
+
+ * refactor options processing to cluster master (Sam Roberts)
+
+ * clusterctl utility installed as peer dep of slr (Sam Roberts)
+
+ * runner supports options, and app arguments (Sam Roberts)
+
+ * default cluster size to 1 so app is supervised (Sam Roberts)
+
+ * basic run of a package in current working directory (Sam Roberts)
+
+ * express app for testing runner (Sam Roberts)
+
+ * loopback test app, add strong-agent profiling (Sam Roberts)
+
+ * loopback test app, doesn't run when clustered (Sam Roberts)
+
+ * loopback test app, remove broken cookie middleware (Sam Roberts)
+
+ * loopback test app, remove agent and cluster-control (Sam Roberts)
+
+ * loopback test app, removed optional dependencies (Sam Roberts)
+
+ * default loopback project for testing runner (Sam Roberts)
+
+ * npm package meta-data (Sam Roberts)
+
+
+2013-12-23, Version INITIAL
+===========================
+
+ * First release!
