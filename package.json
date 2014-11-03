@@ -6,7 +6,7 @@
     "name": "Dual Artistic/StrongLoop",
     "url": "https://github.com/strongloop/strong-supervisor/blob/master/LICENSE.md"
   },
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "index.js",
   "keywords": [
     "agent",
@@ -45,9 +45,9 @@
     "posix-getopt": "^1.1.0",
     "strong-agent": "^1.0.0",
     "strong-agent-statsd": "^1.0.0",
-    "strong-cluster-control": "~0.5.0",
-    "strong-control-channel": "~0.2.2",
-    "strong-log-transformer": "~0.1.0",
+    "strong-cluster-control": "^1.0.0",
+    "strong-control-channel": "^1.1.0",
+    "strong-log-transformer": "^1.0.0",
     "strong-npm-ls": "^1.0.0"
   },
   "devDependencies": {
