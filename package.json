@@ -43,7 +43,7 @@
     "debug": "~1.0.0",
     "dotenv": "~0.2.8",
     "posix-getopt": "^1.1.0",
-    "strong-agent": "^1.0.0",
+    "strong-agent": "^1.0.3",
     "strong-agent-statsd": "^1.0.0",
     "strong-cluster-control": "^1.0.0",
     "strong-control-channel": "^1.1.0",
