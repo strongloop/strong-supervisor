@@ -159,6 +159,7 @@ function requestObjectsStop(target) {
 function requestCpuStart(target) {
   request.cmd = 'start-cpu-profiling';
   request.target = requiredArg();
+  request.timeout = optionalArg(0) | 0;
   display = function(){
     console.log('Profiler started, use cpu-stop to get profile.');
   };

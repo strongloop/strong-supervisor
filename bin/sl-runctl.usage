@@ -17,7 +17,11 @@ Commands:
   objects-stop <ID>          Stop tracking objects on ID.
       Object metrics are published, see the `--metrics` option to `slc run`.
 
-  cpu-start <ID>             Start CPU profiling on ID.
+  cpu-start <ID> [TIMEOUT]   Start CPU profiling on ID.
+      TIMEOUT is the optional watchdog timeout, in milliseconds.  In watchdog
+      mode, the profiler is suspended until an event loop stall is detected;
+      i.e. when a script is running for too long.  Only supported on Linux.
+
   cpu-stop <ID> [NAME]       Stop CPU profiling on ID, save as "NAME.cpuprofile".
       CPU profiles must be loaded into Chrome Dev Tools. The NAME is optional,
       profiles default to being named `node.<PID>.cpuprofile`.

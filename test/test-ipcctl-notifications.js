@@ -8,6 +8,7 @@ var control = require('strong-control-channel/process');
 var cp = require('child_process');
 var debug = require('./debug');
 var ee = new (require('events').EventEmitter)();
+var fs = require('fs');
 
 var options = {stdio: [0, 1, 2, 'ipc']};
 var run = require.resolve('../bin/sl-run');
@@ -34,6 +35,8 @@ async.series([
   scaleDown,
   startCpuProfiling,
   stopCpuProfiling,
+  startCpuProfilingWatchdog,
+  stopCpuProfilingWatchdog,
   startObjTracking,
   stopObjTracking,
   heapDump,
@@ -84,11 +87,24 @@ function scaleDown(cb) {
   });
 }
 
+function hitCount(filename) {
+  function visit(node) {
+    var sum = 0;
+    sum += node.hitCount | 0;
+    sum += node.children.map(visit).reduce(function(a, b) { return a + b }, 0);
+    return sum;
+  }
+
+  var data = fs.readFileSync(__dirname + '/v1-app/' + filename, 'utf8');
+  var root = JSON.parse(data);
+  return visit(root.head);
+}
+
 function startCpuProfiling(cb) {
   ee.once('cpu-profiling', function(n) {
     assert(n.id > 0, 'Worker ID should be present');
     assert(n.isRunning === true, 'Profiling should be running');
-    cb();
+    setTimeout(cb, 25);
   });
 
   ctl.request({cmd: 'start-cpu-profiling', target: 1}, function(rsp) {
@@ -106,6 +122,34 @@ function stopCpuProfiling(cb) {
   var req = {cmd: 'stop-cpu-profiling', target: 1, filePath: 'test.cpuprofile'};
   ctl.request(req, function(rsp) {
     assert(!rsp.error);
+    assert(hitCount(rsp.filePath) > 1);
+  });
+}
+
+function startCpuProfilingWatchdog(cb) {
+  ee.once('cpu-profiling', function(n) {
+    assert(n.id > 0, 'Worker ID should be present');
+    assert(n.isRunning === true, 'Profiling should be running');
+    setTimeout(cb, 25);
+  });
+
+  var options = {cmd: 'start-cpu-profiling', target: 1, timeout: 1000};
+  ctl.request(options, function(rsp) {
+    assert(!rsp.error);
+  });
+}
+
+function stopCpuProfilingWatchdog(cb) {
+  ee.once('cpu-profiling', function(n) {
+    assert(n.id > 0, 'Worker ID should be present');
+    assert(n.isRunning === false, 'Profiling should not be running');
+    cb();
+  });
+
+  var req = {cmd: 'stop-cpu-profiling', target: 1, filePath: 'test.cpuprofile'};
+  ctl.request(req, function(rsp) {
+    assert(!rsp.error);
+    assert.equal(hitCount(rsp.filePath), 1);
   });
 }
 
