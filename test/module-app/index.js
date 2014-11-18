@@ -25,6 +25,8 @@ app.get('/delay', function(req, res){
 var server = app.listen(app.get('port'), function() {
   console.log('module-app listening on http://localhost:%d',
               server.address().port);
-  console.log('argv: ', process.argv);
+  process.argv.forEach(function (v, i, a) {
+    console.log('argv %d: %s', i, v);
+  });
   console.log('env VAR="%s"', process.env.VAR);
 });

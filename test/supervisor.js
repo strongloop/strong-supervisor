@@ -100,7 +100,8 @@ describe('supervisor', function(done) {
   describe('argument processing', function() {
     var EXPECT = [
       /module-app listening/,
-      /argv:.*index.js.*cluster=10/
+      /argv 1:.*index.js/,
+      /argv 2: --cluster=10/,
     ];
 
     run('.', ['--no-cluster', 'test/module-app/index.js', '--cluster=10'], EXPECT);
@@ -171,7 +172,7 @@ describe('supervisor', function(done) {
   describe('chdir behaviour', function() {
     var EXPECT = [
       /deep-app listening/,
-      /argv:.*path\/to\/deep.js.*/
+      /argv 1:.*path\/to\/deep.js/,
     ];
 
     run('.', ['test/module-app/path/to/deep.js'], EXPECT);
