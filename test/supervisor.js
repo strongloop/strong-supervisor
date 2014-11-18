@@ -64,9 +64,11 @@ describe('supervisor', function(done) {
 
     run('.', ['test/lb-app'], EXPECT);
     run('.', ['test/lb-app/.'], EXPECT);
+    run('.', ['test/lb-app/app'], EXPECT);
     run('.', ['test/lb-app/app.js'], EXPECT);
     run('test/lb-app', [], EXPECT);
     run('test/lb-app', ['.'], EXPECT);
+    run('test/lb-app', ['app'], EXPECT);
     run('test/lb-app', ['app.js'], EXPECT);
   });
 
@@ -77,9 +79,12 @@ describe('supervisor', function(done) {
 
     run('.', ['test/express-app'], EXPECT);
     run('.', ['test/express-app/.'], EXPECT);
+    run('.', ['test/express-app/server'], EXPECT);
     run('.', ['test/express-app/server.js'], EXPECT);
+    run('test', ['express-app/server'], EXPECT);
     run('test/express-app', [], EXPECT);
     run('test/express-app', ['.'], EXPECT);
+    run('test/express-app', ['server'], EXPECT);
     run('test/express-app', ['server.js'], EXPECT);
   });
 
