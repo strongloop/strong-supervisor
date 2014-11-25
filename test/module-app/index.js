@@ -29,4 +29,9 @@ var server = app.listen(app.get('port'), function() {
     console.log('argv %d: %s', i, v);
   });
   console.log('env VAR="%s"', process.env.VAR);
+
+  Object.keys(process.env).forEach(function (v, i, a) {
+    if (/STRONGLOOP/.test(v) || /SL/.test(v))
+      console.log('env %s="%s"', v, process.env[v]);
+  });
 });
