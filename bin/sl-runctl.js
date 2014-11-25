@@ -23,7 +23,7 @@ function okay() {
   process.exit(0);
 }
 
-var HELP = fs.readFileSync(require.resolve('./sl-runctl.usage'), 'utf-8')
+var HELP = fs.readFileSync(require.resolve('./sl-runctl.txt'), 'utf-8')
   .replace(/%MAIN%/g, $0)
   .replace(/%ADDR%/g, ADDR)
   ;
