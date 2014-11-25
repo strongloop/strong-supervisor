@@ -40,7 +40,7 @@ of %p for process ID and %w for worker ID.
 
 Supported metrics backends are:
 
-- `statsd://[<host>][:<port>][/<scope>]`
+- `statsd://[<host>][:<port>]`
 - `graphite://[<host>][:<port>]`
 - `syslog:[?[application=<application>][,priority=<priority>]` (syslog is the
   Unix logging framework, it doesn't exist on Windows)
