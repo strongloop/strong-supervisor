@@ -72,6 +72,7 @@ tap.test('metrics', function(t) {
       debug('internal metrics: <\n%j>', req);
       internalMetrics = req.metrics;
       t.assert(internalMetrics.timestamp, 'internal metrics seen');
+      console.log('internal: seen');
     }
     return callback('OK');
   }
@@ -96,10 +97,11 @@ tap.test('metrics', function(t) {
 
       debug('graphite metrics: <\n%s>', data);
       // check we get data from supervisor and app
-      if(/stats.gauges.strong-supervisor..*.0.cpu.total/.test(data) &&
+      if(/stats.gauges.module-app..*.0.cpu.total/.test(data) &&
          /stats.gauges.module-app..*.1.cpu.system/.test(data)) {
-        t.assert(true, 'graphite metrics seen');
         graphiteMetrics = data;
+        t.assert(true, 'graphite metrics seen');
+        console.log('graphite: seen');
       }
     });
   }
@@ -127,10 +129,11 @@ tap.test('metrics', function(t) {
 
       debug('splunk metrics: <\n%s>', accumulator);
       // check we get data from supervisor and app
-      if(/strong-supervisor..*.0.cpu.total/.test(accumulator) &&
+      if(/module-app..*.0.cpu.total/.test(accumulator) &&
          /module-app..*.1.cpu.system/.test(accumulator)) {
-        t.assert(true, 'splunk metrics seen');
         splunkMetrics = accumulator;
+        t.assert(true, 'splunk metrics seen');
+        console.log('splunk: seen');
       }
     });
   }
@@ -158,18 +161,23 @@ tap.test('metrics', function(t) {
 
       debug('statsd metrics: <\n%s>', accumulator);
       // check we get data from supervisor and app
-      if(/strong-supervisor..*.0.cpu.total/.test(accumulator) &&
+      if(/module-app..*.0.cpu.total/.test(accumulator) &&
          /module-app..*.1.cpu.system/.test(accumulator)) {
-        t.assert(true, 'statsd metrics seen');
         statsdMetrics = accumulator;
+        t.assert(true, 'statsd metrics seen');
+        console.log('statsd: seen');
       }
     });
   }
 
   function startLogFile(done) {
-    var file = path.resolve('test', '_metrics.log');
+    var file = path.join(__dirname, '_metrics.log');
     var url = 'log:' + file;
     var poll = setInterval(poller, 1000);
+
+    try { fs.unlinkSync(file); } catch(er) {};
+
+    debug('log: file set to `%s`', file);
 
     poll.unref();
     
@@ -184,11 +192,13 @@ tap.test('metrics', function(t) {
       fs.readFile(file, {encoding: 'utf8'}, function(er, data) {
         if (er) return;
         debug('log metrics: <\n%s>', data);
+        debug('log metrics: <\n%s>', data);
         // check we get data from supervisor and app
-        if(/strong-supervisor..*.0.cpu.total/.test(data) &&
+        if(/module-app..*.0.cpu.total/.test(data) &&
            /module-app..*.1.cpu.system/.test(data)) {
-          t.assert(true, 'log metrics seen');
           logMetrics = data;
+          t.assert(true, 'log metrics seen');
+          console.log('log: seen');
         }
       });
     }
