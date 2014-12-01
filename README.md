@@ -226,6 +226,7 @@ Supported metrics backends are:
 - `log:[<file>]`
 - `debug:[?pretty[=<true|false>]]`
 
+It is possible to use multiple backends simultaneously.
 
 Cluster size N is one of:
 

@@ -1,1 +1,1 @@
-module.exports = require('../lib/debug')('strong-supervisor:test');
+module.exports = require('../lib/debug')('test');
