@@ -1,6 +1,7 @@
 *.cpuprofile
 *.dat
 *.gz
+*.heapdump
 *.heapsnapshot
 *.log
 *.out
