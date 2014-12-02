@@ -65,6 +65,6 @@
   },
   "optionalDependencies": {
     "heapdump": "~0.2.10",
-    "node-syslog": "~1.1.7"
+    "strong-fork-syslog": "^1.2.1"
   }
 }

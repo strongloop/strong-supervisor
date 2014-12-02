@@ -135,7 +135,7 @@ option.
 
 #### Syslog
 
-On platforms where syslog is supported, and when the optional node-syslog
+On platforms where syslog is supported, and when the optional strong-fork-syslog
 dependency has been successfully compiled, a `--syslog` option is available.
 When enabled, each log line from worker stdout/stderr and the supervisor is
 logged via a `syslog(3)` system call. In this mode, the supervisor does **NOT**
