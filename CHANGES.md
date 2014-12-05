@@ -1,3 +1,9 @@
+2014-12-05, Version 1.2.1
+=========================
+
+ * package: need latest strong-agent, strong-statsd (Sam Roberts)
+
+
 2014-12-05, Version 1.2.0
 =========================
 
