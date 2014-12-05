@@ -1,3 +1,59 @@
+2014-12-05, Version 1.2.0
+=========================
+
+ * run: syslog URL uses `&`, not `,`, fix docs (Sam Roberts)
+
+ * syslog: replace node-syslog with strong-fork-syslog (Ryan Graham)
+
+ * package: .gitignore .heapdump files (Sam Roberts)
+
+ * run: fix appname when not profiling (Sam Roberts)
+
+ * run: support multiple --metrics backends (Sam Roberts)
+
+ * bin: rename .usage files to .txt (Sam Roberts)
+
+ * run: metrics scope is no longer configurable (Sam Roberts)
+
+ * run: make statsd flush interval configurable (Sam Roberts)
+
+ * test: always print exit status (Sam Roberts)
+
+ * test: print SL env vars from module-app (Sam Roberts)
+
+ * test: remove extra strong-supervisor from message (Sam Roberts)
+
+ * test: check cpu hit counts >= 1 (Sam Roberts)
+
+ * Support running app.js as 'sl-run app' (Ryan Graham)
+
+ * test: more explicit argument parsing (Ryan Graham)
+
+ * Look for package.json to determine app root (Ryan Graham)
+
+ * runctl: add timeout arg to start-cpu-profiling (Ben Noordhuis)
+
+ * metrics: deal with app and host names with a `.` (Sam Roberts)
+
+ * Add IPC notifications for tracking and profiling (Krishna Raman)
+
+ * metrics: forward internal metrics to parent (Sam Roberts)
+
+ * package: strong-agent-statsd is not directly used (Sam Roberts)
+
+ * test: cpu profiling now works on v0.10 (Sam Roberts)
+
+ * run: exit if metrics URL is invalid (Sam Roberts)
+
+ * Use --log mechanism for statsd process (Ryan Graham)
+
+ * Expose worker log transformer/wrapper via config (Ryan Graham)
+
+ * run: directly support statsd backends (Sam Roberts)
+
+ * test: delete STRONGLOOP_METRICS after each test (Sam Roberts)
+
+
 2014-11-03, Version 1.1.1
 =========================
 
