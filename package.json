@@ -40,7 +40,7 @@
     "tap": "tap test/test-*.js"
   },
   "dependencies": {
-    "debug": "~1.0.0",
+    "debug": "^2.0.0",
     "dotenv": "~0.2.8",
     "posix-getopt": "^1.1.0",
     "strong-agent": "^1.1.1",
