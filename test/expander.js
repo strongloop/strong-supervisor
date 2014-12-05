@@ -8,8 +8,8 @@ describe('expander.expand', function() {
   var example_worker = {
     id: 1,
     pid: 1234,
-    hostname: 'always-up',
-    appName: 'totally-awesome',
+    hostname: 'always-up.some.domain',
+    appName: 'totally.awesome',
   };
   var falsey_worker = { id: 0, pid: null, hostname: undefined, appName: false };
   var examples = [

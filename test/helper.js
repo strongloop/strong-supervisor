@@ -28,6 +28,7 @@ if (exports.skip()) return;
 exports.pass = false;
 
 process.on('exit', function(status) {
+  console.log('EXIT:', status);
   if (status === 0) {
     assert(exports.pass);
     console.log('PASS');

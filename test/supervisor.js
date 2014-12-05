@@ -64,9 +64,11 @@ describe('supervisor', function(done) {
 
     run('.', ['test/lb-app'], EXPECT);
     run('.', ['test/lb-app/.'], EXPECT);
+    run('.', ['test/lb-app/app'], EXPECT);
     run('.', ['test/lb-app/app.js'], EXPECT);
     run('test/lb-app', [], EXPECT);
     run('test/lb-app', ['.'], EXPECT);
+    run('test/lb-app', ['app'], EXPECT);
     run('test/lb-app', ['app.js'], EXPECT);
   });
 
@@ -77,9 +79,12 @@ describe('supervisor', function(done) {
 
     run('.', ['test/express-app'], EXPECT);
     run('.', ['test/express-app/.'], EXPECT);
+    run('.', ['test/express-app/server'], EXPECT);
     run('.', ['test/express-app/server.js'], EXPECT);
+    run('test', ['express-app/server'], EXPECT);
     run('test/express-app', [], EXPECT);
     run('test/express-app', ['.'], EXPECT);
+    run('test/express-app', ['server'], EXPECT);
     run('test/express-app', ['server.js'], EXPECT);
   });
 
@@ -100,7 +105,8 @@ describe('supervisor', function(done) {
   describe('argument processing', function() {
     var EXPECT = [
       /module-app listening/,
-      /argv:.*index.js.*cluster=10/
+      /argv 1:.*index.js/,
+      /argv 2: --cluster=10/,
     ];
 
     run('.', ['--no-cluster', 'test/module-app/index.js', '--cluster=10'], EXPECT);
@@ -167,5 +173,13 @@ describe('supervisor', function(done) {
           child.kill('SIGHUP');
         });
     });
+  });
+  describe('chdir behaviour', function() {
+    var EXPECT = [
+      /deep-app listening/,
+      /argv 1:.*path\/to\/deep.js/,
+    ];
+
+    run('.', ['test/module-app/path/to/deep.js'], EXPECT);
   });
 });

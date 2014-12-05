@@ -23,7 +23,7 @@ function okay() {
   process.exit(0);
 }
 
-var HELP = fs.readFileSync(require.resolve('./sl-runctl.usage'), 'utf-8')
+var HELP = fs.readFileSync(require.resolve('./sl-runctl.txt'), 'utf-8')
   .replace(/%MAIN%/g, $0)
   .replace(/%ADDR%/g, ADDR)
   ;
@@ -159,6 +159,7 @@ function requestObjectsStop(target) {
 function requestCpuStart(target) {
   request.cmd = 'start-cpu-profiling';
   request.target = requiredArg();
+  request.timeout = optionalArg(0) | 0;
   display = function(){
     console.log('Profiler started, use cpu-stop to get profile.');
   };

@@ -1,11 +1,13 @@
 *.cpuprofile
 *.dat
 *.gz
+*.heapdump
 *.heapsnapshot
 *.log
 *.out
 *.pid
 *.tgz
+.statsd.json
 _patch.json
 _test-link
 node_modules

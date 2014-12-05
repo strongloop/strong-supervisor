@@ -35,10 +35,13 @@ explicitly disabled using the `--no-profile` option.
 
 ### Metrics
 
-Metrics can be published to an alternate collector, instead of StrongOps. The
-collector must support the statsd protocol, see
-[strong-agent-statsd](https://github.com/strongloop/strong-agent-statsd) for
-more information.
+Metrics can be published to an alternate collector, instead of StrongOps. For
+information on supported collectors and URL formats, see
+[strong-statsd](https://github.com/strongloop/strong-statsd).
+
+For more information about how to integrate into collectors not directly
+supported, see
+[strong-agent-statsd](https://github.com/strongloop/strong-agent-statsd).
 
 ### Dynamic Metrics Injection
 
@@ -132,7 +135,7 @@ option.
 
 #### Syslog
 
-On platforms where syslog is supported, and when the optional node-syslog
+On platforms where syslog is supported, and when the optional strong-fork-syslog
 dependency has been successfully compiled, a `--syslog` option is available.
 When enabled, each log line from worker stdout/stderr and the supervisor is
 logged via a `syslog(3)` system call. In this mode, the supervisor does **NOT**
@@ -217,6 +220,13 @@ of %p for process ID and %w for worker ID.
 Supported metrics backends are:
 
 - `statsd://[<host>][:<port>][/<scope>]`
+- `graphite://[<host>][:<port>]`
+- `syslog:[?[application=<application>][&priority=<priority>]`
+- `splunk://[<host>]:<port>`
+- `log:[<file>]`
+- `debug:[?pretty[=<true|false>]]`
+
+It is possible to use multiple backends simultaneously.
 
 Cluster size N is one of:
 
