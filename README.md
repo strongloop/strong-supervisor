@@ -221,7 +221,7 @@ Supported metrics backends are:
 
 - `statsd://[<host>][:<port>][/<scope>]`
 - `graphite://[<host>][:<port>]`
-- `syslog:[?[application=<application>][,priority=<priority>]`
+- `syslog:[?[application=<application>][&priority=<priority>]`
 - `splunk://[<host>]:<port>`
 - `log:[<file>]`
 - `debug:[?pretty[=<true|false>]]`

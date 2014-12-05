@@ -42,7 +42,7 @@ Supported metrics backends are:
 
 - `statsd://[<host>][:<port>]`
 - `graphite://[<host>][:<port>]`
-- `syslog:[?[application=<application>][,priority=<priority>]` (syslog is the
+- `syslog:[?[application=<application>][&priority=<priority>]` (syslog is the
   Unix logging framework, it doesn't exist on Windows)
 - `splunk://[<host>]:<port>`
 - `log:[<file>]`
