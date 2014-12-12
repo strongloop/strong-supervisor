@@ -6,7 +6,7 @@
     "name": "Dual Artistic/StrongLoop",
     "url": "https://github.com/strongloop/strong-supervisor/blob/master/LICENSE.md"
   },
-  "version": "1.2.1",
+  "version": "1.2.2",
   "main": "index.js",
   "keywords": [
     "agent",
@@ -40,7 +40,7 @@
     "tap": "tap test/test-*.js"
   },
   "dependencies": {
-    "debug": "~1.0.0",
+    "debug": "^2.0.0",
     "dotenv": "~0.2.8",
     "posix-getopt": "^1.1.0",
     "strong-agent": "^1.1.1",
