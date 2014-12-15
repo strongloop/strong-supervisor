@@ -1,3 +1,9 @@
+2014-12-15, Version 1.3.0
+=========================
+
+ * package: strong-statsd update to ^2.x (Sam Roberts)
+
+
 2014-12-12, Version 1.2.2
 =========================
 
@@ -354,13 +360,13 @@
  * Fix malformed URLs in README (Sam Roberts)
 
 
-2014-02-13, Version 0.1.2
-=========================
-
-
-
 2014-02-13, Version finish
 ==========================
+
+
+
+2014-02-13, Version 0.1.2
+=========================
 
  * Depend on 0.3 branch of strong-agent (Sam Roberts)
 
