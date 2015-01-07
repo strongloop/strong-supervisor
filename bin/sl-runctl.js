@@ -33,6 +33,7 @@ var parser = new Parser([
     'h(help)',
     'p:(path)',
     'p:(port)',
+    'C:(control)',
   ].join(''), argv);
 
 while ((option = parser.getopt()) !== undefined) {
@@ -44,6 +45,7 @@ while ((option = parser.getopt()) !== undefined) {
       console.log(HELP);
       process.exit(0);
     case 'p':
+    case 'C':
       ADDR = option.optarg;
       break;
     default:
