@@ -2,9 +2,9 @@ usage: %MAIN% [options] [command ...]
 
 Options:
 
-  -h,--help       Print this message and exit.
-  -v,--version    Print version and exit.
-  -p,--path,--port <path> Path or port of control socket, defaults to %ADDR%.
+  -h,--help           Print this message and exit.
+  -v,--version        Print version and exit.
+  -C,--control <CTL>  Control endpoint for process runner (default `%ADDR%`).
 
 Commands:
 
