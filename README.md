@@ -210,8 +210,9 @@ Options:
   --no-profile       Disable reporting profile data to StrongOps (default is to
 		       profile if registration data is found). Does not affect
 		       local reporting using --metrics option.
-  --no-channel       Do not listen for run-time control messages (default is to
-                       listen on "runctl" when clustered).
+  -C,--control CTL   Listen for local control messages on CTL (default `pmctl),
+                       only supported when clustered.
+  --no-control       Do not listen for local control messages.
 
 Log FILE is a path relative to the app's working directory if it is not
 absolute. To create a log file per process, FILE supports simple substitutions
@@ -219,9 +220,10 @@ of %p for process ID and %w for worker ID.
 
 Supported metrics backends are:
 
-- `statsd://[<host>][:<port>][/<scope>]`
+- `statsd://[<host>][:<port>]`
 - `graphite://[<host>][:<port>]`
-- `syslog:[?[application=<application>][&priority=<priority>]`
+- `syslog:[?[application=<application>][&priority=<priority>]` (syslog is the
+  Unix logging framework, it doesn't exist on Windows)
 - `splunk://[<host>]:<port>`
 - `log:[<file>]`
 - `debug:[?pretty[=<true|false>]]`
@@ -242,44 +244,43 @@ defaults to "CPUs".
 ### slc runctl
 
 ```
-  Usage: slc runctl [options] [command]
-  Usage: slrc [options] [command]
+usage: slc runctl [options] [command ...]
+usage: slrc [options] [command]
 
-  Commands:
+Options:
 
-    status                 report status of cluster workers, the default command
-    set-size <N>           set cluster size to N workers
-    stop                   stop, shutdown all workers and stop controller
-    restart                restart, restart all workers
-    disconnect             disconnect all workers
-    fork                   fork one worker (it will be killed if size is exceeded)
-    objects-start <T>      start tracking objects on T, a worker ID or process PID
-    objects-stop <T>       stop tracking objects on T
-    cpu-start <T>          start CPU profiling on T, a worker ID or process PID
-    cpu-stop <T> [NAME]    stop CPU profiling on T, save as "NAME.cpuprofile"
-    heap-snapshot <T> [NAME] snapshot heap objects for T, a worker ID or process PID, save as "NAME.heapsnapshot"
-    patch <T> <FILE>       apply patch FILE to T
-    ls [DEPTH]             list application dependencies
+  -h,--help           Print this message and exit.
+  -v,--version        Print version and exit.
+  -C,--control <CTL>  Control endpoint for process runner (default `runctl`).
 
-  Options:
+Commands:
 
-    -h, --help               output usage information
-    -V, --version            output the version number
-    -p,--path,--port <path>  name of control socket, defaults to runctl
+  status                     Report status of cluster workers, the default.
+  set-size <N>               Set cluster size to N workers.
+  stop                       Stop, shutdown all workers and stop controller.
+  restart                    Restart, restart all workers.
+  ls [DEPTH]                 List application dependencies.
+  objects-start <ID>         Start tracking objects on ID.
+  objects-stop <ID>          Stop tracking objects on ID.
+      Object metrics are published, see the `--metrics` option to `slc run`.
 
-  Profiling:
+  cpu-start <ID> [TIMEOUT]   Start CPU profiling on ID.
+      TIMEOUT is the optional watchdog timeout, in milliseconds.  In watchdog
+      mode, the profiler is suspended until an event loop stall is detected;
+      i.e. when a script is running for too long.  Only supported on Linux.
 
-    Either a node cluster worker ID, or an operating system process
-    ID can be used to identify the node instance to target to start
-    profiling of objects or CPU or to generate a snapshot of the heap.
-    The special worker ID `0` can be used to identify the master.
+  cpu-stop <ID> [NAME]       Stop CPU profiling on ID, save as "NAME.cpuprofile".
+      CPU profiles must be loaded into Chrome Dev Tools. The NAME is optional,
+      profiles default to being named `node.<PID>.cpuprofile`.
 
-    Object metrics are published, see the `--metrics` option to `run`.
+  heap-snapshot <ID> [NAME]  Snapshot heap objects for ID, save as
+                             "NAME.heapsnapshot".
+      Heap snapshots must be loaded into Chrome Dev Tools. The NAME is
+      optional, snapshots default to being named `node.<PID>.heapshapshot`.
 
-    CPU profiles must be loaded into Chrome Dev Tools. The NAME is
-    optional, profiles default to being named `node.<PID>.cpuprofile`.
+  patch <ID> <FILE>          Apply patch FILE to ID.
 
-    Heap snapshots must be loaded into Chrome Dev Tools. The NAME is
-    optional, snapshots default to being named
-    `node.<PID>.heapshapshot`.
+
+Commands specific to a worker ID accept either a process ID or cluster worker
+ID, and use an ID of `0` to mean the cluster master.
 ```
