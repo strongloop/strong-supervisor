@@ -31,8 +31,9 @@ Options:
   --no-profile       Disable reporting profile data to StrongOps (default is to
 		       profile if registration data is found). Does not affect
 		       local reporting using --metrics option.
-  --no-channel       Do not listen for run-time control messages (default is to
-                       listen on "runctl" when clustered).
+  -C,--control CTL   Listen for local control messages on CTL (default `pmctl),
+                       only supported when clustered.
+  --no-control       Do not listen for local control messages.
 
 Log FILE is a path relative to the app's working directory if it is not
 absolute. To create a log file per process, FILE supports simple substitutions
