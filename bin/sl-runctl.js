@@ -189,14 +189,13 @@ function requestHeapSnapshot() {
   var name = optionalArg(util.format('node.%s', target));
   request.cmd = 'heap-snapshot';
   request.target = target;
-  // .heapdump extention Required by Chrome
-  request.filePath = path.resolve(name + '.heapdump');
+  request.filePath = path.resolve(name + '.heapsnapshot');
 
   display = function(res) {
     if (res.error) {
       return console.log('Unable to write heap to `%s`: %s', res.error);
     }
-    console.log('Heap written to `%s.heapsnapshot`, load into Chrome Dev Tools',
+    console.log('Heap written to `%s`, load into Chrome Dev Tools',
       res.filePath);
   };
 }
