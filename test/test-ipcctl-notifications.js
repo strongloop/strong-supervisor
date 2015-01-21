@@ -106,6 +106,7 @@ function startCpuProfiling(cb) {
   ee.once('cpu-profiling', function(n) {
     assert(n.id > 0, 'Worker ID should be present');
     assert(n.isRunning === true, 'Profiling should be running');
+    assert(!n.timeout, 'Watchdog timeout value must not be set');
     setTimeout(cb, 25);
   });
 
@@ -129,9 +130,14 @@ function stopCpuProfiling(cb) {
 }
 
 function startCpuProfilingWatchdog(cb) {
+  if (process.platform !== 'linux') {
+    return cb();
+  }
+
   ee.once('cpu-profiling', function(n) {
     assert(n.id > 0, 'Worker ID should be present');
     assert(n.isRunning === true, 'Profiling should be running');
+    assert(n.timeout === 1000, 'Watchdog timeout value must be set');
     setTimeout(cb, 25);
   });
 
@@ -142,6 +148,10 @@ function startCpuProfilingWatchdog(cb) {
 }
 
 function stopCpuProfilingWatchdog(cb) {
+  if (process.platform !== 'linux') {
+    return cb();
+  }
+
   ee.once('cpu-profiling', function(n) {
     assert(n.id > 0, 'Worker ID should be present');
     assert(n.isRunning === false, 'Profiling should not be running');

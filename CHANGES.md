@@ -1,3 +1,23 @@
+2015-01-21, Version 1.4.0
+=========================
+
+ * snapshot: remove extra .heapsnapshot in msg (Sam Roberts)
+
+ * run: support cluster_size env for backwards compat (Sam Roberts)
+
+ * run: allow uncontrolled clustering (Sam Roberts)
+
+ * run: stop using cluster-control.loadOptions (Sam Roberts)
+
+ * run,runctl: control options consistent with pm (Sam Roberts)
+
+ * run: remove debug code introduced by c4082951774 (Sam Roberts)
+
+ * Fix bad CLA URL in CONTRIBUTING.md (Ryan Graham)
+
+ * Add Watchdog timeout to cpu-start notification (Krishna Raman)
+
+
 2014-12-15, Version 1.3.0
 =========================
 

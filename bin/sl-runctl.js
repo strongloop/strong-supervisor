@@ -33,6 +33,7 @@ var parser = new Parser([
     'h(help)',
     'p:(path)',
     'p:(port)',
+    'C:(control)',
   ].join(''), argv);
 
 while ((option = parser.getopt()) !== undefined) {
@@ -44,6 +45,7 @@ while ((option = parser.getopt()) !== undefined) {
       console.log(HELP);
       process.exit(0);
     case 'p':
+    case 'C':
       ADDR = option.optarg;
       break;
     default:
@@ -187,14 +189,13 @@ function requestHeapSnapshot() {
   var name = optionalArg(util.format('node.%s', target));
   request.cmd = 'heap-snapshot';
   request.target = target;
-  // .heapdump extention Required by Chrome
-  request.filePath = path.resolve(name + '.heapdump');
+  request.filePath = path.resolve(name + '.heapsnapshot');
 
   display = function(res) {
     if (res.error) {
       return console.log('Unable to write heap to `%s`: %s', res.error);
     }
-    console.log('Heap written to `%s.heapsnapshot`, load into Chrome Dev Tools',
+    console.log('Heap written to `%s`, load into Chrome Dev Tools',
       res.filePath);
   };
 }
