@@ -193,7 +193,7 @@ exports.runWithControlChannel = function(appWithArgs, runArgs, onMessage) {
   debug('spawn: %j', args);
 
   var c = child.spawn(process.execPath, args, options);
-  var ctl = control.attach(onMessage, c);
+  control.attach(onMessage, c);
   c.unref();
   c._channel.unref(); // There is no documented way to unref child IPC
   return c;
