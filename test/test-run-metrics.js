@@ -37,30 +37,10 @@ tap.test('metrics', function(t) {
   t.plan(plan);
 
   function run() {
-    var options = {
-      stdio: [0, 1, 2, 'ipc'],
-      env: util._extend({
-        SL_ENV: 'test',
-        STRONGLOOP_FLUSH_INTERVAL: 2,
-      }, process.env),
-    };
-    var run = require.resolve('../bin/sl-run');
-    var app = require.resolve('./module-app');
-
-    var args = [
-      run,
-      '--no-timestamp-workers',
-      '--no-timestamp-supervisor',
-      '--cluster=1',
-      '--no-profile',
-    ].concat(runArgs).concat(app);
-
-    debug('spawn: %j', args);
-
-    var run = cp.spawn(process.execPath, args, options);
-    var ctl = control.attach(onRequest, run);
-    run.unref();
-    run._channel.unref(); // There is no documented way to unref child IPC
+    helper.runWithControlChannel(
+      require.resolve('./module-app'),
+      ['--cluster=1', '--no-profile'],
+      onRequest);
   }
 
   var internalMetrics;
@@ -180,7 +160,7 @@ tap.test('metrics', function(t) {
     debug('log: file set to `%s`', file);
 
     poll.unref();
-    
+
     runArgs.push('--metrics=' + url);
 
     plan += 1;
