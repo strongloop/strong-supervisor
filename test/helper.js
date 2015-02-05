@@ -172,6 +172,13 @@ exports.runWithControlChannel = function(appWithArgs, runArgs, onMessage) {
     runArgs = [];
   }
 
+  var ctl = path.resolve(path.dirname(appWithArgs[0]), 'runctl');
+  try {
+    fs.unlinkSync(ctl);
+  } catch(er) {
+    console.log('no `%s` to cleanup: %s', ctl, er);
+  }
+
   var options = {
    // NOTE(bajtos) We are redirecting stdout to stderr in order to keep
    // the test output clean from diagnostic messages.
