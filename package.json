@@ -65,7 +65,7 @@
     "node": ">=0.10.0"
   },
   "optionalDependencies": {
-    "heapdump": "~0.2.10",
+    "heapdump": "^0.3.5",
     "strong-fork-syslog": "^1.2.1"
   }
 }
