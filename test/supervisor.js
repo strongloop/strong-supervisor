@@ -17,7 +17,7 @@ function once(fn) {
 describe('supervisor', function(done) {
   var child;
 
-  this.timeout(4000); // CI machines are slow for process creation
+  this.timeout(10000); // CI machines are slow for process creation
 
   this.afterEach(function(done) {
     process.chdir(cwd);

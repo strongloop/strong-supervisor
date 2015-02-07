@@ -12,6 +12,8 @@ var exp = /^supervisor (\d+) detached process (\d+), output logged to '(\S+)'$/m
 describe('supervisor --detach', function() {
   var pids = [];
 
+  this.timeout(10000); // CI machines are slow for process creation
+
   beforeEach(function() {
     // re-using exp means resetting it after each use
     exp.lastIndex = 0;
