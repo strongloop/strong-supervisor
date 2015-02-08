@@ -1,6 +1,9 @@
 var options = require('optimist').argv;
 var express = require('express');
+var metrics = require('strong-express-metrics');
+
 var app = express();
+app.use(metrics());
 
 app.configure(function(){
   app.set('port', options.port || process.env.PORT || 0);

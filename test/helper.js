@@ -8,6 +8,7 @@ util = require('util');
 
 // module locals
 var child = require('child_process');
+var control = require('strong-control-channel/process');
 var dgram = require('dgram');
 
 // Skip when run by mocha
@@ -164,3 +165,43 @@ function pause(secs) {
 }
 
 global.pause = pause;
+
+exports.runWithControlChannel = function(appWithArgs, runArgs, onMessage) {
+  if (onMessage == undefined && typeof runArgs === 'function') {
+    onMessage = runArgs;
+    runArgs = [];
+  }
+
+  var ctl = path.resolve(path.dirname(appWithArgs[0]), 'runctl');
+  try {
+    fs.unlinkSync(ctl);
+  } catch(er) {
+    console.log('no `%s` to cleanup: %s', ctl, er);
+  }
+
+  var options = {
+   // NOTE(bajtos) We are redirecting stdout to stderr in order to keep
+   // the test output clean from diagnostic messages.
+    stdio: [0, 2, 2, 'ipc'],
+    env: util._extend({
+      SL_ENV: 'test',
+      STRONGLOOP_FLUSH_INTERVAL: 2,
+    }, process.env),
+  };
+
+  var runner = require.resolve('../bin/sl-run');
+
+  var args = [
+    runner,
+    '--no-timestamp-workers',
+    '--no-timestamp-supervisor'
+  ].concat(runArgs).concat(appWithArgs);
+
+  debug('spawn: %j', args);
+
+  var c = child.spawn(process.execPath, args, options);
+  control.attach(onMessage, c);
+  c.unref();
+  c._channel.unref(); // There is no documented way to unref child IPC
+  return c;
+};
