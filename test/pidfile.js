@@ -23,7 +23,7 @@ function unlink() {
 }
 
 function noSuchPid() {
-  var pid = 0xffffffff;
+  var pid = 0x7fffffff;
 
   while(pid > 1) {
     try {
@@ -40,7 +40,7 @@ function noSuchPid() {
 
 describe('pidfile', function() {
   beforeEach(unlink);
-  
+
   it('should create a pidfile', function() {
     create();
     assertValid();

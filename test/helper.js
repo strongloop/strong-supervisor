@@ -1,16 +1,3 @@
-// test globals
-assert = require('assert');
-debug = require('./debug');
-fs = require('fs');
-path = require('path');
-shell = require('shelljs/global');
-util = require('util');
-
-// module locals
-var child = require('child_process');
-var control = require('strong-control-channel/process');
-var dgram = require('dgram');
-
 // Skip when run by mocha
 exports.skip = function skip() {
   if ('describe' in global) {
@@ -23,6 +10,19 @@ exports.skip = function skip() {
 
 // if helper is being run directly by mocha, skip it.
 if (exports.skip()) return;
+
+// test globals
+assert = require('assert');
+debug = require('./debug');
+fs = require('fs');
+path = require('path');
+shell = require('shelljs/global');
+util = require('util');
+
+// module locals
+var child = require('child_process');
+var control = require('strong-control-channel/process');
+var dgram = require('dgram');
 
 // Assert if test does not explicitly say it passed, guards against accidental
 // exit with `0`.
