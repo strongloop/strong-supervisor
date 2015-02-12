@@ -1,3 +1,9 @@
+2015-02-12, Version 1.4.1
+=========================
+
+ * Fix log tagging of statsd (Ryan Graham)
+
+
 2015-01-21, Version 1.4.0
 =========================
 
@@ -90,10 +96,6 @@
  * run: directly support statsd backends (Sam Roberts)
 
  * test: delete STRONGLOOP_METRICS after each test (Sam Roberts)
-
-
-2014-11-03, Version 1.1.1
-=========================
 
  * run: refactor usage into a text file (Sam Roberts)
 
@@ -380,13 +382,13 @@
  * Fix malformed URLs in README (Sam Roberts)
 
 
-2014-02-13, Version finish
-==========================
-
-
-
 2014-02-13, Version 0.1.2
 =========================
+
+
+
+2014-02-13, Version finish
+==========================
 
  * Depend on 0.3 branch of strong-agent (Sam Roberts)
 
