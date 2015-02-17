@@ -8,6 +8,7 @@ process.on('disconnect', function() {
   process.exit(2);
 });
 
+var assert = require('assert');
 var config = require('../lib/config'); // May exit, depending on argv
 var log = config.logger;
 
@@ -17,9 +18,9 @@ var agentOptions = {
   logger: config.logger,
 };
 
-switch(config.profile) {
+switch (config.profile) {
   case false: // Profiling explicitly disabled.
-    if(config.isMaster) {
+    if (config.isMaster) {
       log.error('supervisor running without profiling');
     }
     break;
@@ -63,7 +64,7 @@ if(!config.clustered) {
 }
 
 // Reset argv to not include the runner (at argv[1]).
-process.argv = process.argv.slice(0, 1).concat(process.argv.slice(2))
+process.argv = process.argv.slice(0, 1).concat(process.argv.slice(2));
 
 // Run as if app is the main module
 require('module')._load(
