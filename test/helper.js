@@ -180,9 +180,7 @@ exports.runWithControlChannel = function(appWithArgs, runArgs, onMessage) {
   }
 
   var options = {
-   // NOTE(bajtos) We are redirecting stdout to stderr in order to keep
-   // the test output clean from diagnostic messages.
-    stdio: [0, 2, 2, 'ipc'],
+    stdio: [0, 1, 2, 'ipc'],
     env: util._extend({
       SL_ENV: 'test',
       STRONGLOOP_FLUSH_INTERVAL: 2,
