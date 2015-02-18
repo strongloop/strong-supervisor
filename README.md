@@ -176,7 +176,6 @@ signalled with SIGHUP, see
 ### slc run
 
 ``` text
-usage: slc run [options] [app [app-options...]]
 usage: slr [options] [app [app-options...]]
 
 Run an app, allowing it to be profiled (using StrongOps) and supervised.
@@ -203,14 +202,15 @@ Options:
                      Disable timestamping of supervisor log messages.
   --syslog           Send supervisor and collected worker logs to syslog,
                        unsupported on Windows.
-  --metrics BACKEND  Send metrics to custom backend (default is no custom).
+  --metrics BACKEND  Report metrics to custom backend. Implies `--profile`.
   -p,--pid FILE      Write supervisor's pid to FILE, failing if FILE already
                        has a valid pid in it (default is no pid file).
   --cluster N        Set the cluster size (default is off, but see below).
-  --no-profile       Disable reporting profile data to StrongOps (default is to
-		       profile if registration data is found). Does not affect
-		       local reporting using --metrics option.
-  -C,--control CTL   Listen for local control messages on CTL (default `pmctl),
+  --profile          Start the agent. Report to StrongOps if registration data
+                       is found (this is the default).
+  --no-profile       Do not start the agent, do not report to StrongOps,
+                       do not report metrics.
+  -C,--control CTL   Listen for local control messages on CTL (default `pmctl`),
                        only supported when clustered.
   --no-control       Do not listen for local control messages.
 
