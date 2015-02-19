@@ -21,7 +21,10 @@ var util = require('util');
 
 tap.test('metrics', function(t) {
   var plan = 1; // for internal
-  var runArgs = [];
+  var runArgs = [
+    '--cluster=1',
+    '--no-profile',
+  ];
 
   async.parallel([
     startGraphite,
@@ -39,7 +42,7 @@ tap.test('metrics', function(t) {
   function run() {
     helper.runWithControlChannel(
       require.resolve('./module-app'),
-      ['--cluster=1', '--no-profile'],
+      runArgs,
       onRequest);
   }
 
