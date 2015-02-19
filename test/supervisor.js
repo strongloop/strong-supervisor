@@ -159,7 +159,7 @@ describe('supervisor', function(done) {
         // Delete last symlink, if it exists
         try {
           fs.unlinkSync('test/x-app');
-        } catch(er) {
+        } catch (er) {
         };
         fs.symlinkSync(from, 'test/x-app');
       }

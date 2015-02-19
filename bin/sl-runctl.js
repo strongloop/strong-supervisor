@@ -59,7 +59,7 @@ while ((option = parser.getopt()) !== undefined) {
 
 var optind = parser.optind();
 var command = argv[optind++] || 'status';
-var request = { /* cmd: ... */ }; // request to send
+var request = {/* cmd: ... */}; // request to send
 var display = okay; // override for command specific success message
 
 function requiredArg() {
@@ -165,7 +165,7 @@ function requestCpuStart() {
   request.cmd = 'start-cpu-profiling';
   request.target = requiredArg();
   request.timeout = optionalArg(0) | 0;
-  display = function(){
+  display = function() {
     console.log('Profiler started, use cpu-stop to get profile.');
   };
 }

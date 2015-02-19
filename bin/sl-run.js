@@ -50,7 +50,7 @@ switch (config.profile) {
     break;
 }
 
-if((config.clustered && config.isMaster) || config.detach){
+if ((config.clustered && config.isMaster) || config.detach) {
   return config.start();
 }
 
@@ -59,7 +59,7 @@ config.sendMetrics();
 config.sendExpressRecords();
 config.sendTraces();
 
-if(!config.clustered) {
+if (!config.clustered) {
   console.log('supervisor running without clustering (unsupervised)');
 }
 

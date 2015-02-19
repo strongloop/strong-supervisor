@@ -158,7 +158,7 @@ tap.test('metrics', function(t) {
     var url = 'log:' + file;
     var poll = setInterval(poller, 1000);
 
-    try { fs.unlinkSync(file); } catch(er) {};
+    try { fs.unlinkSync(file); } catch (er) {};
 
     debug('log: file set to `%s`', file);
 

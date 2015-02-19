@@ -17,7 +17,7 @@ function unlink() {
   debug('unlink', FILE);
   try {
     fs.unlinkSync(FILE);
-  } catch(er) {
+  } catch (er) {
     debug('unlink', er);
   }
 }
@@ -28,7 +28,7 @@ function noSuchPid() {
   while(pid > 1) {
     try {
       process.kill(pid, 0);
-    } catch(er) {
+    } catch (er) {
       if(er.code == 'ESRCH') {
         return pid;
       }
@@ -50,7 +50,7 @@ describe('pidfile', function() {
     create();
     try {
       create();
-    } catch(er) {
+    } catch (er) {
       assert.equal('EEXIST', er.code);
     }
   });
