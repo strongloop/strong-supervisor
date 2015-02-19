@@ -8,8 +8,11 @@ var debug = require('./debug');
 var run = helper.runWithControlChannel;
 
 tap.test('express-metrics are forwarded via parentCtl', function(t) {
-  var expressApp = require.resolve('./express-app');
-  var app = run([expressApp], ['--cluster=1'], function(data) {
+  t.plan(7);
+
+  var expressApp = require.resolve('./express-app'); // XXX use path.resolve
+  var app = run([expressApp], ['--cluster=1', '--no-control'], function(data) {
+    debug('received: cmd %s: %j', data.cmd, data);
     switch (data.cmd) {
       case 'listening':
         sendHttpRequest(data.address.address, data.address.port);
@@ -17,6 +20,12 @@ tap.test('express-metrics are forwarded via parentCtl', function(t) {
 
       case 'express:usage-record':
         t.deepEqual(data.record.request, { method: 'GET', url: '/not-found' });
+        t.assert(data.record.timestamp);
+        t.assert(data.record.client.address);
+        t.equal(data.record.response.status, 404);
+        t.assert(data.record.response.duration);
+        t.assert(data.record.process.pid);
+        t.deepEqual(data.record.data, { });
         app.kill();
         t.end();
         break;
