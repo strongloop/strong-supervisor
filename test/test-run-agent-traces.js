@@ -7,8 +7,8 @@ var tap = require('tap');
 var debug = require('./debug');
 var run = helper.runWithControlChannel;
 
-tap.test('express-metrics are forwarded via parentCtl', function(t) {
-  t.plan(7);
+tap.test('agent traces are forwarded via parentCtl', function(t) {
+  t.plan(4);
 
   var expressApp = require.resolve('./express-app');
   var app = run([expressApp], ['--cluster=1', '--no-control'], function(data) {
@@ -18,14 +18,11 @@ tap.test('express-metrics are forwarded via parentCtl', function(t) {
         sendHttpRequest(data.address.address, data.address.port);
         break;
 
-      case 'express:usage-record':
-        t.deepEqual(data.record.request, { method: 'GET', url: '/not-found' });
-        t.assert(data.record.timestamp);
-        t.assert(data.record.client.address);
-        t.equal(data.record.response.status, 404);
-        t.assert(data.record.response.duration);
-        t.assert(data.record.process.pid);
-        t.deepEqual(data.record.data, { });
+      case 'agent:trace':
+        t.equal(data.workerId, 1);
+        t.assert(data.processId);
+        t.assert(data.trace.start);
+        t.assert(data.trace.list[0]);
         app.kill();
         break;
     }
@@ -37,7 +34,7 @@ tap.test('express-metrics are forwarded via parentCtl', function(t) {
 });
 
 function sendHttpRequest(host, port) {
-  http.get({ host: host, port: port, path: '/not-found' }, function(res) {
+  http.get({ host: host, port: port, path: '/' }, function(res) {
     var content = '';
     res.on('data', function(chunk) { content += chunk.toString(); });
     res.on('end', function() {

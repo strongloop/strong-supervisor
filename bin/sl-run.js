@@ -56,6 +56,7 @@ if((config.clustered && config.isMaster) || config.detach){
 // starts metrics reporting if --metrics was set, or does nothing
 config.sendMetrics();
 config.sendExpressRecords();
+config.sendTraces();
 
 if(!config.clustered) {
   console.log('supervisor running without clustering (unsupervised)');

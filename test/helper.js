@@ -29,10 +29,8 @@ var dgram = require('dgram');
 exports.pass = false;
 
 process.on('exit', function(status) {
-  console.log('EXIT:', status);
   if (status === 0) {
     assert(exports.pass);
-    console.log('PASS');
   }
 });
 
@@ -195,7 +193,7 @@ exports.runWithControlChannel = function(appWithArgs, runArgs, onMessage) {
     '--no-timestamp-supervisor'
   ].concat(runArgs).concat(appWithArgs);
 
-  debug('spawn: %j', args);
+  debug('spawn: args=%j', args);
 
   var c = child.spawn(process.execPath, args, options);
   control.attach(onMessage, c);

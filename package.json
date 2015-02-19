@@ -59,7 +59,7 @@
     "semver": "~3.0.1",
     "shelljs": "~0.3.0",
     "strong-express-metrics": "^1.0.1",
-    "tap": "~0.4.11"
+    "tap": "~0.6.0"
   },
   "engine": {
     "node": ">=0.10.0"
