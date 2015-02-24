@@ -18,6 +18,13 @@ var agentOptions = {
   logger: config.logger,
 };
 
+var tracer = require('../lib/tracer');
+var tracerOptions = {
+  archiveInterval: 20000,
+  accountKey: agent().config.appName,
+  useHttp: false
+};
+
 switch (config.profile) {
   case false: // Profiling explicitly disabled.
     if (config.isMaster) {
@@ -31,6 +38,7 @@ switch (config.profile) {
     // compatible.
     agent().profile(undefined, undefined, agentOptions);
     // Otherwise, just start. This is a no-op if it is already started.
+    tracer(tracerOptions);
     agent().start();
     break;
 
@@ -42,6 +50,7 @@ switch (config.profile) {
     if (agent().config.key)
       agent().profile(undefined, undefined, agentOptions);
     // Otherwise, just start. This is a no-op if already started.
+    tracer(tracerOptions);
     agent().start();
     break;
 
@@ -57,6 +66,7 @@ if ((config.clustered && config.isMaster) || config.detach) {
 // starts metrics reporting if --metrics was set, or does nothing
 config.sendMetrics();
 config.sendExpressRecords();
+config.sendTraceObject();
 config.sendTraces();
 
 if (!config.clustered) {
