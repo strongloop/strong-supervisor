@@ -21,7 +21,7 @@ describe('supervisor --detach', function() {
 
   afterEach(function() {
     pids.forEach(function(pid) {
-      try { process.kill(pid, 'SIGTERM'); } catch(e) { }
+      try { process.kill(pid, 'SIGTERM'); } catch (e) { }
     });
     pids = [];
   });

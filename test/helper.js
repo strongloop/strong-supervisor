@@ -84,7 +84,7 @@ function supervise(app, args) {
   var ctl = path.join(app, '..', 'runctl');
   try {
     fs.unlinkSync(ctl);
-  } catch(er) {
+  } catch (er) {
     console.log('no `%s` to cleanup: %s', ctl, er);
   }
 
@@ -114,7 +114,7 @@ function waiton(cmd, output) {
     try {
       expect(cmd, output);
       return;
-    } catch(er) {
+    } catch (er) {
       pause();
     }
   }
@@ -173,7 +173,7 @@ exports.runWithControlChannel = function(appWithArgs, runArgs, onMessage) {
   var ctl = path.resolve(path.dirname(appWithArgs[0]), 'runctl');
   try {
     fs.unlinkSync(ctl);
-  } catch(er) {
+  } catch (er) {
     console.log('no `%s` to cleanup: %s', ctl, er);
   }
 

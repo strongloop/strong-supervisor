@@ -36,8 +36,10 @@
     "slrc": "./bin/sl-runctl.js"
   },
   "scripts": {
-    "test": "mocha -R spec",
-    "tap": "tap test/test-*.js"
+    "eslint": "eslint bin lib",
+    "jscs": "jscs bin lib",
+    "tap": "tap test/test-*.js",
+    "test": "mocha -R spec"
   },
   "dependencies": {
     "debug": "^2.0.0",
@@ -52,7 +54,9 @@
   },
   "devDependencies": {
     "async": "~0.9.0",
+    "eslint": "git://github.com/eslint/eslint",
     "express": "~3.2.4",
+    "jscs": "^1.11.3",
     "loopback": "1.4.x",
     "mocha": "~1.16.2",
     "optimist": "~0.6.0",

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint no-process-exit:0 */
 
 var argv = process.argv;
 var client = require('strong-control-channel/client');
@@ -25,8 +26,7 @@ function okay() {
 
 var HELP = fs.readFileSync(require.resolve('./sl-runctl.txt'), 'utf-8')
   .replace(/%MAIN%/g, $0)
-  .replace(/%ADDR%/g, ADDR)
-  ;
+  .replace(/%ADDR%/g, ADDR);
 
 var parser = new Parser([
     ':v(version)',
@@ -36,14 +36,17 @@ var parser = new Parser([
     'C:(control)',
   ].join(''), argv);
 
+var option;
 while ((option = parser.getopt()) !== undefined) {
   switch (option.option) {
     case 'v':
       console.log(version);
       process.exit(0);
+      break;
     case 'h':
       console.log(HELP);
       process.exit(0);
+      break;
     case 'p':
     case 'C':
       ADDR = option.optarg;
@@ -56,7 +59,7 @@ while ((option = parser.getopt()) !== undefined) {
 
 var optind = parser.optind();
 var command = argv[optind++] || 'status';
-var request = { /* cmd: ... */ }; // request to send
+var request = {/* cmd: ... */}; // request to send
 var display = okay; // override for command specific success message
 
 function requiredArg() {
@@ -104,15 +107,15 @@ function requestStatus() {
 }
 
 function displayStatusResponse(rsp) {
-  if(rsp.master) {
+  if (rsp.master) {
     console.log('master pid: %d', rsp.master.pid);
   }
   console.log('worker count:', rsp.workers.length);
-  for(var i = 0; i < rsp.workers.length; i++) {
+  for (var i = 0; i < rsp.workers.length; i++) {
     var worker = rsp.workers[i];
     var id = worker.id;
     delete worker.id;
-    console.log('worker id', id +':', worker);
+    console.log('worker id', id + ':', worker);
   }
 }
 
@@ -135,7 +138,7 @@ function requestLs() {
   request.depth = depth;
   display = function displayLsResponse(rsp) {
     console.log(npmls.printable(rsp, depth));
-  }
+  };
 }
 
 function requestDisconnect() {
@@ -145,29 +148,29 @@ function requestDisconnect() {
 function requestFork() {
   request.cmd = 'fork';
   display = console.log;
-};
+}
 
-function requestObjectsStart(target) {
+function requestObjectsStart() {
   request.cmd = 'start-tracking-objects';
   request.target = requiredArg();
 }
 
-function requestObjectsStop(target) {
+function requestObjectsStop() {
   request.cmd = 'stop-tracking-objects';
   request.target = requiredArg();
 }
 
 
-function requestCpuStart(target) {
+function requestCpuStart() {
   request.cmd = 'start-cpu-profiling';
   request.target = requiredArg();
   request.timeout = optionalArg(0) | 0;
-  display = function(){
+  display = function() {
     console.log('Profiler started, use cpu-stop to get profile.');
   };
 }
 
-function requestCpuStop(target) {
+function requestCpuStop() {
   var target = requiredArg();
   var name = optionalArg(util.format('node.%s', target));
   request.cmd = 'stop-cpu-profiling';
@@ -214,11 +217,11 @@ debug('addr: %j, request: %j', ADDR, request);
 client.request(ADDR, request, response);
 
 function response(er, rsp) {
-  if(er) {
+  if (er) {
     error('Communication error (%s), check master is listening', er.message);
   }
 
-  if(rsp.error) {
+  if (rsp.error) {
     error('Command %s failed with: %s', request.cmd, rsp.error);
   }
   display(rsp);

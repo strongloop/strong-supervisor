@@ -11,7 +11,7 @@ var LINK = '_test-link';
 function relink() {
   try {
     fs.unlinkSync(LINK);
-  } catch(er) {
+  } catch (er) {
   }
   fs.symlinkSync('.', LINK);
 }
