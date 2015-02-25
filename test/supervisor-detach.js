@@ -7,7 +7,7 @@ var fs = require('fs');
 
 var slr = require.resolve('../bin/sl-run');
 
-var exp = /^supervisor (\d+) detached process (\d+), output logged to '(\S+)'$/mg;
+var exp = /^supervisor (\d+) detached process (\d+), output log in '(\S+)'$/mg;
 
 describe('supervisor --detach', function() {
   var pids = [];
