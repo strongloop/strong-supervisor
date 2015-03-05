@@ -36,8 +36,7 @@
     "slrc": "./bin/sl-runctl.js"
   },
   "scripts": {
-    "eslint": "eslint bin lib",
-    "jscs": "jscs bin lib",
+    "lint": "eslint bin lib index.js && jscs bin lib index.js",
     "tap": "tap test/test-*.js",
     "test": "mocha -R spec"
   },
