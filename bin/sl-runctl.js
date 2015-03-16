@@ -59,7 +59,7 @@ while ((option = parser.getopt()) !== undefined) {
 
 var optind = parser.optind();
 var command = argv[optind++] || 'status';
-var request = {/* cmd: ... */}; // request to send
+var request = {}; // request to send
 var display = okay; // override for command specific success message
 
 function requiredArg() {
