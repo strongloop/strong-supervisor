@@ -1,21 +1,23 @@
-strong-supervisor
-=================
+# strong-supervisor
 
-Runs an application under a supervisory master. This allows
-[strong-cluster-control](https://github.com/strongloop/strong-cluster-control)
-to be used to manage a cluster of workers, or even a single worker,
-restarting them on failure, and allowing run-time control using the `clusterctl`
-utility, or the
-[StrongOps](http://strongloop.com/node-js-performance/strongops)
-[dashboard](http://strongloop.com/ops/dashboard).
+Supervise a node application package, seperating deployment concerns (logging,
+monitoring, run-time control) from the application source.
 
-*NOTE*: When using strong-supervisor, it is not necessary to directly require
-either strong-cluster-control or strong-agent in your application. The
-supervisor will do that for you. See the example applications in `test/`.
+The supervisor is used by [strong-pm](https://github.com/strongloop/strong-pm)
+to run node applications, but it can also be used standalone.
 
-Metrics-related features (`slc run --metrics`, `slc runctl patch`, `slc runctl
-objects-start`, etc.), requires a license, please contact
-[sales@strongloop.com](mailto:sales@strongloop.com).
+For more details, see http://strong-pm.io.
+
+
+## Installation
+
+`sl-run` and `sl-runctl` are made available through the
+[strongloop](https://github.com/strongloop/strongloop) tool as `slc run` and
+`slc runctl`.
+
+`sl-run` and `sl-runctl` can be installed standalone with:
+
+    npm install -g strong-supervisor
 
 
 ## Features
@@ -38,10 +40,6 @@ explicitly disabled using the `--no-profile` option.
 Metrics can be published to an alternate collector, instead of StrongOps. For
 information on supported collectors and URL formats, see
 [strong-statsd](https://github.com/strongloop/strong-statsd).
-
-For more information about how to integrate into collectors not directly
-supported, see
-[strong-agent-statsd](https://github.com/strongloop/strong-agent-statsd).
 
 ### Dynamic Metrics Injection
 
@@ -167,9 +165,6 @@ If the supervisor is clustered, it will attempt a restart of the cluster if it i
 signalled with SIGHUP, see
 [control.restart()](http://apidocs.strongloop.com/strong-cluster-control/#controlrestart).
 
-## Installation
-
-    npm install -g strong-supervisor
 
 ## Usage
 
@@ -296,3 +291,14 @@ Commands:
 Commands specific to a worker ID accept either a process ID or cluster worker
 ID, and use an ID of `0` to mean the cluster master.
 ```
+
+
+## License
+
+strong-supervisor uses a dual license model.
+
+You may use this library under the terms of the [Artistic 2.0 license][],
+or under the terms of the [StrongLoop Subscription Agreement][].
+
+[Artistic 2.0 license]: http://opensource.org/licenses/Artistic-2.0
+[StrongLoop Subscription Agreement]: http://strongloop.com/license
