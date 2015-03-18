@@ -91,6 +91,8 @@ var commands = {
   'cpu-stop': requestCpuStop,
   'heap-snapshot': requestHeapSnapshot,
   patch: requestPatch,
+  'env-set': requestEnvSet,
+  'env-unset': requestEnvUnSet,
 };
 
 var action = commands[command] || invalidCommand;
@@ -210,6 +212,22 @@ function requestPatch() {
   request.cmd = 'patch';
   request.target = target;
   request.patch = JSON.parse(fs.readFileSync(file));
+}
+
+function requestEnvSet() {
+  request.cmd = 'env-set';
+  request.env = {};
+  argv.slice(optind++).forEach(function(kv) {
+    var pair = kv.split('=').map(function(p) { return p.trim(); });
+    if (pair[0]) {
+      request.env[pair[0]] = pair[1];
+    }
+  });
+}
+
+function requestEnvUnSet() {
+  request.cmd = 'env-unset';
+  request.env = argv.slice(optind++);
 }
 
 debug('addr: %j, request: %j', ADDR, request);
