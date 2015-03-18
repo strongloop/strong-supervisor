@@ -109,9 +109,12 @@ describe('supervisor', function(done) {
       /argv 2: --cluster=10/,
     ];
 
-    run('.', ['--no-cluster', 'test/module-app/index.js', '--cluster=10'], EXPECT);
-    run('.', ['--cluster', 'off', 'test/module-app/index.js', '--cluster=10'], EXPECT);
-    run('.', ['--cluster', '1', 'test/module-app/index.js', '--cluster=10'], EXPECT);
+    run('.', ['--no-cluster', 'test/module-app/index.js', '--cluster=10'],
+        EXPECT);
+    run('.', ['--cluster', 'off', 'test/module-app/index.js', '--cluster=10'],
+        EXPECT);
+    run('.', ['--cluster', '1', 'test/module-app/index.js', '--cluster=10'],
+        EXPECT);
 
     run('.', ['--help', 'help-option'], [/usage: slr/]);
     run('.', ['-h', 'h-option'], [/usage: slr/]);
@@ -133,7 +136,8 @@ describe('supervisor', function(done) {
       var EXPECT_NO_TIMESTAMPS = [ NO_TS_WORKER, TS_SUPER ];
 
       run('.', ['--cluster', '1', 'test/yes-app'], EXPECT_TIMESTAMPS);
-      run('.', ['--cluster', '1', '--no-timestamp-workers', 'test/yes-app'], EXPECT_NO_TIMESTAMPS);
+      run('.', ['--cluster', '1', '--no-timestamp-workers', 'test/yes-app'],
+          EXPECT_NO_TIMESTAMPS);
     });
 
     describe('supervisor logs', function() {
@@ -141,8 +145,31 @@ describe('supervisor', function(done) {
       var EXPECT_NO_TIMESTAMPS = [ TS_WORKER, NO_TS_SUPER ];
 
       run('.', ['--cluster', '1', 'test/yes-app'], EXPECT_TIMESTAMPS);
-      run('.', ['--cluster', '1', '--no-timestamp-supervisor', 'test/yes-app'], EXPECT_NO_TIMESTAMPS);
+      run('.', ['--cluster', '1', '--no-timestamp-supervisor', 'test/yes-app'],
+          EXPECT_NO_TIMESTAMPS);
     });
+  });
+
+  describe('log decoration', function() {
+    var TAGS_WORKER = /^pid:\d+ worker:1 .+/;
+    var TAGS_SUPER = /^pid:\d+ worker:0 .+/;
+    var NO_TAGS = /^yes/;
+
+    describe('tag logs', function() {
+      var EXPECT_TAGS = [ TAGS_WORKER, TAGS_SUPER ];
+      var EXPECT_NO_TAGS = [ NO_TAGS, NO_TAGS ];
+
+      run('.', ['--cluster', '1',
+                '--no-timestamp-supervisor', '--no-timestamp-workers',
+                'test/yes-app'],
+          EXPECT_TAGS);
+      run('.', ['--cluster', '1',
+                '--no-timestamp-supervisor', '--no-timestamp-workers',
+                '--no-log-decoration',
+                'test/yes-app'],
+          EXPECT_NO_TAGS);
+    });
+
   });
 
   describe('SIGHUP of supervisor', function() {
