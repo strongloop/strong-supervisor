@@ -145,7 +145,7 @@ describe('supervisor', function(done) {
     });
   });
 
-  describe('tags', function() {
+  describe('log decoration', function() {
     var TAGS_WORKER = /^pid:\d+ worker:\d+ .+/;
     var TAGS_SUPER = /^pid:\d+ worker:0 .+/;
     var NO_TAGS = /^.+/;
@@ -155,7 +155,7 @@ describe('supervisor', function(done) {
       var EXPECT_NO_TAGS = [ NO_TAGS, NO_TAGS ];
 
       run('.', ['--cluster', '1', '--no-timestamp-supervisor', '--no-timestamp-workers', 'test/yes-app'], EXPECT_TAGS);
-      run('.', ['--cluster', '1', '--no-timestamp-supervisor', '--no-timestamp-workers', '--no-tags', 'test/yes-app'], EXPECT_NO_TAGS);
+      run('.', ['--cluster', '1', '--no-timestamp-supervisor', '--no-timestamp-workers', '--no-log-decoration', 'test/yes-app'], EXPECT_NO_TAGS);
     });
 
   });
