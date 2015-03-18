@@ -145,6 +145,21 @@ describe('supervisor', function(done) {
     });
   });
 
+  describe('log decoration', function() {
+    var TAGS_WORKER = /^pid:\d+ worker:\d+ .+/;
+    var TAGS_SUPER = /^pid:\d+ worker:0 .+/;
+    var NO_TAGS = /^.+/;
+
+    describe('tag logs', function() {
+      var EXPECT_TAGS = [ TAGS_WORKER, TAGS_SUPER ];
+      var EXPECT_NO_TAGS = [ NO_TAGS, NO_TAGS ];
+
+      run('.', ['--cluster', '1', '--no-timestamp-supervisor', '--no-timestamp-workers', 'test/yes-app'], EXPECT_TAGS);
+      run('.', ['--cluster', '1', '--no-timestamp-supervisor', '--no-timestamp-workers', '--no-log-decoration', 'test/yes-app'], EXPECT_NO_TAGS);
+    });
+
+  });
+
   describe('SIGHUP of supervisor', function() {
     it('should chdir into PWD before restarting', function(done) {
       var EXPECT = [
