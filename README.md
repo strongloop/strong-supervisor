@@ -248,7 +248,7 @@ defaults to "CPUs".
 
 ```
 usage: slc runctl [options] [command ...]
-usage: slrc [options] [command]
+usage: sl-runctl [options] [command]
 
 Options:
 
@@ -283,6 +283,15 @@ Commands:
 
   patch <ID> <FILE>          Apply patch FILE to ID.
 
+  env-get [ID]               Get the complete environment of the specified
+                             process. If no target is specified the default is 0,
+                             the cluster master process.
+
+  env-set <K1=V1...>         Set environment variables in master and worker.
+                             Changes are live without process restart.
+
+  env-unset <KEYS...>        Unset environment variables in master and workers.
+                             Changes are live without process restart.
 
 Commands specific to a worker ID accept either a process ID or cluster worker
 ID, and use an ID of `0` to mean the cluster master.
