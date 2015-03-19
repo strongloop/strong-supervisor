@@ -33,6 +33,10 @@ Commands:
 
   patch <ID> <FILE>          Apply patch FILE to ID.
 
+  env-get [ID]               Get the complete environment of the specified
+                             process. If no target is specified the default is 0,
+                             the cluster master process.
+
   env-set <K1=V1...>         Set environment variables in master and worker.
                              Changes are live without process restart.
 

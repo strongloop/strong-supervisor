@@ -41,6 +41,33 @@ test('environment controls', function(t) {
     run.says(tt, /^SL_T1=undefined SL_T2=undefined SL_T3=undefined$/);
   });
 
+  t.test('env-get default', function(tt) {
+    run.ctl(tt, 'env-get', [], function(err, stdout, stderr) {
+      tt.ifError(err, 'env-get should not fail');
+      tt.assert(!/SL_T1/.test(stdout), 'Should not contain unset variables');
+      tt.assert(/PATH=/.test(stdout), 'Should contain known variables');
+      tt.end();
+    });
+  });
+
+  t.test('env-get master', function(tt) {
+    run.ctl(tt, 'env-get', [0], function(err, stdout, stderr) {
+      console.error('master:\n', stdout);
+      tt.ifError(err, 'env-get should not fail');
+      tt.assert(!/ENV_TEST_APP/.test(stdout), 'Worker-only variable missing');
+      tt.end();
+    });
+  });
+
+  t.test('env-get worker', function(tt) {
+    run.ctl(tt, 'env-get', [1], function(err, stdout, stderr) {
+      console.error('worker:\n', stdout);
+      tt.ifError(err, 'env-get should not fail');
+      tt.assert(/ENV_TEST_APP=/.test(stdout), 'Worker-only variable present');
+      tt.end();
+    });
+  });
+
   t.test('exit', function(tt) {
     run.ctl(tt, 'stop');
     tt.end();
@@ -84,12 +111,15 @@ function supervise(app, vars) {
 
   return c;
 
-  function runctl(t, cmd, cmdArgs) {
+  function runctl(t, cmd, cmdArgs, callback) {
     var runctljs = require.resolve('../bin/sl-runctl');
     var args = [runctljs, '--control', ctl, cmd].concat(cmdArgs);
     child.execFile(process.execPath, args, function(err, stdout, stderr) {
       debug('# runctl %s %j: ', cmd, args, err, stdout, stderr);
       t.ifError(err, ['sl-runctl', cmd].concat(cmdArgs).join(' '));
+      if (callback) {
+        callback.apply(this, arguments);
+      }
     });
   }
 

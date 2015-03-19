@@ -1,3 +1,4 @@
+process.env.ENV_TEST_APP = __dirname;
 var envs = process.argv.slice(2);
 
 var i = setInterval(dump, 500);

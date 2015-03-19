@@ -91,6 +91,7 @@ var commands = {
   'cpu-stop': requestCpuStop,
   'heap-snapshot': requestHeapSnapshot,
   patch: requestPatch,
+  'env-get': requestEnvGet,
   'env-set': requestEnvSet,
   'env-unset': requestEnvUnSet,
 };
@@ -212,6 +213,20 @@ function requestPatch() {
   request.cmd = 'patch';
   request.target = target;
   request.patch = JSON.parse(fs.readFileSync(file));
+}
+
+function requestEnvGet() {
+  request.target = optionalArg(0) | 0;
+  request.cmd = 'env-get';
+  display = function dumpEnv(rsp) {
+    if (rsp.error || !rsp.env) {
+      console.error('Unable to get env:', rsp.error || 'unknown');
+    } else {
+      Object.keys(rsp.env).sort().forEach(function(k) {
+        console.log('%s=%s', k, rsp.env[k]);
+      });
+    }
+  }
 }
 
 function requestEnvSet() {
