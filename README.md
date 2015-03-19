@@ -200,6 +200,9 @@ Options:
                      Disable timestamping of worker log lines by supervisor.
   --no-timestamp-supervisor
                      Disable timestamping of supervisor log messages.
+  --no-log-decoration
+                     Disable decorating supervisor/worker log messages with
+                       cluster id/pid
   --syslog           Send supervisor and collected worker logs to syslog,
                        unsupported on Windows.
   --metrics BACKEND  Report metrics to custom backend. Implies `--profile`.
