@@ -54,9 +54,16 @@ if ((config.clustered && config.isMaster) || config.detach) {
   return config.start();
 }
 
+if (config.enableTracing) {
+  var tracer = require('../lib/tracer');
+  var traceObject = require('../lib/trace-object');
+  tracer(traceObject.tracerOptions);
+}
+
 // starts metrics reporting if --metrics was set, or does nothing
 config.sendMetrics();
 config.sendExpressRecords();
+config.sendTraceObject();
 config.sendTraces();
 
 if (!config.clustered) {
