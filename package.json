@@ -55,7 +55,7 @@
   "devDependencies": {
     "async": "~0.9.0",
     "byline": "^4.2.1",
-    "eslint": "^0.17.0",
+    "eslint": "^0.18.0",
     "express": "~3.2.4",
     "jscs": "^1.11.3",
     "loopback": "1.4.x",
