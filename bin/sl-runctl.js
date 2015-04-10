@@ -59,7 +59,7 @@ while ((option = parser.getopt()) !== undefined) {
 
 var optind = parser.optind();
 var command = argv[optind++] || 'status';
-var request = {/* cmd: ... */}; // request to send
+var request = {}; // {cmd: , ...}: request to send
 var display = okay; // override for command specific success message
 
 function requiredArg() {
@@ -163,7 +163,6 @@ function requestObjectsStop() {
   request.target = requiredArg();
 }
 
-
 function requestCpuStart() {
   request.cmd = 'start-cpu-profiling';
   request.target = requiredArg();
@@ -226,14 +225,16 @@ function requestEnvGet() {
         console.log('%s=%s', k, rsp.env[k]);
       });
     }
-  }
+  };
 }
 
 function requestEnvSet() {
   request.cmd = 'env-set';
   request.env = {};
   argv.slice(optind++).forEach(function(kv) {
-    var pair = kv.split('=').map(function(p) { return p.trim(); });
+    var pair = kv.split('=').map(function(p) {
+      return p.trim();
+    });
     if (pair[0]) {
       request.env[pair[0]] = pair[1];
     }

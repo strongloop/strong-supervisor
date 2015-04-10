@@ -15,6 +15,8 @@ var run = require.resolve('../bin/sl-run');
 var yes = require.resolve('./v1-app');
 var args = [
   run,
+  '--no-timestamp-supervisor',
+  '--no-timestamp-workers',
   '--cluster=0',
   '--no-profile',
   yes
@@ -22,7 +24,7 @@ var args = [
 var run = cp.spawn(process.execPath, args, options);
 
 function onRequest(req, cb) {
-  debug(req);
+  debug('onRequest: %j', req);
   ee.emit(req.cmd, req);
   cb();
 }
@@ -59,19 +61,35 @@ function scaleUp(cb) {
   ctl.request({cmd: 'set-size', size: 2}, function(rsp) {
     var forked = false;
     var listening = false;
+    var statusWd = 0;
+
+    function done() {
+      if (forked && listening && statusWd >= 2)
+        cb();
+    }
 
     ee.once('fork', function(n) {
       forked = true;
       assert(n.id > 0, 'Worker ID should be present');
       assert(n.pid > 0, 'Worker pid should be present');
-      if (forked && listening) cb();
+      done();
     });
 
     ee.once('listening', function(n) {
       assert(n.id > 0, 'Worker ID should be present');
       assert(n.address !== undefined, 'Worker endpoint should be present');
       listening = true;
-      if (forked && listening) cb();
+      done();
+    });
+
+    ee.on('status:wd', function(n) {
+      debug('on %j', n);
+      assert(n.id > 0, 'Worker ID should be present');
+      assert(n.pid > 0, 'Worker PID should be present');
+      assert(n.pwd.length > 0, 'pwd should be present');
+      assert(n.cwd.length > 0, 'cwd should be present');
+      statusWd++;
+      done();
     });
   });
 }

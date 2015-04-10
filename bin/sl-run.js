@@ -60,9 +60,9 @@ if (config.enableTracing) {
   tracer(traceObject.tracerOptions);
 }
 
-// starts metrics reporting if --metrics was set, or does nothing
-config.sendMetrics();
 config.sendExpressRecords();
+config.sendMetrics();
+config.sendStatusWd();
 config.sendTraceObject();
 config.sendTraces();
 
