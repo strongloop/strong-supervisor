@@ -1,3 +1,9 @@
+2015-04-14, Version 1.5.1
+=========================
+
+ * package: make async a regular dependency (Ryan Graham)
+
+
 2015-04-14, Version 1.5.0
 =========================
 
