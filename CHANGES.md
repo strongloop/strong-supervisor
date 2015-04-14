@@ -1,3 +1,69 @@
+2015-04-14, Version 1.5.0
+=========================
+
+ * XXX (Sam Roberts)
+
+ * package: update eslint to 0.18 (Sam Roberts)
+
+ * runctl: add a status:wd notification (Sam Roberts)
+
+ * runctl: always send a cluster status (Sam Roberts)
+
+ * package: lint clean (Sam Roberts)
+
+ * Update README for strong-pm.io (Sam Roberts)
+
+ * Enable tracing based on --trace option (Krishna Raman)
+
+ * Add tracing support (Setogit)
+
+ * Add runctl env-get command to dump environment (Ryan Graham)
+
+ * add env-set and env-unset runctl commands (Ryan Graham)
+
+ * internal: remove double fork() in debug (Ryan Graham)
+
+ * test: test apps use ephemeral ports (Ryan Graham)
+
+ * add --[no-]log-decoration to disable log prefixes (Ryan Graham)
+
+ * package: use eslint from npm, not github (Sam Roberts)
+
+ * package: single lint script (Sam Roberts)
+
+ * test: update test to match change in #97 (Ryan Graham)
+
+ * package: add support for jscs (Sam Roberts)
+
+ * package: add support for eslint (Sam Roberts)
+
+ * run: emit agent:trace event to parent (Sam Roberts)
+
+ * test: increase coverage on test-run-express-records (Sam Roberts)
+
+ * run: allow profiling to be explicitly started (Sam Roberts)
+
+ * test: fix test-run-metrics after broken refactor (Sam Roberts)
+
+ * test: do not trigger node bug with fd mapping (Sam Roberts)
+
+ * test: don't fully load helper when skipping (Ryan Graham)
+
+ * test: bump timeouts for some supervisor tests (Ryan Graham)
+
+ * deps: upgrade heapdump to work with v0.12 and iojs (Ryan Graham)
+
+ * test: fix no-such-pid lookup (Ryan Graham)
+
+ * fixup! remove `runctl` before start (Miroslav Bajtos)
+
+ * Forward "express:usage-record" to strong-pm (Miroslav Bajtoš)
+
+ * Fix log tagging of statsd (Ryan Graham)
+
+ * test: extract method helper.runWithControlChannel (Miroslav Bajtoš)
+
+
 2015-01-21, Version 1.4.0
 =========================
 
@@ -90,10 +156,6 @@
  * run: directly support statsd backends (Sam Roberts)
 
  * test: delete STRONGLOOP_METRICS after each test (Sam Roberts)
-
-
-2014-11-03, Version 1.1.1
-=========================
 
  * run: refactor usage into a text file (Sam Roberts)
 
@@ -380,13 +442,13 @@
  * Fix malformed URLs in README (Sam Roberts)
 
 
-2014-02-13, Version finish
-==========================
-
-
-
 2014-02-13, Version 0.1.2
 =========================
+
+
+
+2014-02-13, Version finish
+==========================
 
  * Depend on 0.3 branch of strong-agent (Sam Roberts)
 
