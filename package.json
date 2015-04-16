@@ -38,6 +38,7 @@
   "scripts": {
     "lint": "eslint . && jscs .",
     "tap": "tap test/test-*.js",
+    "pretest": "npm run lint",
     "test": "mocha -R spec"
   },
   "dependencies": {

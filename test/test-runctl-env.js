@@ -52,7 +52,6 @@ test('environment controls', function(t) {
 
   t.test('env-get master', function(tt) {
     run.ctl(tt, 'env-get', [0], function(err, stdout, stderr) {
-      console.error('master:\n', stdout);
       tt.ifError(err, 'env-get should not fail');
       tt.assert(!/ENV_TEST_APP/.test(stdout), 'Worker-only variable missing');
       tt.end();
@@ -61,7 +60,6 @@ test('environment controls', function(t) {
 
   t.test('env-get worker', function(tt) {
     run.ctl(tt, 'env-get', [1], function(err, stdout, stderr) {
-      console.error('worker:\n', stdout);
       tt.ifError(err, 'env-get should not fail');
       tt.assert(/ENV_TEST_APP=/.test(stdout), 'Worker-only variable present');
       tt.end();
