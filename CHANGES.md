@@ -1,3 +1,21 @@
+2015-04-21, Version 1.5.2
+=========================
+
+ * set enableTracing instead of trace (Setogit)
+
+ * lint: fix lint errors in trace-object (Ryan Graham)
+
+ * test: including linting as pretest (Ryan Graham)
+
+ * fix supervisor when clustered without parent IPC (Ryan Graham)
+
+ * test: remove noise from env tests (Ryan Graham)
+
+ * Don't send status until after control starts (Sam Roberts)
+
+ * pass tracerOptions to the first strong-trace call only (Setogit)
+
+
 2015-04-14, Version 1.5.1
 =========================
 
