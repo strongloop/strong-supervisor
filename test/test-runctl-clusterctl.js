@@ -28,6 +28,10 @@ expect('status', /worker id 2:/);
 expect('restart');
 waiton('status', /worker id 4:/);
 expect('status', /worker count: 2/);
+expect('fork', /workerID: 5/);
+waiton('status', /worker count: 3/);
+// cluster control kills off the extra worker
+waiton('status', /worker count: 2/);
 expect('disconnect');
 waiton('status', /worker id 6:/);
 expect('status', /worker count: 2/);

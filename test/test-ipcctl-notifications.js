@@ -53,6 +53,7 @@ function start(cb) {
   ee.once('started', function(n) {
     assert(typeof n.agentVersion === 'string', 'Agent version should be present');
     assert(n.pid > 0, 'Master pid should be present');
+    assert(n.pst > 0, 'Master start time should be present');
     cb();
   });
 }
@@ -72,12 +73,14 @@ function scaleUp(cb) {
       forked = true;
       assert(n.id > 0, 'Worker ID should be present');
       assert(n.pid > 0, 'Worker pid should be present');
+      assert(n.pst > 0, 'Worker start time should be present');
       done();
     });
 
     ee.once('listening', function(n) {
       assert(n.id > 0, 'Worker ID should be present');
       assert(n.address !== undefined, 'Worker endpoint should be present');
+      assert(n.pst > 0, 'Worker start time should be present');
       listening = true;
       done();
     });
@@ -86,6 +89,7 @@ function scaleUp(cb) {
       debug('on %j', n);
       assert(n.id > 0, 'Worker ID should be present');
       assert(n.pid > 0, 'Worker PID should be present');
+      assert(n.pst > 0, 'Worker start time should be present');
       assert(n.pwd.length > 0, 'pwd should be present');
       assert(n.cwd.length > 0, 'cwd should be present');
       statusWd++;
@@ -99,6 +103,7 @@ function scaleDown(cb) {
     ee.once('exit', function(n) {
       assert(n.id > 0, 'Worker ID should be present');
       assert(n.pid > 0, 'Worker pid should be present');
+      assert(n.pst > 0, 'Worder start time should be present');
       assert(n.reason !== undefined, 'Worker exit reason should be present');
       cb();
     });
