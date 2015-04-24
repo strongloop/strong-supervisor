@@ -37,9 +37,8 @@
   },
   "scripts": {
     "lint": "eslint . && jscs .",
-    "tap": "tap test/test-*.js",
     "pretest": "npm run lint",
-    "test": "mocha -R spec"
+    "test": "tap test/test-*.js"
   },
   "dependencies": {
     "async": "^0.9.0",
@@ -60,12 +59,12 @@
     "express": "~3.2.4",
     "jscs": "^1.11.3",
     "loopback": "1.4.x",
-    "mocha": "~1.16.2",
+    "mocha": "^2.2.4",
     "optimist": "~0.6.0",
     "semver": "~3.0.1",
     "shelljs": "~0.3.0",
     "strong-express-metrics": "^1.0.1",
-    "tap": "~0.6.0"
+    "tap": "~0.7.0"
   },
   "engine": {
     "node": ">=0.10.0"

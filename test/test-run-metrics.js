@@ -20,7 +20,7 @@ var tap = require('tap');
 var util = require('util');
 
 tap.test('metrics', function(t) {
-  var plan = 1; // for internal
+  var plan = 15; // for internal
   var runArgs = [
     '--cluster=1',
     '--no-profile',
@@ -55,10 +55,29 @@ tap.test('metrics', function(t) {
       debug('internal metrics: <\n%j>', req);
       internalMetrics = req.metrics;
       t.assert(internalMetrics.timestamp, 'internal metrics seen');
+      t.type(internalMetrics.processes, 'object', 'contains process entries');
+      testProcessMetrics(internalMetrics.processes);
       console.log('internal: seen');
     }
     return callback('OK');
+
+    function testProcessMetrics(procs) {
+      var wid;
+      var pm;
+      for (wid in procs) {
+        pm = procs[wid];
+        // console.error(pm);
+        t.equivalent(pm.wid, wid, 'metrics for correct worker');
+        t.assert(pm.pid > 0, 'metric includes pid');
+        t.assert(pm.pst > 0, 'metric includes pst');
+        t.assert('counters' in pm, 'metric includes counters');
+        t.assert('timers' in pm, 'metric includes timers');
+        t.assert('gauges' in pm, 'metric includes gauges');
+      }
+      t.assert(pm, 'has at least one process');
+    }
   }
+
 
   function startGraphite(done) {
     var graphite = Graphite();

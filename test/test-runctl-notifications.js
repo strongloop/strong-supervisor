@@ -17,6 +17,7 @@ process.send = function send(_) {
 
 // After process.send is assigned, or runctl won't send notifications.
 var runctl = require('../lib/runctl');
+require('strong-cluster-control').start();
 
 cluster.setupMaster({exec: yes});
 
@@ -26,7 +27,7 @@ var w1, w2;
 
 tap.test('fork1', function(t) {
   w1 = cluster.fork();
-  msg.once('send', function(data) {
+  msg.on('send', function(data) {
     console.log('fork1:', data);
     assertFork(data, t, 1);
   });
@@ -45,6 +46,7 @@ function assertFork(data, t, id) {
   t.equal(data.cmd, 'fork');
   t.equal(data.id, id);
   t.assert(data.pid > 0, 'pid');
+  t.assert(data.pst > 0, 'pst');
   t.end();
 }
 
@@ -68,6 +70,7 @@ function assertExit(data, t, suicide, id, pid, reason) {
   t.equal(data.cmd, 'exit', 'cmd');
   t.equal(data.suicide, suicide, 'suicide');
   t.equal(data.pid, pid, 'pid');
+  t.assert(data.pst > 0, 'pst');
   t.equal(data.reason, reason, 'reason');
   t.end();
 }
@@ -76,11 +79,14 @@ msg.on('send', function(data) {
   if (data.cmd !== 'status') return;
   console.log('status: %j', data);
   assert.equal(data.master.pid, process.pid);
+  assert(data.master.pst > 0);
   assert.equal(data.workers.count, cluster.workers.count);
   if (data.workers.count > 0) {
     assert.equal(data.workers[0].pid, w1.process.pid);
+    assert.equal(data.workers[0].pst, w1.startTime);
   }
   if (data.workers.count > 1) {
     assert.equal(data.workers[1].pid, w2.process.pid);
+    assert.equal(data.workers[1].pst, w2.startTime);
   }
 });
