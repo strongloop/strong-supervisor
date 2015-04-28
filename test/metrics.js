@@ -18,10 +18,6 @@ describe('metrics', function() {
     delete process.env.STRONGLOOP_METRICS;
   });
 
-  it('returns false when STRONGLOOP_METRICS not in env', function() {
-    assert.equal(metrics.send(), false);
-  });
-
   it.skip('returns true when STRONGLOOP_METRICS is statsd', function() {
     // XXX(sam) This passes, but somehow pollutes the global mocha environment
     // so the supervisor/loopback tests fail. Not the supervisor/express, just
