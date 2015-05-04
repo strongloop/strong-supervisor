@@ -60,13 +60,14 @@ if (config.enableTracing) {
   tracer(traceObject.tracerOptions);
 }
 
-config.sendExpressRecords();
 config.sendMetrics();
-config.sendStatusWd();
-config.sendTraceObject();
-config.sendTraces();
 
-if (!config.clustered) {
+if (config.clustered) {
+  config.sendExpressRecords();
+  config.sendStatusWd();
+  config.sendTraceObject();
+  config.sendTraces();
+} else {
   console.log('supervisor running without clustering (unsupervised)');
 }
 
