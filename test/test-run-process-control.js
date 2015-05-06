@@ -1,12 +1,7 @@
-var helper = require('./helper');
-
-if (helper.skip()) return;
-
-var assert = require('assert');
-var async = require('async');
 var control = require('strong-control-channel/process');
 var cp = require('child_process');
 var debug = require('./debug');
+var tap = require('tap');
 
 var options = {stdio: [0, 1, 2, 'ipc']};
 var run = require.resolve('../bin/sl-run');
@@ -20,46 +15,38 @@ var args = [
 var run = cp.spawn(process.execPath, args, options);
 var ctl = control.attach(function(){}, run);
 
-async.series([
-  status,
-  setSize,
-  disconnect,
-], function(er) {
-  assert.ifError(er);
-  helper.pass = true;
-  process.exit(0);
+
+tap.test('status', function(t) {
+  ctl.request({cmd: 'status'}, function(rsp) {
+    debug('status: %j', rsp);
+    t.equal(rsp.workers.length, 0, 'no workers');
+    t.equal(rsp.appName, 'yes-app', 'appName');
+    t.assert(/^\d+\.\d+\.\d+/.test(rsp.agentVersion), 'agentVersion');
+    t.end();
+  });
 });
 
-function status(done) {
-  ctl.request({cmd: 'status'}, function(rsp) {
-    debug('status: %j', rsp);
-
-    assert.equal(rsp.workers.length, 0);
-    return done();
-  });
-}
-
-function setSize(done) {
+tap.test('set-size', function(t) {
   ctl.request({cmd: 'set-size', size: 1}, function(rsp) {
     debug('set-size: %j', rsp);
-
-    return checkSize(done);
+    t.assert(!rsp.error, 'set-size does not error');
+    t.end();
   });
-}
+});
 
-function checkSize(done) {
+tap.test('check size', function(t) {
   ctl.request({cmd: 'status'}, function(rsp) {
     debug('status: %j', rsp);
 
-    assert.equal(rsp.workers.length, 1);
-    return done();
+    t.equal(rsp.workers.length, 1, 'cluster size updated');
+    t.end();
   });
-}
+});
 
-function disconnect(done) {
-  run.disconnect();
+tap.test('disconnect', function(t) {
   run.on('exit', function(status) {
-    assert.equal(status, 2);
-    return done();
+    t.equal(status, 2);
+    t.end();
   });
-}
+  run.disconnect();
+});

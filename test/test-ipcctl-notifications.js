@@ -52,6 +52,7 @@ async.series([
 function start(cb) {
   ee.once('started', function(n) {
     assert(typeof n.agentVersion === 'string', 'Agent version should be present');
+    assert(typeof n.appName === 'string', 'App name should be present');
     assert(n.pid > 0, 'Master pid should be present');
     assert(n.pst > 0, 'Master start time should be present');
     cb();
@@ -63,9 +64,10 @@ function scaleUp(cb) {
     var forked = false;
     var listening = false;
     var statusWd = 0;
+    var status = false;
 
     function done() {
-      if (forked && listening && statusWd >= 2)
+      if (forked && listening && status && statusWd >= 2)
         cb();
     }
 
@@ -93,6 +95,16 @@ function scaleUp(cb) {
       assert(n.pwd.length > 0, 'pwd should be present');
       assert(n.cwd.length > 0, 'cwd should be present');
       statusWd++;
+      done();
+    });
+
+    ee.once('status', function(n) {
+      debug('on %j', n);
+      assert(n.master.pid > 0, 'Master pid should be present');
+      assert(typeof n.appName === 'string', 'App name should be present');
+      assert(typeof n.agentVersion === 'string', 'Agent version is present');
+      assert(Array.isArray(n.workers), 'workers list is present');
+      status = true;
       done();
     });
   });
