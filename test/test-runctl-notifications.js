@@ -29,15 +29,17 @@ tap.test('fork1', function(t) {
   w1 = cluster.fork();
   msg.on('send', function(data) {
     console.log('fork1:', data);
-    assertFork(data, t, 1);
+    if (data.cmd === 'fork')
+      assertFork(data, t, 1);
   });
 });
 
 tap.test('fork2', function(t) {
   w2 = cluster.fork();
-  msg.once('send', function(data) {
+  msg.on('send', function(data) {
     console.log('fork2:', data);
-    assertFork(data, t, 2);
+    if (data.cmd === 'fork')
+      assertFork(data, t, 2);
     console.log('fork2, done');
   });
 });
