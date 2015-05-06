@@ -20,6 +20,8 @@ tap.test('status', function(t) {
   ctl.request({cmd: 'status'}, function(rsp) {
     debug('status: %j', rsp);
     t.equal(rsp.workers.length, 0, 'no workers');
+    t.equal(rsp.appName, 'yes-app', 'appName');
+    t.assert(/^\d+\.\d+\.\d+/.test(rsp.agentVersion), 'agentVersion');
     t.end();
   });
 });
