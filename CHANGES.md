@@ -1,3 +1,25 @@
+2015-05-08, Version 1.6.0
+=========================
+
+ * runctl: extend status message (Ryan Graham)
+
+ * test: make test-runctl-notifications less fragile (Ryan Graham)
+
+ * test: fix test-runctl-clusterctl (Ryan Graham)
+
+ * refactor test-run-process-control to use tap module (Ryan Graham)
+
+ * Make trace-object lazy-load its options (Ryan Graham)
+
+ * don't load cluster-only features when unclustered (Ryan Graham)
+
+ * Send notifications to connected runctl clients (Ryan Graham)
+
+ * test: wrap mocha tests in tap (Ryan Graham)
+
+ * attach pst (Process Start Time) to all messages (Ryan Graham)
+
+
 2015-04-21, Version 1.5.2
 =========================
 
