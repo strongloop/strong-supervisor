@@ -63,7 +63,7 @@ config.sendMetrics();
 
 if (config.clustered) {
   config.sendExpressRecords();
-  config.sendStatusWd();
+  config.watcher();
   config.sendTraceObject();
   config.sendTraces();
 } else {
