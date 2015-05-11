@@ -41,7 +41,7 @@ exports.statsd = function statsd(callback) {
   server.reported = [];
 
   server.on('message', function(data) {
-    console.log('statsd receives metric: %s', data);
+    console.log('# statsd receives metric: %s', data);
     server.reported.push(data.toString());
   });
 
@@ -64,7 +64,7 @@ exports.statsd = function statsd(callback) {
   };
 
   function listening(er) {
-    console.log('statsd listening:', er || server.address());
+    console.log('# statsd listening:', er || server.address());
     assert.ifError(er);
     server.port = server.address().port;
     return callback(server);
@@ -85,12 +85,12 @@ function supervise(app, args) {
   try {
     fs.unlinkSync(ctl);
   } catch (er) {
-    console.log('no `%s` to cleanup: %s', ctl, er);
+    console.log('# no `%s` to cleanup: %s', ctl, er);
   }
 
   args = ['--cluster=0'].concat(args || []).concat([app]);
 
-  console.log('supervise %s with %j', run, args);
+  console.log('# supervise %s with %j', run, args);
 
   var c = child.fork(run, args);
 
@@ -148,7 +148,7 @@ function runctl(cmd) {
     require.resolve('../bin/sl-runctl'),
     cmd || ''
   ));
-  console.log('runctl %s =>', cmd, out);
+  console.log('# runctl %s =>', cmd, out.output.split('\n').join('\n # '));
   return out;
 }
 
@@ -174,7 +174,7 @@ exports.runWithControlChannel = function(appWithArgs, runArgs, onMessage) {
   try {
     fs.unlinkSync(ctl);
   } catch (er) {
-    console.log('no `%s` to cleanup: %s', ctl, er);
+    console.log('# no `%s` to cleanup: %s', ctl, er);
   }
 
   var options = {
