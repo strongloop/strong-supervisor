@@ -1,7 +1,3 @@
-var helper = require('./helper');
-
-if (helper.skip()) return;
-
 var assert = require('assert');
 var async = require('async');
 var control = require('strong-control-channel/process');
@@ -9,7 +5,12 @@ var cp = require('child_process');
 var debug = require('./debug');
 var ee = new (require('events').EventEmitter)();
 var fs = require('fs');
+var helper = require('./helper');
+var test = require('tap').test;
 
+var skipIfNotLinux = process.platform !== 'linux'
+                   ? {skip: 'linux only feature'}
+                   : false;
 var options = {stdio: [0, 1, 2, 'ipc']};
 var run = require.resolve('../bin/sl-run');
 var yes = require.resolve('./v1-app');
@@ -31,96 +32,84 @@ function onRequest(req, cb) {
 
 var ctl = control.attach(onRequest, run);
 
-async.series([
-  start,
-  scaleUp,
-  scaleDown,
-  startCpuProfiling,
-  stopCpuProfiling,
-  startCpuProfilingWatchdog,
-  stopCpuProfilingWatchdog,
-  startObjTracking,
-  stopObjTracking,
-  heapDump,
-  disconnect,
-], function(er) {
-  assert.ifError(er);
-  helper.pass = true;
-  process.exit(0);
+function once(t, fn) {
+  function wrapped() {
+    console.error('called');
+    t.assert(!wrapped.called);
+    wrapped.called = true;
+    return fn.apply(this, arguments);
+  }
+}
+
+test('start', function(t) {
+  ee.once('started', function(n) {
+    t.assert(typeof n.agentVersion === 'string', 'Agent version should be present');
+    t.assert(typeof n.appName === 'string', 'App name should be present');
+    t.assert(n.pid > 0, 'Master pid should be present');
+    t.assert(n.pst > 0, 'Master start time should be present');
+    t.end();
+  });
 });
 
-function start(cb) {
-  ee.once('started', function(n) {
-    assert(typeof n.agentVersion === 'string', 'Agent version should be present');
-    assert(typeof n.appName === 'string', 'App name should be present');
-    assert(n.pid > 0, 'Master pid should be present');
-    assert(n.pst > 0, 'Master start time should be present');
-    cb();
-  });
-}
+test('scaleUp', function(t) {
+  var plan = 0;
 
-function scaleUp(cb) {
+  plan += 3;
+  ee.once('fork', function(n) {
+    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.pid > 0, 'Worker pid should be present');
+    t.assert(n.pst > 0, 'Worker start time should be present');
+  });
+
+  plan += 3;
+  ee.once('listening', function(n) {
+    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.address !== undefined, 'Worker endpoint should be present');
+    t.assert(n.pst > 0, 'Worker start time should be present');
+  });
+
+  plan += 5*2; // inspected twice
+  ee.on('status:wd', function(n) {
+    debug('on %j', n);
+    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.pid > 0, 'Worker PID should be present');
+    t.assert(n.pst > 0, 'Worker start time should be present');
+    t.assert(n.pwd.length > 0, 'pwd should be present');
+    t.assert(n.cwd.length > 0, 'cwd should be present');
+  });
+  t.on('end', function() {
+    ee.removeAllListeners('status:wd');
+  });
+
+  plan += 4;
+  ee.once('status', function(n) {
+    debug('on %j', n);
+    t.assert(n.master.pid > 0, 'Master pid should be present');
+    t.assert(typeof n.appName === 'string', 'App name should be present');
+    t.assert(typeof n.agentVersion === 'string', 'Agent version is present');
+    t.assert(Array.isArray(n.workers), 'workers list is present');
+  });
+
+  plan += 1;
   ctl.request({cmd: 'set-size', size: 2}, function(rsp) {
-    var forked = false;
-    var listening = false;
-    var statusWd = 0;
-    var status = false;
-
-    function done() {
-      if (forked && listening && status && statusWd >= 2)
-        cb();
-    }
-
-    ee.once('fork', function(n) {
-      forked = true;
-      assert(n.id > 0, 'Worker ID should be present');
-      assert(n.pid > 0, 'Worker pid should be present');
-      assert(n.pst > 0, 'Worker start time should be present');
-      done();
-    });
-
-    ee.once('listening', function(n) {
-      assert(n.id > 0, 'Worker ID should be present');
-      assert(n.address !== undefined, 'Worker endpoint should be present');
-      assert(n.pst > 0, 'Worker start time should be present');
-      listening = true;
-      done();
-    });
-
-    ee.on('status:wd', function(n) {
-      debug('on %j', n);
-      assert(n.id > 0, 'Worker ID should be present');
-      assert(n.pid > 0, 'Worker PID should be present');
-      assert(n.pst > 0, 'Worker start time should be present');
-      assert(n.pwd.length > 0, 'pwd should be present');
-      assert(n.cwd.length > 0, 'cwd should be present');
-      statusWd++;
-      done();
-    });
-
-    ee.once('status', function(n) {
-      debug('on %j', n);
-      assert(n.master.pid > 0, 'Master pid should be present');
-      assert(typeof n.appName === 'string', 'App name should be present');
-      assert(typeof n.agentVersion === 'string', 'Agent version is present');
-      assert(Array.isArray(n.workers), 'workers list is present');
-      status = true;
-      done();
-    });
+    t.false(rsp.error);
   });
-}
 
-function scaleDown(cb) {
-  ctl.request({cmd: 'set-size', size: 1}, function(rsp) {
-    ee.once('exit', function(n) {
-      assert(n.id > 0, 'Worker ID should be present');
-      assert(n.pid > 0, 'Worker pid should be present');
-      assert(n.pst > 0, 'Worder start time should be present');
-      assert(n.reason !== undefined, 'Worker exit reason should be present');
-      cb();
-    });
+  t.plan(plan);
+});
+
+test('scaleDown', function(t) {
+  ee.once('exit', function(n) {
+    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.pid > 0, 'Worker pid should be present');
+    t.assert(n.pst > 0, 'Worder start time should be present');
+    t.assert(n.reason !== undefined, 'Worker exit reason should be present');
+    t.end();
   });
-}
+  ctl.request({cmd: 'set-size', size: 1}, once(t, function(rsp) {
+    t.false(rsp.err);
+  }));
+});
 
 function hitCount(filename) {
   function visit(node) {
@@ -137,110 +126,103 @@ function hitCount(filename) {
   return count;
 }
 
-function startCpuProfiling(cb) {
+test('start cpu profiling', function(t) {
   ee.once('cpu-profiling', function(n) {
-    assert(n.id > 0, 'Worker ID should be present');
-    assert(n.isRunning === true, 'Profiling should be running');
-    assert(!n.timeout, 'Watchdog timeout value must not be set');
-    setTimeout(cb, 25);
+    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.isRunning === true, 'Profiling should be running');
+    t.assert(!n.timeout, 'Watchdog timeout value must not be set');
+    t.end();
   });
 
-  ctl.request({cmd: 'start-cpu-profiling', target: 1}, function(rsp) {
-    assert(!rsp.error);
-  });
-}
+  ctl.request({cmd: 'start-cpu-profiling', target: 1}, once(t, function(rsp) {
+    t.assert(!rsp.error);
+  }));
+});
 
-function stopCpuProfiling(cb) {
+test('stop cpu profling', function(t) {
   ee.once('cpu-profiling', function(n) {
-    assert(n.id > 0, 'Worker ID should be present');
-    assert(n.isRunning === false, 'Profiling should not be running');
-    cb();
+    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.isRunning === false, 'Profiling should not be running');
+    t.end();
   });
 
   var req = {cmd: 'stop-cpu-profiling', target: 1, filePath: 'test.cpuprofile'};
-  ctl.request(req, function(rsp) {
-    assert(!rsp.error);
-    assert(hitCount(rsp.filePath) > 1);
-  });
-}
+  ctl.request(req, once(t, function(rsp) {
+    t.assert(!rsp.error);
+    t.assert(hitCount(rsp.filePath) > 1);
+  }));
+});
 
-function startCpuProfilingWatchdog(cb) {
-  if (process.platform !== 'linux') {
-    return cb();
-  }
-
+test('start cpu profiling watchdog', skipIfNotLinux || function(t) {
   ee.once('cpu-profiling', function(n) {
-    assert(n.id > 0, 'Worker ID should be present');
-    assert(n.isRunning === true, 'Profiling should be running');
-    assert(n.timeout === 1000, 'Watchdog timeout value must be set');
-    setTimeout(cb, 25);
+    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.isRunning === true, 'Profiling should be running');
+    t.assert(n.timeout === 1000, 'Watchdog timeout value must be set');
+    t.end();
   });
 
   var options = {cmd: 'start-cpu-profiling', target: 1, timeout: 1000};
-  ctl.request(options, function(rsp) {
-    assert(!rsp.error);
-  });
-}
+  ctl.request(options, once(t, function(rsp) {
+    t.assert(!rsp.error);
+  }));
+});
 
-function stopCpuProfilingWatchdog(cb) {
-  if (process.platform !== 'linux') {
-    return cb();
-  }
-
+test('stop cpu profiling watchdog', skipIfNotLinux || function(t) {
   ee.once('cpu-profiling', function(n) {
-    assert(n.id > 0, 'Worker ID should be present');
-    assert(n.isRunning === false, 'Profiling should not be running');
-    cb();
+    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.isRunning === false, 'Profiling should not be running');
+    t.end();
   });
 
   var req = {cmd: 'stop-cpu-profiling', target: 1, filePath: 'test.cpuprofile'};
-  ctl.request(req, function(rsp) {
-    assert(!rsp.error);
-    assert(hitCount(rsp.filePath) >= 1);
-  });
-}
+  ctl.request(req, once(t, function(rsp) {
+    t.assert(!rsp.error);
+    t.assert(hitCount(rsp.filePath) >= 1);
+  }));
+});
 
-function startObjTracking(cb) {
+test('start object tracking', function(t) {
   ee.once('object-tracking', function(n) {
-    assert(n.id > 0, 'Worker ID should be present');
-    assert(n.isRunning === true, 'Profiling should be running');
-    cb();
+    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.isRunning === true, 'Profiling should be running');
+    t.end();
   });
 
-  ctl.request({cmd: 'start-tracking-objects', target: 1}, function(rsp) {
-    assert(!rsp.error);
-  });
-}
+  ctl.request({cmd: 'start-tracking-objects', target: 1}, once(t, function(rsp) {
+    t.assert(!rsp.error);
+  }));
+});
 
-function stopObjTracking(cb) {
+test('stop object tracking', function(t) {
   ee.once('object-tracking', function(n) {
-    assert(n.id > 0, 'Worker ID should be present');
-    assert(n.isRunning === false, 'Profiling should not be running');
-    cb();
+    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.isRunning === false, 'Profiling should not be running');
+    t.end();
   });
 
-  ctl.request({cmd: 'stop-tracking-objects', target: 1}, function(rsp) {
-    assert(!rsp.error);
-  });
-}
+  ctl.request({cmd: 'stop-tracking-objects', target: 1}, once(t, function(rsp) {
+    t.assert(!rsp.error);
+  }));
+});
 
-function heapDump(cb) {
+test('heap snapshot', function(t) {
   ee.once('heap-snapshot', function(n) {
-    assert(n.id > 0, 'Worker ID should be present');
-    assert(n.isRunning === false, 'Dump should not be running');
-    cb();
+    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.isRunning === false, 'Dump should not be running');
+    t.end();
   });
 
   var req = {cmd: 'heap-snapshot', target: 1, filePath: 'test.heapsnapshot'};
-  ctl.request(req, function(rsp) {
-    assert(!rsp.error);
-  });
-}
+  ctl.request(req, once(t, function(rsp) {
+    t.assert(!rsp.error);
+  }));
+});
 
-function disconnect(done) {
-  run.disconnect();
+test('disconnect', function(t) {
+  helper.pass = true;
   run.on('exit', function(status) {
-    assert.equal(status, 2);
-    return done();
+    t.equal(status, 2);
+    t.end();
   });
-}
+  run.disconnect();
+});
