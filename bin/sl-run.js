@@ -62,7 +62,6 @@ if (config.enableTracing) {
 config.sendMetrics();
 
 if (config.clustered) {
-  config.sendExpressRecords();
   config.watcher();
   config.sendTraceObject();
   config.sendTraces();
