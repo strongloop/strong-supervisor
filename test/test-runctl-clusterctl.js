@@ -1,6 +1,5 @@
 var helper = require('./helper');
-
-if (helper.skip()) return;
+var tap = require('tap');
 
 var rc = helper.runCtl;
 var supervise = rc.supervise;
@@ -19,32 +18,85 @@ process.env.SL_RUN_SKIP_IPCCTL =
   ' a whole afternoon trying to figure out why this test started hanging' +
   ' on the last command if I added more than 3 bytes to the status message.';
 
-var run = supervise(APP);
+tap.test('runctl via clusterctl', function(t) {
+  var run = supervise(APP);
 
-// supervisor should exit with 0 after we stop it
-run.on('exit', function(code, signal) {
-  assert.equal(code, 0);
+  // supervisor should exit with 0 after we stop it
+  run.on('exit', function(code, signal) {
+    t.equal(code, 0, 'supervisor exits with 0');
+    t.end();
+  });
+
+  t.doesNotThrow(function() {
+    cd(path.dirname(APP));
+  });
+
+  t.doesNotThrow(function() {
+    waiton('', /worker count: 0/);
+  });
+
+  t.doesNotThrow(function() {
+    expect('set-size 1');
+  });
+
+  t.doesNotThrow(function() {
+    waiton('status', /worker count: 1/);
+  });
+
+  t.doesNotThrow(function() {
+    expect('status', /worker id 1:/);
+  });
+
+  t.doesNotThrow(function() {
+    expect('set-size 2');
+  });
+
+  t.doesNotThrow(function() {
+    waiton('status', /worker count: 2/);
+  });
+
+  t.doesNotThrow(function() {
+    expect('status', /worker id 2:/);
+  });
+
+  t.doesNotThrow(function() {
+    expect('restart');
+  });
+
+  t.doesNotThrow(function() {
+    waiton('status', /worker id 4:/);
+  });
+
+  t.doesNotThrow(function() {
+    expect('status', /worker count: 2/);
+  });
+
+  t.doesNotThrow(function() {
+    expect('fork', /workerID: 5/);
+  });
+
+  t.doesNotThrow(function() {
+    waiton('status', /worker count: 3/);
+  });
+
+  // cluster control kills off the extra worker
+  t.doesNotThrow(function() {
+    waiton('status', /worker count: 2/);
+  });
+
+  t.doesNotThrow(function() {
+    expect('disconnect');
+  });
+
+  t.doesNotThrow(function() {
+    waiton('status', /worker id 6:/);
+  });
+
+  t.doesNotThrow(function() {
+    expect('status', /worker count: 2/);
+  });
+
+  t.doesNotThrow(function() {
+    expect('stop');
+  });
 });
-
-cd(path.dirname(APP));
-
-waiton('', /worker count: 0/);
-expect('set-size 1');
-waiton('status', /worker count: 1/);
-expect('status', /worker id 1:/);
-expect('set-size 2');
-waiton('status', /worker count: 2/);
-expect('status', /worker id 2:/);
-expect('restart');
-waiton('status', /worker id 4:/);
-expect('status', /worker count: 2/);
-expect('fork', /workerID: 5/);
-waiton('status', /worker count: 3/);
-// cluster control kills off the extra worker
-waiton('status', /worker count: 2/);
-expect('disconnect');
-waiton('status', /worker id 6:/);
-expect('status', /worker count: 2/);
-expect('stop');
-
-helper.pass = true;

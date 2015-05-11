@@ -1,13 +1,9 @@
-// test sl-runctl start/stop object tracking
 var helper = require('./helper');
+var tap = require('tap');
 
-if (helper.skip()) return;
-
-if (!process.env.STRONGLOOP_LICENSE) {
-  console.log('ok 1 # skip because no license to run object-tracking');
-  helper.pass = true;
-  process.exit(0);
-}
+var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
+                    ? false
+                    : {skip: 'tested feature requires license'};
 
 var rc = helper.runCtl;
 var supervise = rc.supervise;
@@ -21,41 +17,80 @@ var APP = require.resolve('./module-app');
 // wait minutes for object metrics.
 process.env.STRONGAGENT_INTERVAL_MULTIPLIER = 30;
 
-helper.statsd(function(statsd) {
-  var url = util.format('statsd://:%d', statsd.port);
-  var run = supervise(APP, ['--metrics', url]);
+var run;
+var statsd;
 
-  // supervisor should exit with 0 after we stop it
-  run.on('exit', function(code, signal) {
-    assert.equal(code, 0);
+tap.test('start statsd', skipIfNoLicense || function(t) {
+  helper.statsd(function(_statsd) {
+    t.ok(_statsd, 'started');
+    statsd = _statsd;
+    t.end();
   });
+});
 
+tap.test('start app', skipIfNoLicense || function(t) {
+  var url = util.format('statsd://:%d', statsd.port);
+  run = supervise(APP, ['--metrics', url]);
+  t.pass('app started');
+  t.end();
+});
 
+tap.test('runctl commands', skipIfNoLicense || function(t) {
   cd(path.dirname(APP));
 
-  waiton('', /worker count: 0/);
-  expect('set-size 1');
-  waiton('status', /worker count: 1/);
-  expect('status', /worker id 1:/);
+  t.doesNotThrow(function() {
+    waiton('', /worker count: 0/);
+  });
+  t.doesNotThrow(function() {
+    expect('set-size 1');
+  });
+  t.doesNotThrow(function() {
+    waiton('status', /worker count: 1/);
+  });
+  t.doesNotThrow(function() {
+    expect('status', /worker id 1:/);
+  });
 
-  failon('objects-start', /missing argument/);
-  failon('objects-stop', /missing argument/);
+  t.doesNotThrow(function() {
+    failon('objects-start', /missing argument/);
+  });
+  t.doesNotThrow(function() {
+    failon('objects-stop', /missing argument/);
+  });
 
-  expect('objects-start 0');
-  expect('objects-start 1');
-  failon('objects-start 6', /6 not found/);
+  t.doesNotThrow(function() {
+    expect('objects-start 0');
+  });
+  t.doesNotThrow(function() {
+    expect('objects-start 1');
+  });
+  t.doesNotThrow(function() {
+    failon('objects-start 6', /6 not found/);
+  });
 
-  console.log('Waiting for stats...');
+  t.end();
+});
 
+tap.test('stop statsd', skipIfNoLicense || function(t) {
   statsd.waitfor(/object.*count:/, function() {
     statsd.close();
-
-    expect('objects-stop 0');
-    expect('objects-stop 1');
-    failon('objects-stop 6', /6 not found/);
-
-    expect('stop');
-
-    helper.pass = true;
+    t.pass('stopped');
+    t.end();
   });
+});
+
+tap.test('runctl commands', skipIfNoLicense || function(t) {
+  t.doesNotThrow(function() {
+    expect('objects-stop 0');
+  });
+  t.doesNotThrow(function() {
+    expect('objects-stop 1');
+  });
+  t.doesNotThrow(function() {
+    failon('objects-stop 6', /6 not found/);
+  });
+  t.doesNotThrow(function() {
+    expect('stop');
+  });
+  t.end();
 });
