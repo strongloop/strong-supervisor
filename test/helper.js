@@ -1,16 +1,3 @@
-// Skip when run by mocha
-exports.skip = function skip() {
-  if ('describe' in global) {
-    describe(module.parent.filename, function() {
-      it.skip('run test with tap, not mocha', function(){});
-    });
-    return true;
-  }
-}
-
-// if helper is being run directly by mocha, skip it.
-if (exports.skip()) return;
-
 // test globals
 assert = require('assert');
 debug = require('./debug');
@@ -23,16 +10,6 @@ util = require('util');
 var child = require('child_process');
 var control = require('strong-control-channel/process');
 var dgram = require('dgram');
-
-// Assert if test does not explicitly say it passed, guards against accidental
-// exit with `0`.
-exports.pass = false;
-
-process.on('exit', function(status) {
-  if (status === 0) {
-    assert(exports.pass);
-  }
-});
 
 // Utility functions
 
