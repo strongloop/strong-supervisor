@@ -1,9 +1,3 @@
-var helper = require('./helper');
-
-if (helper.skip()) return;
-
-helper.pass = true; // Use tap, not this check.
-
 var Graphite = require('strong-statsd/test/servers/graphite');
 var Splunk = require('strong-statsd/test/servers/splunk');
 var Statsd = require('strong-statsd/test/servers/statsd');
@@ -14,12 +8,14 @@ var control = require('strong-control-channel/process');
 var cp = require('child_process');
 var debug = require('./debug');
 var fs = require('fs');
+var helper = require('./helper');
 var nodeSyslog = require('strong-fork-syslog');
 var path = require('path');
 var tap = require('tap');
 var util = require('util');
 
 tap.test('metrics', function(t) {
+  var appPath = require.resolve('./module-app');
   var plan = 15; // for internal
   var runArgs = [
     '--cluster=1',
@@ -31,19 +27,18 @@ tap.test('metrics', function(t) {
     startSplunk,
     startStatsd,
     startLogFile,
-  ], function(er) {
-    assert.ifError(er);
+  ], runTests);
 
-    run();
-  });
+  function runTests(err) {
+    assert.ifError(err);
+    t.plan(plan);
 
-  t.plan(plan);
-
-  function run() {
-    helper.runWithControlChannel(
-      require.resolve('./module-app'),
-      runArgs,
-      onRequest);
+    var app = helper.runWithControlChannel(appPath, runArgs, onRequest);
+    // app is unref()'d by the helper, need to ref() it to keep the test alive
+    app.ref();
+    t.on('end', function() {
+      app.kill();
+    });
   }
 
   var internalMetrics;
@@ -57,7 +52,7 @@ tap.test('metrics', function(t) {
       t.assert(internalMetrics.timestamp, 'internal metrics seen');
       t.type(internalMetrics.processes, 'object', 'contains process entries');
       testProcessMetrics(internalMetrics.processes);
-      console.log('internal: seen');
+      t.comment('internal: seen');
     }
     return callback('OK');
 
@@ -66,7 +61,7 @@ tap.test('metrics', function(t) {
       var pm;
       for (wid in procs) {
         pm = procs[wid];
-        // console.error(pm);
+        // t.comment(pm);
         t.equivalent(pm.wid, wid, 'metrics for correct worker');
         t.assert(pm.pid > 0, 'metric includes pid');
         t.assert(pm.pst > 0, 'metric includes pst');
@@ -103,7 +98,7 @@ tap.test('metrics', function(t) {
          /stats.gauges.module-app..*.1.cpu.system/.test(data)) {
         graphiteMetrics = data;
         t.assert(true, 'graphite metrics seen');
-        console.log('graphite: seen');
+        t.comment('graphite: seen');
       }
     });
   }
@@ -135,7 +130,7 @@ tap.test('metrics', function(t) {
          /module-app..*.1.cpu.system/.test(accumulator)) {
         splunkMetrics = accumulator;
         t.assert(true, 'splunk metrics seen');
-        console.log('splunk: seen');
+        t.comment('splunk: seen');
       }
     });
   }
@@ -167,7 +162,7 @@ tap.test('metrics', function(t) {
          /module-app..*.1.cpu.system/.test(accumulator)) {
         statsdMetrics = accumulator;
         t.assert(true, 'statsd metrics seen');
-        console.log('statsd: seen');
+        t.comment('statsd: seen');
       }
     });
   }
@@ -200,7 +195,7 @@ tap.test('metrics', function(t) {
            /module-app..*.1.cpu.system/.test(data)) {
           logMetrics = data;
           t.assert(true, 'log metrics seen');
-          console.log('log: seen');
+          t.comment('log: seen');
         }
       });
     }
