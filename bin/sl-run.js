@@ -63,7 +63,6 @@ config.sendMetrics();
 
 if (config.clustered) {
   config.watcher();
-  config.sendTraceObject();
 } else {
   console.log('supervisor running without clustering (unsupervised)');
 }
