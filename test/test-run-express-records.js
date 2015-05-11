@@ -1,11 +1,8 @@
-var helper = require('./helper');
-if (helper.skip()) return;
-helper.pass = true; // Use tap, not this check.
-
-var http = require('http');
-var tap = require('tap');
 var debug = require('./debug');
+var helper = require('./helper');
+var http = require('http');
 var run = helper.runWithControlChannel;
+var tap = require('tap');
 
 tap.test('express-metrics are forwarded via parentCtl', function(t) {
   t.plan(7);
@@ -30,6 +27,8 @@ tap.test('express-metrics are forwarded via parentCtl', function(t) {
         break;
     }
   });
+  // keep test alive until app exits
+  app.ref();
   app.on('exit', function(code, signal) {
     debug('supervisor exit: %s', signal || code);
     t.end();
