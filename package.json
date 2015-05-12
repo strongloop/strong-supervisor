@@ -38,7 +38,7 @@
   "scripts": {
     "lint": "eslint . && jscs .",
     "pretest": "npm run lint",
-    "test": "tap --bail test/test-*.js"
+    "test": "tap --bail --timeout 300 test/test-*.js"
   },
   "dependencies": {
     "async": "^0.9.0",
