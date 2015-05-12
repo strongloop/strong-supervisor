@@ -56,17 +56,13 @@ if ((config.clustered && config.isMaster) || config.detach) {
 
 if (config.enableTracing) {
   var tracer = require('../lib/tracer');
-  var traceObject = require('../lib/trace-object');
-  tracer(traceObject.tracerOptions());
+  tracer(tracer.tracerOptions());
 }
 
 config.sendMetrics();
 
 if (config.clustered) {
-  config.sendExpressRecords();
-  config.sendStatusWd();
-  config.sendTraceObject();
-  config.sendTraces();
+  config.watcher();
 } else {
   console.log('supervisor running without clustering (unsupervised)');
 }
