@@ -1,2 +1,7 @@
-test
 _test-link
+test/v1-app
+test/v2-app
+test/x-app
+test/test-run*
+test/test-ipc*
+test/[hlecspm]*

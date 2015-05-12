@@ -4,9 +4,7 @@ var agent = require('../lib/agent');
 var tap = require('tap');
 var w = require('./watcher');
 
-var Master = w.Master;
 var Worker = w.Worker;
-var ParentCtl = w.ParentCtl;
 var watcher = w.watcher;
 
 tap.test('express-records', function(t) {

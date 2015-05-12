@@ -72,7 +72,7 @@ tap.test('cpu-profile', function(t) {
     tt.plan(11);
 
     function notify(msg) {
-      if (msg.cmd == 'cpu:profile-data') {
+      if (msg.cmd === 'cpu:profile-data') {
         tt.assert(msg.profile);
         tt.equal(msg.pid, worker.process.pid);
         tt.equal(msg.pst, worker.startTime);

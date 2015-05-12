@@ -1,21 +1,17 @@
 'use strict';
 
 var debug = require('debug')('strong-supervisor:test');
-var config = require('../lib/config');
 var tracer = require('../lib/tracer');
 var tap = require('tap');
 var w = require('./watcher');
 
-var Master = w.Master;
 var Worker = w.Worker;
-var ParentCtl = w.ParentCtl;
 var watcher = w.watcher;
 
 tap.test('trace-object', function(t) {
   w.select('trace-object');
 
   t.test('in worker, tracing disabled', function(tt) {
-    var RECORD = {record: 'record'};
     var parentCtl = null;
     var cluster = Worker();
     var config = {
@@ -30,7 +26,6 @@ tap.test('trace-object', function(t) {
   });
 
   t.test('in worker, tracing enabled', function(tt) {
-    var RECORD = {record: 'record'};
     var parentCtl = null;
     var cluster = Worker(send);
     var config = {
