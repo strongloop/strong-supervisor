@@ -65,6 +65,7 @@ function Master() {
       id: ++id,
       startTime: Date.now(),
       on: on,
+      process: {pid: 2010},
       _msg: msg,
       queueSend: queueSend,
       queueEmit: queueEmit,
