@@ -29,74 +29,77 @@ tap.test('runctl via clusterctl', function(t) {
 
   t.doesNotThrow(function() {
     cd(path.dirname(APP));
-  });
+  }, 'cd');
 
   t.doesNotThrow(function() {
     waiton('', /worker count: 0/);
-  });
+  }, 'status');
 
   t.doesNotThrow(function() {
     expect('set-size 1');
-  });
+  }, 'set-size');
 
   t.doesNotThrow(function() {
     waiton('status', /worker count: 1/);
-  });
+  }, 'status count 1');
 
   t.doesNotThrow(function() {
     expect('status', /worker id 1:/);
-  });
+  }, 'status worker id 1');
 
   t.doesNotThrow(function() {
     expect('set-size 2');
-  });
+  }, 'set-size 2');
 
   t.doesNotThrow(function() {
     waiton('status', /worker count: 2/);
-  });
+  }, 'status count 2');
 
   t.doesNotThrow(function() {
     expect('status', /worker id 2:/);
-  });
+  }, 'status worker id 1');
 
   t.doesNotThrow(function() {
     expect('restart');
-  });
+  }, 'restart');
 
   t.doesNotThrow(function() {
     waiton('status', /worker id 4:/);
-  });
+  }, 'status worker id 4');
 
   t.doesNotThrow(function() {
     expect('status', /worker count: 2/);
-  });
+  }, 'status worker count 2');
 
   t.doesNotThrow(function() {
     expect('fork', /workerID: 5/);
-  });
+  }, 'fork worker id 5');
 
-  t.doesNotThrow(function() {
-    waiton('status', /worker count: 3/);
-  });
+  /* XXX(sam) racy... whether we see the 3 or not is just a matter of
+   * luck
+   * t.doesNotThrow(function() {
+   * waiton('status', /worker count: 3/);
+   * }, 'status worker count 3');
+   */
 
   // cluster control kills off the extra worker
   t.doesNotThrow(function() {
     waiton('status', /worker count: 2/);
-  });
+  }, 'status worker count 2');
 
   t.doesNotThrow(function() {
     expect('disconnect');
-  });
+  }, 'disconnect');
 
   t.doesNotThrow(function() {
-    waiton('status', /worker id 6:/);
-  });
+    waiton('status', /worker count: 2/);
+  }, 'status worker count 2');
 
   t.doesNotThrow(function() {
-    expect('status', /worker count: 2/);
-  });
+    expect('status', /worker id 6:/);
+  }, 'status worker id 6');
 
   t.doesNotThrow(function() {
     expect('stop');
-  });
+  }, 'stop');
 });
