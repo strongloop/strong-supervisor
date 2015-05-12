@@ -1,10 +1,8 @@
+var debug = require('./debug');
 var helper = require('./helper');
-if (helper.skip()) return;
-helper.pass = true; // Use tap, not this check.
-
 var http = require('http');
 var tap = require('tap');
-var debug = require('./debug');
+
 var run = helper.runWithControlChannel;
 
 tap.test('agent traces are forwarded via parentCtl', function(t) {
@@ -27,9 +25,10 @@ tap.test('agent traces are forwarded via parentCtl', function(t) {
         break;
     }
   });
+  // keep test alive until app exits
+  app.ref();
   app.on('exit', function(code, signal) {
     debug('supervisor exit: %s', signal || code);
-    t.end();
   });
 });
 

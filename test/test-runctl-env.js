@@ -2,9 +2,6 @@ var byline = require('byline');
 var child = require('child_process');
 var debug = require('debug')('runctl-test');
 var helper = require('./helper');
-
-if (helper.skip()) return;
-
 var test = require('tap').test;
 
 test('environment controls', function(t) {
@@ -13,8 +10,8 @@ test('environment controls', function(t) {
 
   // supervisor should exit with 0 after we stop it
   run.on('exit', function(code, signal) {
-    assert.equal(code, 0);
-    helper.pass = true;
+    t.equal(code, 0);
+    t.end();
   });
 
   t.test('initial', function(tt) {
@@ -67,8 +64,9 @@ test('environment controls', function(t) {
   });
 
   t.test('exit', function(tt) {
-    run.ctl(tt, 'stop');
-    tt.end();
+    run.ctl(tt, 'stop', [], function() {
+      tt.end();
+    });
   });
 });
 

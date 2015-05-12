@@ -1,16 +1,3 @@
-// Skip when run by mocha
-exports.skip = function skip() {
-  if ('describe' in global) {
-    describe(module.parent.filename, function() {
-      it.skip('run test with tap, not mocha', function(){});
-    });
-    return true;
-  }
-}
-
-// if helper is being run directly by mocha, skip it.
-if (exports.skip()) return;
-
 // test globals
 assert = require('assert');
 debug = require('./debug');
@@ -24,16 +11,6 @@ var child = require('child_process');
 var control = require('strong-control-channel/process');
 var dgram = require('dgram');
 
-// Assert if test does not explicitly say it passed, guards against accidental
-// exit with `0`.
-exports.pass = false;
-
-process.on('exit', function(status) {
-  if (status === 0) {
-    assert(exports.pass);
-  }
-});
-
 // Utility functions
 
 exports.statsd = function statsd(callback) {
@@ -41,7 +18,7 @@ exports.statsd = function statsd(callback) {
   server.reported = [];
 
   server.on('message', function(data) {
-    console.log('statsd receives metric: %s', data);
+    console.log('# statsd receives metric: %s', data);
     server.reported.push(data.toString());
   });
 
@@ -64,7 +41,7 @@ exports.statsd = function statsd(callback) {
   };
 
   function listening(er) {
-    console.log('statsd listening:', er || server.address());
+    console.log('# statsd listening:', er || server.address());
     assert.ifError(er);
     server.port = server.address().port;
     return callback(server);
@@ -85,12 +62,12 @@ function supervise(app, args) {
   try {
     fs.unlinkSync(ctl);
   } catch (er) {
-    console.log('no `%s` to cleanup: %s', ctl, er);
+    console.log('# no `%s` to cleanup: %s', ctl, er);
   }
 
   args = ['--cluster=0'].concat(args || []).concat([app]);
 
-  console.log('supervise %s with %j', run, args);
+  console.log('# supervise %s with %j', run, args);
 
   var c = child.fork(run, args);
 
@@ -148,7 +125,7 @@ function runctl(cmd) {
     require.resolve('../bin/sl-runctl'),
     cmd || ''
   ));
-  console.log('runctl %s =>', cmd, out);
+  console.log('# runctl %s =>', cmd, out.output.split('\n').join('\n # '));
   return out;
 }
 
@@ -174,7 +151,7 @@ exports.runWithControlChannel = function(appWithArgs, runArgs, onMessage) {
   try {
     fs.unlinkSync(ctl);
   } catch (er) {
-    console.log('no `%s` to cleanup: %s', ctl, er);
+    console.log('# no `%s` to cleanup: %s', ctl, er);
   }
 
   var options = {

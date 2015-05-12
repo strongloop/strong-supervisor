@@ -1,7 +1,5 @@
-// test sl-runctl start/stop cpu profiling
 var helper = require('./helper');
-
-if (helper.skip()) return;
+var tap = require('tap');
 
 var rc = helper.runCtl;
 var supervise = rc.supervise;
@@ -13,29 +11,55 @@ var APP = require.resolve('./module-app');
 
 var run = supervise(APP);
 
-// supervisor should exit with 0 after we stop it
-run.on('exit', function(code, signal) {
-  assert.equal(code, 0);
+tap.test('runctl cpu profiling', function(t) {
+  // supervisor should exit with 0 after we stop it
+  run.on('exit', function(code, signal) {
+    t.equal(code, 0);
+    t.end();
+  });
+
+  t.doesNotThrow(function() {
+    cd(path.dirname(APP));
+  });
+
+  t.doesNotThrow(function() {
+    waiton('', /worker count: 0/);
+  });
+  t.doesNotThrow(function() {
+    expect('set-size 1');
+  });
+  t.doesNotThrow(function() {
+    waiton('status', /worker count: 1/);
+  });
+  t.doesNotThrow(function() {
+    expect('status', /worker id 1:/);
+  });
+
+  t.doesNotThrow(function() {
+    expect('cpu-start 0', /Profiler started/);
+  });
+  t.doesNotThrow(function() {
+    expect('cpu-start 1', /Profiler started/);
+  });
+  t.doesNotThrow(function() {
+    failon('cpu-start 6', /6 not found/);
+  });
+
+  t.doesNotThrow(function() {
+    pause(2);
+  });
+
+  t.doesNotThrow(function() {
+    expect('cpu-stop 0 file-name', /CPU profile.*file-name.cpuprofile/);
+  });
+  t.doesNotThrow(function() {
+    expect('cpu-stop 1', /CPU profile.*node.1.cpuprofile/);
+  });
+  t.doesNotThrow(function() {
+    failon('cpu-stop 6', /6 not found/);
+  });
+
+  t.doesNotThrow(function() {
+    expect('stop');
+  });
 });
-
-
-cd(path.dirname(APP));
-
-waiton('', /worker count: 0/);
-expect('set-size 1');
-waiton('status', /worker count: 1/);
-expect('status', /worker id 1:/);
-
-expect('cpu-start 0', /Profiler started/);
-expect('cpu-start 1', /Profiler started/);
-failon('cpu-start 6', /6 not found/);
-
-pause(2);
-
-expect('cpu-stop 0 file-name', /CPU profile.*file-name.cpuprofile/);
-expect('cpu-stop 1', /CPU profile.*node.1.cpuprofile/);
-failon('cpu-stop 6', /6 not found/);
-
-expect('stop');
-
-helper.pass = true;
