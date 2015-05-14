@@ -102,7 +102,7 @@ test('scaleDown', function(t) {
   ee.once('exit', function(n) {
     t.assert(n.id > 0, 'Worker ID should be present');
     t.assert(n.pid > 0, 'Worker pid should be present');
-    t.assert(n.pst > 0, 'Worder start time should be present');
+    t.assert(n.pst > 0, 'Worker start time should be present');
     t.assert(n.reason !== undefined, 'Worker exit reason should be present');
     t.end();
   });
