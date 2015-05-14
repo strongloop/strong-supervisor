@@ -16,6 +16,7 @@ var agent = require('../lib/agent');
 var agentOptions = {
   quiet: config.isWorker, // Quiet in worker, to avoid repeated log messages
   logger: config.logger,
+  strongTracer: tracer(),
 };
 
 switch (config.profile) {
