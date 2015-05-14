@@ -2,7 +2,6 @@
 
 var EventEmitter = require('events').EventEmitter;
 var assert = require('assert');
-var debug = require('debug')();
 var watcher = require('../lib/watcher');
 var watchers = Object.create(null);
 
@@ -39,7 +38,7 @@ function Worker(send) {
     /* TBD */
   };
   function split(msg) {
-    switch(msg.cmd) {
+    switch (msg.cmd) {
       case 'watcher:emit': send(msg.msg, 'emit'); break;
       case 'watcher:send': send(msg.msg, 'send'); break;
       default: break;
@@ -65,6 +64,7 @@ function Master() {
       id: ++id,
       startTime: Date.now(),
       on: on,
+      process: {pid: 2010},
       _msg: msg,
       queueSend: queueSend,
       queueEmit: queueEmit,

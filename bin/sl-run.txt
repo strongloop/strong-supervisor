@@ -35,9 +35,9 @@ Options:
                        is found (this is the default).
   --no-profile       Do not start the agent, do not report to StrongOps,
                        do not report metrics.
-  -C,--control CTL   Listen for local control messages on CTL (default `pmctl`),
+  -C,--control CTL   Listen for control messages on CTL (default `runctl`),
                        only supported when clustered.
-  --no-control       Do not listen for local control messages.
+  --no-control       Do not listen for control messages.
 
 Log FILE is a path relative to the app's working directory if it is not
 absolute. To create a log file per process, FILE supports simple substitutions
