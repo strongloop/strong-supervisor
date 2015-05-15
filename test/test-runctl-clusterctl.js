@@ -1,4 +1,5 @@
 var helper = require('./helper');
+var os = require('os');
 var tap = require('tap');
 
 var rc = helper.runCtl;
@@ -7,6 +8,7 @@ var expect = rc.expect;
 var waiton = rc.waiton;
 
 var APP = require.resolve('./module-app');
+var CPUS = os.cpus().length;
 
 process.env.SL_RUN_SKIP_IPCCTL =
   'We have to disable ipcctl in master because its parent is a bunch of' +
@@ -75,12 +77,12 @@ tap.test('runctl via clusterctl', function(t) {
     expect('fork', /workerID: 5/);
   }, 'fork worker id 5');
 
-  /* XXX(sam) racy... whether we see the 3 or not is just a matter of
-   * luck
-   * t.doesNotThrow(function() {
-   * waiton('status', /worker count: 3/);
-   * }, 'status worker count 3');
-   */
+  // XXX(sam) racy... whether we see the 3 or not is just a matter of
+  // luck
+  // t.doesNotThrow(function() {
+  // waiton('status', /worker count: 3/);
+  // }, 'status worker count 3');
+  //
 
   // cluster control kills off the extra worker
   t.doesNotThrow(function() {
@@ -98,6 +100,22 @@ tap.test('runctl via clusterctl', function(t) {
   t.doesNotThrow(function() {
     expect('status', /worker id 6:/);
   }, 'status worker id 6');
+
+  t.doesNotThrow(function() {
+    expect('set-size 0');
+  }, 'set-size 0');
+
+  t.doesNotThrow(function() {
+    waiton('status', RegExp('worker count: 0'));
+  }, 'status count 0');
+
+  t.doesNotThrow(function() {
+    expect('set-size CPUs');
+  }, 'set-size CPUs');
+
+  t.doesNotThrow(function() {
+    waiton('status', RegExp('worker count: ' + CPUS));
+  }, 'status count CPUs');
 
   t.doesNotThrow(function() {
     expect('stop');
