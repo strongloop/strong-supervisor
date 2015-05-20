@@ -6,7 +6,7 @@
     "name": "Dual Artistic/StrongLoop",
     "url": "https://github.com/strongloop/strong-supervisor/blob/master/LICENSE.md"
   },
-  "version": "1.6.0",
+  "version": "2.0.0",
   "main": "index.js",
   "keywords": [
     "agent",
