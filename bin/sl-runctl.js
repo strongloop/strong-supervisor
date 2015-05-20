@@ -124,7 +124,7 @@ function displayStatusResponse(rsp) {
 
 function requestSetSize() {
   request.cmd = 'set-size';
-  request.size = parseInt(requiredArg(), 10);
+  request.size = requiredArg();
 }
 
 function requestStop() {
