@@ -13,8 +13,12 @@ var config = require('../lib/config'); // May exit, depending on argv
 var log = config.logger;
 
 var tracer = require('../lib/tracer');
+var tracerOptions;
 if (config.enableTracing) {
-  tracer(tracer.tracerOptions());
+  tracerOptions = tracer.tracerOptions();
+  if (tracerOptions.accountKey) {
+    tracer(tracerOptions);
+  }
 }
 
 var agent = require('../lib/agent');
