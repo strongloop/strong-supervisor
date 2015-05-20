@@ -13,7 +13,7 @@ var config = require('../lib/config'); // May exit, depending on argv
 var log = config.logger;
 var tracer = require('../lib/tracer');
 
-if (config.enableTracing) {
+if (config.enableTracing && config.isWorker) {
   if (!tracer.start())
     log.error('supervisor failed to enable tracing');
 }
