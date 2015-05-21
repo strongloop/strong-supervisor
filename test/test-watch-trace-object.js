@@ -1,6 +1,6 @@
 'use strict';
 
-var debug = require('debug')('strong-supervisor:test');
+var debug = require('./debug');
 var tracer = require('../lib/tracer');
 var tap = require('tap');
 var w = require('./watcher');
@@ -31,13 +31,13 @@ tap.test('trace-object', function(t) {
     var config = {
       enableTracing: true,
     };
-
-    tracer.start();
+    process.env.STRONGLOOP_APPNAME = 'some app name';
+    tt.assert(tracer.start());
 
     watcher.start(parentCtl, cluster, cluster, config);
 
     function send(msg, type) {
-      debug('trace:object:', msg);
+      debug('trace:object: %s', debug.json(msg));
       tt.equal(type, 'send');
       tt.equal(msg.cmd, 'trace:object');
       tt.assert(msg.record.version);
