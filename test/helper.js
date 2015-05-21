@@ -65,7 +65,10 @@ function supervise(app, args) {
     console.log('# no `%s` to cleanup: %s', ctl, er);
   }
 
-  args = ['--cluster=0'].concat(args || []).concat([app]);
+  args = [
+    '--cluster=0',
+    '--log', debug.enabled ? '-' : ('_test-' + process.pid + '-run.log'),
+  ].concat(args || []).concat([app]);
 
   console.log('# supervise %s with %j', run, args);
 
