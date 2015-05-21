@@ -20,6 +20,7 @@ var args = [
   '--no-timestamp-workers',
   '--cluster=0',
   '--no-profile',
+  '--log', debug.enabled ? '-' : ('_test-' + process.pid + '-run.log'),
   yes
 ];
 var run = cp.spawn(process.execPath, args, options);
