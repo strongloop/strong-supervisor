@@ -31,11 +31,8 @@ tap.test('trace-object', function(t) {
     var config = {
       enableTracing: true,
     };
-    var options = tracer.tracerOptions();
 
-    options.accountKey = 'some app name';
-
-    tracer(options);
+    tracer.start();
 
     watcher.start(parentCtl, cluster, cluster, config);
 
