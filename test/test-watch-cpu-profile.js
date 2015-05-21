@@ -10,11 +10,15 @@ var Worker = w.Worker;
 var ParentCtl = w.ParentCtl;
 var watcher = w.watcher;
 
+var skipIfNotLinux = process.platform !== 'linux'
+                   ? {skip: 'linux only feature'}
+                   : false;
+
 function stall(count) {
   agent.internal.emit('watchdogActivationCount', count);
 }
 
-tap.test('cpu-profile', function(t) {
+tap.test('cpu-profile', skipIfNotLinux || function(t) {
   w.select('cpu-profile');
 
   t.test('in worker', function(tt) {
@@ -57,7 +61,7 @@ tap.test('cpu-profile', function(t) {
     }
   });
 
-  t.test('in master', function(tt) {
+  t.test('in master', skipIfNotLinux || function(tt) {
     var parentCtl = ParentCtl(notify);
     var cluster = Master();
     watcher.start(parentCtl, cluster, cluster);
