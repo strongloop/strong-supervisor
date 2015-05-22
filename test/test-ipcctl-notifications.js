@@ -112,7 +112,7 @@ test('scaleDown', function(t) {
   }));
 });
 
-function hitCount(filename) {
+function hitCount(profile) {
   function visit(node) {
     var sum = 0;
     sum += node.hitCount | 0;
@@ -120,8 +120,7 @@ function hitCount(filename) {
     return sum;
   }
 
-  var data = fs.readFileSync(__dirname + '/v1-app/' + filename, 'utf8');
-  var root = JSON.parse(data);
+  var root = JSON.parse(profile);
   var count = visit(root.head);
   debug('count %d from:', count, util.inspect(root, {depth: null}));
   return count;
@@ -147,10 +146,10 @@ test('stop cpu profling', function(t) {
     t.end();
   });
 
-  var req = {cmd: 'stop-cpu-profiling', target: 1, filePath: 'test.cpuprofile'};
+  var req = {cmd: 'stop-cpu-profiling', target: 1};
   ctl.request(req, once(t, function(rsp) {
     t.assert(!rsp.error);
-    t.assert(hitCount(rsp.filePath) > 1);
+    t.assert(hitCount(rsp.profile) > 1);
   }));
 });
 
@@ -175,10 +174,10 @@ test('stop cpu profiling watchdog', skipIfNotLinux || function(t) {
     t.end();
   });
 
-  var req = {cmd: 'stop-cpu-profiling', target: 1, filePath: 'test.cpuprofile'};
+  var req = {cmd: 'stop-cpu-profiling', target: 1};
   ctl.request(req, once(t, function(rsp) {
     t.assert(!rsp.error);
-    t.assert(hitCount(rsp.filePath) >= 1);
+    t.assert(hitCount(rsp.profile) >= 1);
   }));
 });
 
@@ -213,7 +212,7 @@ test('heap snapshot', function(t) {
     t.end();
   });
 
-  var req = {cmd: 'heap-snapshot', target: 1, filePath: 'test.heapsnapshot'};
+  var req = {cmd: 'heap-snapshot', target: 1};
   ctl.request(req, once(t, function(rsp) {
     t.assert(!rsp.error);
   }));
