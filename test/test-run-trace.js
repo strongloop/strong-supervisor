@@ -13,8 +13,9 @@ tap.test('traces are forwarded via parentCtl', function(t) {
       debug('received: cmd %s: %j', data.cmd, data);
       switch (data.cmd) {
         case 'trace:object':
-          t.ok(!!data.record.version, 'Record version should exist');
-          t.ok(!!data.record.packet.metadata, 'Record data should exist');
+          var record = JSON.parse(data.record);
+          t.ok(!!record.version, 'Record version should exist');
+          t.ok(!!record.packet.metadata, 'Record metadata should exist');
           app.kill();
           break;
       }
@@ -54,8 +55,9 @@ tap.test('traces can be turned on', function(t) {
         break;
       case 'trace:object':
         t.assert(tracingEnabled);
-        t.ok(!!data.record.version, 'Record version should exist');
-        t.ok(!!data.record.packet.metadata, 'Record data should exist');
+        var record = JSON.parse(data.record);
+        t.ok(!!record.version, 'Record version should exist');
+        t.ok(!!record.packet.metadata, 'Record metadata should exist');
         break;
     }
   }
@@ -94,8 +96,9 @@ tap.test('traces can be turned off', function(t) {
         break;
       case 'trace:object':
         t.assert(tracingEnabled);
-        t.ok(!!data.record.version, 'Record version should exist');
-        t.ok(!!data.record.packet.metadata, 'Record data should exist');
+        var record = JSON.parse(data.record);
+        t.ok(!!record.version, 'Record version should exist');
+        t.ok(!!record.packet.metadata, 'Record metadata should exist');
         break;
     }
   }

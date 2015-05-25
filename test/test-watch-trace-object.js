@@ -40,8 +40,10 @@ tap.test('trace-object', function(t) {
       debug('trace:object: %s', debug.json(msg));
       tt.equal(type, 'send');
       tt.equal(msg.cmd, 'trace:object');
-      tt.assert(msg.record.version);
-      tt.assert(msg.record.packet);
+      tt.equal(typeof msg.record, 'string');
+      var record = JSON.parse(msg.record);
+      tt.assert(record.version);
+      tt.assert(record.packet);
       tt.end();
     }
   });
