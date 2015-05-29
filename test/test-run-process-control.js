@@ -38,7 +38,7 @@ tap.test('check size', function(t) {
   ctl.request({cmd: 'status'}, function(rsp) {
     debug('status: %j', rsp);
 
-    t.equal(rsp.workers.length, 1, 'cluster size updated');
+    t.equal(rsp.master.setSize, 1, 'cluster size updated');
     t.end();
   });
 });
