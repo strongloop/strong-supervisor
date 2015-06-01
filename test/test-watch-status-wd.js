@@ -36,6 +36,7 @@ tap.test('status-wd', function(t) {
       pwd: 'PWD',
       cwd: 'CWD',
       pid: 1234,
+      appName: 'express-app',
     });
 
     function notify(msg) {
@@ -43,6 +44,7 @@ tap.test('status-wd', function(t) {
       tt.equal(msg.pwd, 'PWD');
       tt.equal(msg.cwd, 'CWD');
       tt.equal(msg.pid, 1234);
+      tt.equal(msg.appName, 'express-app');
       tt.equal(msg.pst, worker.startTime);
       tt.equal(msg.id, worker.id);
       tt.end();
