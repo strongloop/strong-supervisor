@@ -52,7 +52,7 @@
     "strong-npm-ls": "^1.0.0",
     "strong-statsd": "^2.0.0",
     "strong-trace": "^1.2.0",
-    "strong-url-defaults": "^1.0.4"
+    "strong-url-defaults": "^1.1.0"
   },
   "devDependencies": {
     "byline": "^4.2.1",
