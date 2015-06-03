@@ -1,3 +1,99 @@
+2015-06-03, Version 2.0.0
+=========================
+
+ * package: depend on strong-url-defaults ^1.1.x (Sam Roberts)
+
+ * watcher: work around trace bug in status-wd (Sam Roberts)
+
+ * Send application name with status:wd updates (Krishna Raman)
+
+ * Support websocket control channel (Sam Roberts)
+
+ * test: check result of set-size, not forks (Sam Roberts)
+
+ * trace-object: emit record as string, not object (Ben Noordhuis)
+
+ * targetctl: return profile in response msg (Sam Roberts)
+
+ * debug: increase size of json message dumps (Sam Roberts)
+
+ * tracer: delay app name detection until start (Sam Roberts)
+
+ * test: unless debug is requested, log to a file (Sam Roberts)
+
+ * test: fix trace objects test (Krishna Raman)
+
+ * Enabled tracing to be enabled/disabled via command (Krishna Raman)
+
+ * tracer: seperate start from access (Sam Roberts)
+
+ * tracer: use agent to get app name (Sam Roberts)
+
+ * runctl: allow cluster size to be set to CPUs (Sam Roberts)
+
+ * tracer: initialize tracer before agent (Sam Roberts)
+
+ * lint: eslint the watcher tests (Sam Roberts)
+
+ * Add support for watchdog stallout parameter (Sam Roberts)
+
+ * watcher: support handle.emit in master (Sam Roberts)
+
+ * debug: 60 chars of json isn't enough (Sam Roberts)
+
+ * usage: control is "runctl", not "pmctl" (Sam Roberts)
+
+ * tracer: inject link builder into agent (Sam Roberts)
+
+ * tracer: pass fast low-res timer from agent addon (Sam Roberts)
+
+ * fix typo (Setogit)
+
+ * test: improve runctl-clusterctl robustness (Sam Roberts)
+
+ * Refactor trace-object as a watcher (Sam Roberts)
+
+ * watcher: pass config object to watchers (Sam Roberts)
+
+ * Refactor agent:trace (slow endpoints) as a watcher (Sam Roberts)
+
+ * Refactor express-records as a watcher (Sam Roberts)
+
+ * Replace status-wd with a watcher-based refactor (Sam Roberts)
+
+ * config: sort code before refactoring (Sam Roberts)
+
+ * Move tracer options to lib/tracer (Sam Roberts)
+
+ * eslint: new shouldn't require parens (Sam Roberts)
+
+ * test: bump timeout for CI (Ryan Graham)
+
+ * test: convert synchronous tests to tap tests (Ryan Graham)
+
+ * test: convert test-runctl-notifications to tap (Ryan Graham)
+
+ * test: fix test-runctl-env for tap@1 (Ryan Graham)
+
+ * test: fix test-run-trace (Ryan Graham)
+
+ * test: fix test-run-express-records for tap@1 (Ryan Graham)
+
+ * test: fix test-run-agent-traces for tap@1 (Ryan Graham)
+
+ * test: convert test-ipctl-notifications to tap@1 (Ryan Graham)
+
+ * test: update test-run-metrics to work with tap@1 (Ryan Graham)
+
+ * test: use t.spawn for mocha test wrapper (Ryan Graham)
+
+ * test: remove helper.pass check (Ryan Graham)
+
+ * test: ensure helpers don't confuse TAP output (Ryan Graham)
+
+ * tests: upgrade tap to ^1.0.2 (Ryan Graham)
+
+
 2015-05-08, Version 1.6.0
 =========================
 
@@ -202,6 +298,10 @@
  * run: directly support statsd backends (Sam Roberts)
 
  * test: delete STRONGLOOP_METRICS after each test (Sam Roberts)
+
+
+2014-11-03, Version 1.1.1
+=========================
 
  * run: refactor usage into a text file (Sam Roberts)
 
