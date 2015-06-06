@@ -57,14 +57,14 @@ test('scaleUp', function(t) {
 
   plan += 3;
   ee.once('fork', function(n) {
-    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.pid > 0, 'Worker pid should be present');
     t.assert(n.pst > 0, 'Worker start time should be present');
   });
 
   plan += 3;
   ee.once('listening', function(n) {
-    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.address !== undefined, 'Worker endpoint should be present');
     t.assert(n.pst > 0, 'Worker start time should be present');
   });
@@ -72,7 +72,7 @@ test('scaleUp', function(t) {
   plan += 5*2; // inspected twice
   ee.on('status:wd', function(n) {
     debug('on %j', n);
-    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.pid > 0, 'Worker PID should be present');
     t.assert(n.pst > 0, 'Worker start time should be present');
     t.assert(n.pwd.length > 0, 'pwd should be present');
@@ -101,7 +101,7 @@ test('scaleUp', function(t) {
 
 test('scaleDown', function(t) {
   ee.once('exit', function(n) {
-    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.pid > 0, 'Worker pid should be present');
     t.assert(n.pst > 0, 'Worker start time should be present');
     t.assert(n.reason !== undefined, 'Worker exit reason should be present');
@@ -128,7 +128,7 @@ function hitCount(profile) {
 
 test('start cpu profiling', function(t) {
   ee.once('cpu-profiling', function(n) {
-    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.isRunning === true, 'Profiling should be running');
     t.assert(!n.timeout, 'Watchdog timeout value must not be set');
     t.end();
@@ -141,7 +141,7 @@ test('start cpu profiling', function(t) {
 
 test('stop cpu profling', function(t) {
   ee.once('cpu-profiling', function(n) {
-    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.isRunning === false, 'Profiling should not be running');
     t.end();
   });
@@ -155,7 +155,7 @@ test('stop cpu profling', function(t) {
 
 test('start cpu profiling watchdog', skipIfNotLinux || function(t) {
   ee.once('cpu-profiling', function(n) {
-    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.isRunning === true, 'Profiling should be running');
     t.assert(n.timeout === 1000, 'Watchdog timeout value must be set');
     t.end();
@@ -169,7 +169,7 @@ test('start cpu profiling watchdog', skipIfNotLinux || function(t) {
 
 test('stop cpu profiling watchdog', skipIfNotLinux || function(t) {
   ee.once('cpu-profiling', function(n) {
-    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.isRunning === false, 'Profiling should not be running');
     t.end();
   });
@@ -183,7 +183,7 @@ test('stop cpu profiling watchdog', skipIfNotLinux || function(t) {
 
 test('start object tracking', function(t) {
   ee.once('object-tracking', function(n) {
-    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.isRunning === true, 'Profiling should be running');
     t.end();
   });
@@ -195,7 +195,7 @@ test('start object tracking', function(t) {
 
 test('stop object tracking', function(t) {
   ee.once('object-tracking', function(n) {
-    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.isRunning === false, 'Profiling should not be running');
     t.end();
   });
@@ -207,7 +207,7 @@ test('stop object tracking', function(t) {
 
 test('heap snapshot', function(t) {
   ee.once('heap-snapshot', function(n) {
-    t.assert(n.id > 0, 'Worker ID should be present');
+    t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.isRunning === false, 'Dump should not be running');
     t.end();
   });
