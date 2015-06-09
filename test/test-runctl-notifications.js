@@ -45,7 +45,7 @@ tap.test('fork2', function(t) {
 
 function assertFork(data, t, id) {
   t.equal(data.cmd, 'fork');
-  t.equal(data.id, id);
+  t.equal(data.wid, id);
   t.assert(data.pid > 0, 'pid');
   t.assert(data.pst > 0, 'pst');
   t.end();
