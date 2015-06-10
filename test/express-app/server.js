@@ -5,9 +5,7 @@ var metrics = require('strong-express-metrics');
 var app = express();
 app.use(metrics());
 
-app.configure(function(){
-  app.set('port', options.port || process.env.PORT || 0);
-});
+app.set('port', options.port || process.env.PORT || 0);
 
 app.get('/', (function(){
   var started = new Date();

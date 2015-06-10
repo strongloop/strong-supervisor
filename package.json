@@ -44,7 +44,7 @@
     "posix-getopt": "^1.1.0",
     "strong-agent": "^1.1.1",
     "strong-cluster-control": "^2.0.0",
-    "strong-control-channel": "^1.2.0",
+    "strong-control-channel": "^2.0.0",
     "strong-log-transformer": "^1.0.0",
     "strong-npm-ls": "^1.0.0",
     "strong-statsd": "^2.0.0",
@@ -54,8 +54,7 @@
   "devDependencies": {
     "byline": "^4.2.1",
     "eslint": "^0.18.0",
-    "express": "^3.2.4",
-    "express-ws": "^0.2.6",
+    "express": "^4.0.0",
     "jscs": "^1.11.3",
     "loopback": "1.4.x",
     "mocha": "^2.2.4",

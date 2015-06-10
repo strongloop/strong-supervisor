@@ -3,9 +3,7 @@ var path = require('path');
 var app = module.exports = loopback();
 var started = new Date();
 
-app.configure(function(){
-  app.set('port', process.env.PORT || 0);
-});
+app.set('port', process.env.PORT || 0);
 
 /*
  * 1. Configure LoopBack models and datasources
