@@ -2,9 +2,7 @@ var options = require('optimist').argv;
 var express = require('express');
 var app = express();
 
-app.configure(function(){
-  app.set('port', options.port || process.env.PORT || 0);
-});
+app.set('port', options.port || process.env.PORT || 0);
 
 app.get('/', (function(){
   var started = new Date();
@@ -17,8 +15,8 @@ app.get('/', (function(){
 })());
 
 app.get('/delay', function(req, res){
-  setTimeout(function() { // line 20
-    res.send('OK\n'); // line 21
+  setTimeout(function() { // line 18
+    res.send('OK\n'); // line 19
   }, Math.random() * 100);
 });
 

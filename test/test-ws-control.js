@@ -36,8 +36,8 @@ test('with env', function(control) {
 });
 
 function test(name, fork) {
-  tap.test('with env', function(t) {
-    var central = new Central('supervisor-control', onRequest, onListening);
+  tap.test(name, function(t) {
+    var central = new Central('test-control', onRequest, onListening);
     t.on('end', central.stop.bind(central));
 
     function onListening(control) {

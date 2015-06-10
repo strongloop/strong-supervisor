@@ -2,9 +2,7 @@ var options = require('optimist').argv;
 var express = require('express');
 var app = express();
 
-app.configure(function(){
-  app.set('port', 0);
-});
+app.set('port', 0);
 
 app.get('/', (function(){
   var started = new Date();
