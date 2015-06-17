@@ -1,3 +1,9 @@
+2015-06-17, Version 2.0.1
+=========================
+
+ * add agent probes to the black list (Tetsuo Seto)
+
+
 2015-06-03, Version 2.0.0
 =========================
 
