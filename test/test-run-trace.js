@@ -69,6 +69,50 @@ tap.test('traces can be turned on', function(t) {
   });
 });
 
+tap.test('traces hostname can be overridden', function(t) {
+  t.plan(7);
+
+  var expressApp = require.resolve('./express-app');
+  process.env.STRONGLOOP_TRACES_ID = '1234';
+  var app = run([expressApp], ['--cluster=1', '--no-control'], messageHandler);
+  var tracingEnabled = false;
+
+  function messageHandler(data) {
+    debug('received: cmd %s: %j', data.cmd, data);
+    switch (data.cmd) {
+      case 'status:wd':
+        if (data.id === 0) {
+          t.assert(!data.isTracing);
+        } else {
+          t.equal(data.isTracing, tracingEnabled);
+          if (!tracingEnabled) {
+            tracingEnabled = true;
+            app.control.request({cmd: 'tracing', enabled: true}, function(res){
+              t.assert(!res.error);
+            });
+          } else {
+            app.kill();
+          }
+        }
+        break;
+      case 'trace:object':
+        t.assert(tracingEnabled);
+        var record = JSON.parse(data.record);
+        t.ok(!!record.version, 'Record version should exist');
+        t.ok(!!record.packet.metadata, 'Record metadata should exist');
+        t.equal(record.packet.monitoring.system_info.hostname, '1234',
+          'Record hostname should match');
+        break;
+    }
+  }
+
+  app.ref();
+  app.on('exit', function(code, signal) {
+    debug('supervisor exit: %s', signal || code);
+    t.end();
+  });
+});
+
 tap.test('traces can be turned off', function(t) {
   t.plan(6);
 
