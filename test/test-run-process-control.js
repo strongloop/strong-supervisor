@@ -1,6 +1,7 @@
 var control = require('strong-control-channel/process');
 var cp = require('child_process');
 var debug = require('./debug');
+var os = require('os');
 var tap = require('tap');
 
 var options = {stdio: [0, 1, 2, 'ipc']};
@@ -22,6 +23,12 @@ tap.test('status', function(t) {
     t.equal(rsp.workers.length, 0, 'no workers');
     t.equal(rsp.appName, 'yes-app', 'appName');
     t.assert(/^\d+\.\d+\.\d+/.test(rsp.agentVersion), 'agentVersion');
+    t.match(rsp.osVersion, {
+      platform: os.platform(),
+      arch: os.arch(),
+      release: os.release(),
+    }, 'osVersion');
+    t.match(rsp.nodeVersion, process.version, 'nodeVersion');
     t.end();
   });
 });
