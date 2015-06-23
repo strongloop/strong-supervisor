@@ -20,39 +20,50 @@ tap.test('resolve wrapper', function(t) {
   t.end();
 });
 
-tap.test('fromArgs, given valid file paths', function(t) {
-  t.match(startCmd.fromArgs(yesApp, slRun('index.js')),
+tap.test('fromPath, given valid file paths', function(t) {
+  t.match(startCmd.fromPath(yesApp, 'index.js'),
           {cwd: yesApp, path: 'index.js', error: null},
           'preserves file path relative to cwd');
-  t.match(startCmd.fromArgs(yesApp, slRun(yesAppIndex)),
+  t.match(startCmd.fromPath(yesApp, yesAppIndex),
           {cwd: yesApp, path: 'index.js', error: null},
           'forces absolute file path to be relative to cwd');
   t.end();
 });
 
-tap.test('fromArgs, given valid directory paths', function(t) {
-  t.match(startCmd.fromArgs(yesApp, slRun('.')),
+tap.test('fromPath, given valid directory paths', function(t) {
+  t.match(startCmd.fromPath(yesApp, '.'),
           {cwd: yesApp, path: '.', error: null},
           'preserves valid relative directory path');
-  t.match(startCmd.fromArgs(yesApp, slRun(yesApp)),
+  t.match(startCmd.fromPath(yesApp, yesApp),
           {cwd: yesApp, path: '.', error: null},
           'forces valid absolute path to be relative to cwd');
-  t.match(startCmd.fromArgs(__dirname, slRun(yesApp)),
+  t.match(startCmd.fromPath(__dirname, yesApp),
           {cwd: yesApp, path: '.', error: null},
           'changes cwd to app root, given absolute path');
-  t.match(startCmd.fromArgs(__dirname, slRun('yes-app')),
+  t.match(startCmd.fromPath(__dirname, 'yes-app'),
           {cwd: yesApp, path: '.', error: null},
           'changes cwd to app root, given relative path to real app');
   t.end();
 });
 
-tap.test('fromArgs, given invalid paths', function(t) {
-  t.match(startCmd.fromArgs(yesApp, slRun('no-way.js')),
+tap.test('fromPath, given invalid paths', function(t) {
+  t.match(startCmd.fromPath(yesApp, 'no-way.js'),
           {error: Error('some error')},
           'fails when relative path does not exist');
-  t.match(startCmd.fromArgs(yesApp, slRun(path.join(yesApp, 'no-way.js'))),
+  t.match(startCmd.fromPath(yesApp, path.join(yesApp, 'no-way.js')),
           {error: Error()},
           'fails when absolute path does not exist');
+  t.end();
+});
+
+tap.test('resolveFile', function(t) {
+  var fn = startCmd.resolveFile;
+  var deepBase = path.resolve(__dirname, 'module-app');
+  var deep = path.resolve(deepBase, 'path/to/deep.js');
+  t.match(fn('.', yesAppIndex), {cwd: yesApp, path: 'index.js'},
+          'split yesApp at package.json path location');
+  t.match(fn('.', deep), {cwd: deepBase, path: 'path/to/deep.js'},
+          'splits deep module-app path at package.json location');
   t.end();
 });
 
