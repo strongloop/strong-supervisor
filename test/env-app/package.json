@@ -2,5 +2,8 @@
   "name": "env-app",
   "version": "0.0.0",
   "description": "Like env and yes combined",
-  "main": "index.js"
+  "main": "no-index.js",
+  "scripts": {
+    "start": "node start.js"
+  }
 }

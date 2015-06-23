@@ -2,10 +2,11 @@ var byline = require('byline');
 var child = require('child_process');
 var debug = require('debug')('runctl-test');
 var helper = require('./helper');
+var path = require('path');
 var test = require('tap').test;
 
 test('environment controls', function(t) {
-  var app = require.resolve('./env-app');
+  var app = path.resolve(__dirname, 'env-app');
   var run = supervise(app, ['SL_T1', 'SL_T2', 'SL_T3']);
 
   // supervisor should exit with 0 after we stop it
