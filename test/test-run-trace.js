@@ -4,7 +4,11 @@ var http = require('http');
 var run = helper.runWithControlChannel;
 var tap = require('tap');
 
-tap.test('traces are forwarded via parentCtl', function(t) {
+var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
+                    ? false
+                    : {skip: 'tested feature requires license'};
+
+tap.test('traces are forwarded via parentCtl', skipIfNoLicense, function(t) {
   t.plan(2);
 
   var expressApp = require.resolve('./express-app');
@@ -28,7 +32,7 @@ tap.test('traces are forwarded via parentCtl', function(t) {
   });
 });
 
-tap.test('traces can be turned on', function(t) {
+tap.test('traces can be turned on', skipIfNoLicense, function(t) {
   t.plan(6);
 
   var expressApp = require.resolve('./express-app');
@@ -69,7 +73,7 @@ tap.test('traces can be turned on', function(t) {
   });
 });
 
-tap.test('traces hostname can be overridden', function(t) {
+tap.test('traces hostname can be overridden', skipIfNoLicense, function(t) {
   t.plan(7);
 
   var expressApp = require.resolve('./express-app');
@@ -113,7 +117,7 @@ tap.test('traces hostname can be overridden', function(t) {
   });
 });
 
-tap.test('traces can be turned off', function(t) {
+tap.test('traces can be turned off', skipIfNoLicense, function(t) {
   t.plan(6);
 
   var expressApp = require.resolve('./express-app');

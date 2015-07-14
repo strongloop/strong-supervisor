@@ -8,7 +8,11 @@ var w = require('./watcher');
 var Worker = w.Worker;
 var watcher = w.watcher;
 
-tap.test('trace-object', function(t) {
+var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
+                    ? false
+                    : {skip: 'tested feature requires license'};
+
+tap.test('trace-object', skipIfNoLicense, function(t) {
   w.select('trace-object');
 
   t.test('in worker, tracing disabled', function(tt) {
