@@ -11,6 +11,10 @@ var test = require('tap').test;
 var skipIfNotLinux = process.platform !== 'linux'
                    ? {skip: 'linux only feature'}
                    : false;
+var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
+                    ? false
+                    : {skip: 'tested feature requires license'};
+
 var options = {stdio: [0, 1, 2, 'ipc']};
 var run = require.resolve('../bin/sl-run');
 var yes = require.resolve('./v1-app');
@@ -34,9 +38,9 @@ function onRequest(req, cb) {
 var ctl = control.attach(onRequest, run);
 
 function once(t, fn) {
+  return wrapped;
   function wrapped() {
-    console.error('called');
-    t.assert(!wrapped.called);
+    t.assert(!wrapped.called, 'not called before');
     wrapped.called = true;
     return fn.apply(this, arguments);
   }
@@ -127,11 +131,11 @@ function hitCount(profile) {
 }
 
 test('start cpu profiling', function(t) {
+  t.plan(5);
   ee.once('cpu-profiling', function(n) {
     t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.isRunning === true, 'Profiling should be running');
     t.assert(!n.timeout, 'Watchdog timeout value must not be set');
-    t.end();
   });
 
   ctl.request({cmd: 'start-cpu-profiling', target: 1}, once(t, function(rsp) {
@@ -140,10 +144,10 @@ test('start cpu profiling', function(t) {
 });
 
 test('stop cpu profling', function(t) {
+  t.plan(5);
   ee.once('cpu-profiling', function(n) {
     t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.isRunning === false, 'Profiling should not be running');
-    t.end();
   });
 
   var req = {cmd: 'stop-cpu-profiling', target: 1};
@@ -154,11 +158,11 @@ test('stop cpu profling', function(t) {
 });
 
 test('start cpu profiling watchdog', skipIfNotLinux || function(t) {
+  t.plan(5);
   ee.once('cpu-profiling', function(n) {
     t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.isRunning === true, 'Profiling should be running');
     t.assert(n.timeout === 1000, 'Watchdog timeout value must be set');
-    t.end();
   });
 
   var options = {cmd: 'start-cpu-profiling', target: 1, timeout: 1000};
@@ -168,10 +172,10 @@ test('start cpu profiling watchdog', skipIfNotLinux || function(t) {
 });
 
 test('stop cpu profiling watchdog', skipIfNotLinux || function(t) {
+  t.plan(5);
   ee.once('cpu-profiling', function(n) {
     t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.isRunning === false, 'Profiling should not be running');
-    t.end();
   });
 
   var req = {cmd: 'stop-cpu-profiling', target: 1};
@@ -181,11 +185,11 @@ test('stop cpu profiling watchdog', skipIfNotLinux || function(t) {
   }));
 });
 
-test('start object tracking', function(t) {
+test('start object tracking', skipIfNoLicense, function(t) {
+  t.plan(4);
   ee.once('object-tracking', function(n) {
     t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.isRunning === true, 'Profiling should be running');
-    t.end();
   });
 
   ctl.request({cmd: 'start-tracking-objects', target: 1}, once(t, function(rsp) {
@@ -193,11 +197,11 @@ test('start object tracking', function(t) {
   }));
 });
 
-test('stop object tracking', function(t) {
+test('stop object tracking', skipIfNoLicense, function(t) {
+  t.plan(4);
   ee.once('object-tracking', function(n) {
     t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.isRunning === false, 'Profiling should not be running');
-    t.end();
   });
 
   ctl.request({cmd: 'stop-tracking-objects', target: 1}, once(t, function(rsp) {
@@ -206,10 +210,10 @@ test('stop object tracking', function(t) {
 });
 
 test('heap snapshot', function(t) {
+  t.plan(4);
   ee.once('heap-snapshot', function(n) {
     t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.isRunning === false, 'Dump should not be running');
-    t.end();
   });
 
   var req = {cmd: 'heap-snapshot', target: 1};
@@ -221,7 +225,7 @@ test('heap snapshot', function(t) {
 test('disconnect', function(t) {
   helper.pass = true;
   run.on('exit', function(status) {
-    t.equal(status, 2);
+    t.equal(status, 2, 'should exit with 2');
     t.end();
   });
   run.disconnect();
