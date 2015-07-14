@@ -10,6 +10,7 @@ util = require('util');
 var child = require('child_process');
 var control = require('strong-control-channel/process');
 var dgram = require('dgram');
+var sleep = require('try-thread-sleep');
 
 // Utility functions
 
@@ -133,12 +134,9 @@ function runctl(cmd) {
 }
 
 function pause(secs) {
-  var secs = secs || 1;
-  var start = process.hrtime();
-  while (true) {
-    var ts = process.hrtime(start);
-    if (ts[0] >= secs)
-      return;
+  var ms = (secs || 1) * 1000;
+  while (ms > 0) {
+    ms -= sleep(ms);
   }
 }
 
