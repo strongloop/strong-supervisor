@@ -14,7 +14,11 @@ var path = require('path');
 var tap = require('tap');
 var util = require('util');
 
-tap.test('metrics', function(t) {
+var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
+                    ? false
+                    : {skip: 'tested feature requires license'};
+
+tap.test('metrics', skipIfNoLicense, function(t) {
   var appPath = require.resolve('./module-app');
   var plan = 15; // for internal
   var runArgs = [
