@@ -1,3 +1,57 @@
+2015-07-20, Version 3.0.0
+=========================
+
+ * fix accidental heapdump generation on log re-open (Ryan Graham)
+
+ * test: use try-thread-sleep to speed up tests (Ryan Graham)
+
+ * test: skip tests that require license (Ryan Graham)
+
+ * run: print cleaner error when WS channel dies (Ryan Graham)
+
+ * test: fix test-ipcctl-notifications (Ryan Graham)
+
+ * runctl: ws errors are fatal in new api (Sam Roberts)
+
+ * ws: reconnect WS ctl channel on error (Ryan Graham)
+
+ * update dependencies (Ryan Graham)
+
+ * run: ws endpoint now has default (Sam Roberts)
+
+ * Implement Capabilities API (Setogit)
+
+ * runctl: handle signal-type messages (Bert Belder)
+
+ * fix regression in PWD/CWD handling caused by #142 (Ryan Graham)
+
+ * run: support simple start scripts as fallback (Ryan Graham)
+
+ * refactor: app path resolution (Ryan Graham)
+
+ * refactor: extract app path lookup as function (Ryan Graham)
+
+ * make status message as complete as started message (Ryan Graham)
+
+ * disable node core timer wrapping for tracing navigation clarity (Tetsuo Seto)
+
+ * Override hostname returned in trace packet (Krishna Raman)
+
+ * add agent probes to the black list (Tetsuo Seto)
+
+ * honour path in --control ws:url/path (Ryan Graham)
+
+ * Use worker-id (wid) consistently in notifications (Krishna Raman)
+
+ * Add new fields to started message (Krishna Raman)
+
+ * package: use SPDX expression for license (Ryan Graham)
+
+ * Add Capability API Support (Joseph Tary)
+
+ * Allow WS channel in standalone mode (Krishna Raman)
+
+
 2015-06-03, Version 2.0.0
 =========================
 
@@ -298,10 +352,6 @@
  * run: directly support statsd backends (Sam Roberts)
 
  * test: delete STRONGLOOP_METRICS after each test (Sam Roberts)
-
-
-2014-11-03, Version 1.1.1
-=========================
 
  * run: refactor usage into a text file (Sam Roberts)
 
