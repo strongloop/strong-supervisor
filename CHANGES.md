@@ -1,3 +1,14 @@
+2015-07-21, Version 3.0.2
+=========================
+
+ * runctl: fork ppid should not depend on msg order (Sam Roberts)
+
+
+2015-07-20, Version 3.0.1
+=========================
+
+
+
 2015-07-20, Version 3.0.0
 =========================
 
@@ -352,6 +363,10 @@
  * run: directly support statsd backends (Sam Roberts)
 
  * test: delete STRONGLOOP_METRICS after each test (Sam Roberts)
+
+
+2014-11-03, Version 1.1.1
+=========================
 
  * run: refactor usage into a text file (Sam Roberts)
 
