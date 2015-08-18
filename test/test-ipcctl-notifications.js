@@ -143,6 +143,11 @@ test('start cpu profiling', function(t) {
   }));
 });
 
+test('let cpu profiler run', function(t) {
+  t.pass('waiting');
+  setTimeout(t.end, 500);
+});
+
 test('stop cpu profling', function(t) {
   t.plan(5);
   ee.once('cpu-profiling', function(n) {
@@ -169,6 +174,11 @@ test('start cpu profiling watchdog', skipIfNotLinux || function(t) {
   ctl.request(options, once(t, function(rsp) {
     t.assert(!rsp.error);
   }));
+});
+
+test('let cpu profiler run', function(t) {
+  t.pass('waiting');
+  setTimeout(t.end, 500);
 });
 
 test('stop cpu profiling watchdog', skipIfNotLinux || function(t) {
