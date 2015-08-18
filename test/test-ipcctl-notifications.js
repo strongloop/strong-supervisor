@@ -8,9 +8,6 @@ var fs = require('fs');
 var helper = require('./helper');
 var test = require('tap').test;
 
-var skipIfNotLinux = process.platform !== 'linux'
-                   ? {skip: 'linux only feature'}
-                   : false;
 var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
                     ? false
                     : {skip: 'tested feature requires license'};
@@ -162,15 +159,15 @@ test('stop cpu profling', function(t) {
   }));
 });
 
-test('start cpu profiling watchdog', skipIfNotLinux || function(t) {
+test('start cpu profiling watchdog', function(t) {
   t.plan(5);
   ee.once('cpu-profiling', function(n) {
     t.assert(n.wid > 0, 'Worker ID should be present');
     t.assert(n.isRunning === true, 'Profiling should be running');
-    t.assert(n.timeout === 1000, 'Watchdog timeout value must be set');
+    t.assert(n.timeout === 1, 'Watchdog timeout value must be set');
   });
 
-  var options = {cmd: 'start-cpu-profiling', target: 1, timeout: 1000};
+  var options = {cmd: 'start-cpu-profiling', target: 1, timeout: 1};
   ctl.request(options, once(t, function(rsp) {
     t.assert(!rsp.error);
   }));
@@ -181,7 +178,7 @@ test('let cpu profiler run', function(t) {
   setTimeout(t.end, 500);
 });
 
-test('stop cpu profiling watchdog', skipIfNotLinux || function(t) {
+test('stop cpu profiling watchdog', function(t) {
   t.plan(5);
   ee.once('cpu-profiling', function(n) {
     t.assert(n.wid > 0, 'Worker ID should be present');
