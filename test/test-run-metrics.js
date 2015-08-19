@@ -9,7 +9,6 @@ var cp = require('child_process');
 var debug = require('./debug');
 var fs = require('fs');
 var helper = require('./helper');
-var nodeSyslog = require('strong-fork-syslog');
 var path = require('path');
 var tap = require('tap');
 var util = require('util');

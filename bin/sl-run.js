@@ -23,6 +23,7 @@ var agentOptions = {
   quiet: config.isWorker, // Quiet in worker, to avoid repeated log messages
   logger: config.logger,
   strongTracer: tracer(),
+  interval: 0 | process.env.STRONGLOOP_BASE_INTERVAL || 15000,
 };
 
 switch (config.profile) {
