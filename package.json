@@ -71,6 +71,6 @@
   },
   "optionalDependencies": {
     "heapdump": "^0.3.5",
-    "strong-fork-syslog": "^1.2.1"
+    "modern-syslog": "^1.x"
   }
 }
