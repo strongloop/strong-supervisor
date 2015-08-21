@@ -135,7 +135,7 @@ test('start cpu profiling', function(t) {
     t.assert(!n.timeout, 'Watchdog timeout value must not be set');
   });
 
-  ctl.request({cmd: 'start-cpu-profiling', target: 1}, once(t, function(rsp) {
+  ctl.request({cmd: 'start-cpu-profiling', target: 2}, once(t, function(rsp) {
     t.assert(!rsp.error);
   }));
 });
@@ -152,7 +152,7 @@ test('stop cpu profling', function(t) {
     t.assert(n.isRunning === false, 'Profiling should not be running');
   });
 
-  var req = {cmd: 'stop-cpu-profiling', target: 1};
+  var req = {cmd: 'stop-cpu-profiling', target: 2};
   ctl.request(req, once(t, function(rsp) {
     t.assert(!rsp.error);
     t.assert(hitCount(rsp.profile) > 1);
@@ -167,7 +167,7 @@ test('start cpu profiling watchdog', function(t) {
     t.assert(n.timeout === 1, 'Watchdog timeout value must be set');
   });
 
-  var options = {cmd: 'start-cpu-profiling', target: 1, timeout: 1};
+  var options = {cmd: 'start-cpu-profiling', target: 2, timeout: 1};
   ctl.request(options, once(t, function(rsp) {
     t.assert(!rsp.error);
   }));
@@ -185,7 +185,7 @@ test('stop cpu profiling watchdog', function(t) {
     t.assert(n.isRunning === false, 'Profiling should not be running');
   });
 
-  var req = {cmd: 'stop-cpu-profiling', target: 1};
+  var req = {cmd: 'stop-cpu-profiling', target: 2};
   ctl.request(req, once(t, function(rsp) {
     t.assert(!rsp.error);
     t.assert(hitCount(rsp.profile) >= 1);
@@ -199,7 +199,7 @@ test('start object tracking', skipIfNoLicense, function(t) {
     t.assert(n.isRunning === true, 'Profiling should be running');
   });
 
-  ctl.request({cmd: 'start-tracking-objects', target: 1}, once(t, function(rsp) {
+  ctl.request({cmd: 'start-tracking-objects', target: 2}, once(t, function(rsp) {
     t.assert(!rsp.error);
   }));
 });
@@ -211,7 +211,7 @@ test('stop object tracking', skipIfNoLicense, function(t) {
     t.assert(n.isRunning === false, 'Profiling should not be running');
   });
 
-  ctl.request({cmd: 'stop-tracking-objects', target: 1}, once(t, function(rsp) {
+  ctl.request({cmd: 'stop-tracking-objects', target: 2}, once(t, function(rsp) {
     t.assert(!rsp.error);
   }));
 });
@@ -223,7 +223,7 @@ test('heap snapshot', function(t) {
     t.assert(n.isRunning === false, 'Dump should not be running');
   });
 
-  var req = {cmd: 'heap-snapshot', target: 1};
+  var req = {cmd: 'heap-snapshot', target: 2};
   ctl.request(req, once(t, function(rsp) {
     t.assert(!rsp.error);
   }));
