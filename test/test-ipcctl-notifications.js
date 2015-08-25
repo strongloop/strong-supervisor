@@ -1,3 +1,4 @@
+var agent = require('strong-agent');
 var assert = require('assert');
 var async = require('async');
 var control = require('strong-control-channel/process');
@@ -8,6 +9,9 @@ var fs = require('fs');
 var helper = require('./helper');
 var test = require('tap').test;
 
+var skipUnlessWatchdog = agent.internal.supports.watchdog
+                       ? false
+                       : {skip: 'watchdog not supported'};
 var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
                     ? false
                     : {skip: 'tested feature requires license'};
@@ -159,7 +163,7 @@ test('stop cpu profling', function(t) {
   }));
 });
 
-test('start cpu profiling watchdog', function(t) {
+test('start cpu profiling watchdog', skipUnlessWatchdog || function(t) {
   t.plan(5);
   ee.once('cpu-profiling', function(n) {
     t.assert(n.wid > 0, 'Worker ID should be present');
@@ -178,7 +182,7 @@ test('let cpu profiler run', function(t) {
   setTimeout(t.end, 500);
 });
 
-test('stop cpu profiling watchdog', function(t) {
+test('stop cpu profiling watchdog', skipUnlessWatchdog || function(t) {
   t.plan(5);
   ee.once('cpu-profiling', function(n) {
     t.assert(n.wid > 0, 'Worker ID should be present');
