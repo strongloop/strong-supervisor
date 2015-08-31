@@ -52,4 +52,5 @@ tap.test('trace-object', skipIfNoLicense, function(t) {
     }
   });
 
+  t.end();
 });

@@ -24,4 +24,6 @@ tap.test('targetctl capabilities', function(t) {
       t.end();
     });
   });
+
+  t.end();
 });

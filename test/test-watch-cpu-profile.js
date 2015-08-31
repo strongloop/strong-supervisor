@@ -56,6 +56,8 @@ tap.test('cpu-profile', skipIfNotLinux || function(t) {
       stall(2);
     });
 
+    tt.end();
+
     function send(msg, type) {
       if (hook) hook(msg, type);
     }
@@ -85,11 +87,13 @@ tap.test('cpu-profile', skipIfNotLinux || function(t) {
         tt.equal(msg.wid, worker.id);
       } else {
         tt.equal(msg.cmd, 'cpu-profiling');
-        tt.equal(msg.id, worker.id);
+        tt.equal(msg.wid, worker.id);
         tt.equal(msg.isRunning, false);
         tt.equal(msg.pid, worker.process.pid);
         tt.equal(msg.pst, worker.startTime);
       }
     }
   });
+
+  t.end();
 });

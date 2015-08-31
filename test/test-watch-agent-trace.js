@@ -51,4 +51,6 @@ tap.test('agent-trace', function(t) {
       tt.end();
     }
   });
+
+  t.end();
 });
