@@ -50,4 +50,6 @@ tap.test('status-wd', function(t) {
       tt.end();
     }
   });
+
+  t.end();
 });

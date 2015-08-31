@@ -28,4 +28,6 @@ tap.test('express-records', function(t) {
       tt.end();
     }
   });
+
+  t.end();
 });
