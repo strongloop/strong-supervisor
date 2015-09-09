@@ -233,6 +233,35 @@ test('heap snapshot', function(t) {
   }));
 });
 
+test('start debugger', function(t) {
+  t.plan(5);
+  ee.once('debugger-status', function(n) {
+    t.equal(n.wid, 2, 'Worker ID should be present');
+    t.assert(n.running, 'Debugger is running');
+    t.assert(n.port > 0, 'Debugger port is reported');
+  });
+
+  var req = {cmd: 'dbg-start', target: 2};
+  ctl.request(req, once(t, function(rsp) {
+    t.ifError(rsp.error);
+  }));
+});
+
+test('stop debugger', function(t) {
+  t.plan(5);
+  ee.once('debugger-status', function(n) {
+    t.equal(n.wid, 2, 'Worker ID should be present');
+    t.notOk(n.running, 'Debugger is stopped');
+    t.equal(''+n.port, ''+null, 'Debugger port is null');
+  });
+
+  var req = {cmd: 'dbg-stop', target: 2};
+  ctl.request(req, once(t, function(rsp) {
+    t.ifError(rsp.error);
+  }));
+});
+
+
 test('disconnect', function(t) {
   helper.pass = true;
   run.on('exit', function(status) {
