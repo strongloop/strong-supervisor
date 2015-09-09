@@ -43,5 +43,14 @@ Commands:
   env-unset <KEYS...>        Unset environment variables in master and workers.
                              Changes are live without process restart.
 
+  dbg-start <ID>             Enable DevTools Debugger backend in the target
+                             worker.
+
+  dbg-stop <ID>              Disable DevTools Debugger backend in the target
+                             worker.
+
+  dbg-status <ID>            Get the status of DevTools Debugger in the target
+                             worker.
+
 Commands specific to a worker ID accept either a process ID or cluster worker
 ID, and use an ID of `0` to mean the cluster master.
