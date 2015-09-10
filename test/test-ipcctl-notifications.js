@@ -140,7 +140,7 @@ test('start cpu profiling', function(t) {
   });
 
   ctl.request({cmd: 'start-cpu-profiling', target: 2}, once(t, function(rsp) {
-    t.assert(!rsp.error);
+    t.ifError(rsp.error);
   }));
 });
 
@@ -158,7 +158,7 @@ test('stop cpu profling', function(t) {
 
   var req = {cmd: 'stop-cpu-profiling', target: 2};
   ctl.request(req, once(t, function(rsp) {
-    t.assert(!rsp.error);
+    t.ifError(rsp.error);
     t.assert(hitCount(rsp.profile) > 1);
   }));
 });
@@ -173,7 +173,7 @@ test('start cpu profiling watchdog', skipUnlessWatchdog || function(t) {
 
   var options = {cmd: 'start-cpu-profiling', target: 2, timeout: 1};
   ctl.request(options, once(t, function(rsp) {
-    t.assert(!rsp.error);
+    t.ifError(rsp.error);
   }));
 });
 
@@ -191,7 +191,7 @@ test('stop cpu profiling watchdog', skipUnlessWatchdog || function(t) {
 
   var req = {cmd: 'stop-cpu-profiling', target: 2};
   ctl.request(req, once(t, function(rsp) {
-    t.assert(!rsp.error);
+    t.ifError(rsp.error);
     t.assert(hitCount(rsp.profile) >= 1);
   }));
 });
@@ -204,7 +204,7 @@ test('start object tracking', skipIfNoLicense, function(t) {
   });
 
   ctl.request({cmd: 'start-tracking-objects', target: 2}, once(t, function(rsp) {
-    t.assert(!rsp.error);
+    t.ifError(rsp.error);
   }));
 });
 
@@ -216,7 +216,7 @@ test('stop object tracking', skipIfNoLicense, function(t) {
   });
 
   ctl.request({cmd: 'stop-tracking-objects', target: 2}, once(t, function(rsp) {
-    t.assert(!rsp.error);
+    t.ifError(rsp.error);
   }));
 });
 
@@ -229,7 +229,7 @@ test('heap snapshot', function(t) {
 
   var req = {cmd: 'heap-snapshot', target: 2};
   ctl.request(req, once(t, function(rsp) {
-    t.assert(!rsp.error);
+    t.ifError(rsp.error);
   }));
 });
 
