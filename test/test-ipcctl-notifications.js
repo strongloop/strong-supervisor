@@ -50,6 +50,7 @@ function once(t, fn) {
 test('start', function(t) {
   ee.once('started', function(n) {
     t.assert(typeof n.agentVersion === 'string', 'Agent version should be present');
+    t.assert(typeof n.debuggerVersion === 'string', 'Debugger version should be present');
     t.assert(typeof n.appName === 'string', 'App name should be present');
     t.assert(n.pid > 0, 'Master pid should be present');
     t.assert(n.pst > 0, 'Master start time should be present');
@@ -87,12 +88,13 @@ test('scaleUp', function(t) {
     ee.removeAllListeners('status:wd');
   });
 
-  plan += 4;
+  plan += 5;
   ee.once('status', function(n) {
     debug('on %j', n);
     t.assert(n.master.pid > 0, 'Master pid should be present');
     t.assert(typeof n.appName === 'string', 'App name should be present');
     t.assert(typeof n.agentVersion === 'string', 'Agent version is present');
+    t.assert(typeof n.debuggerVersion === 'string', 'Debugger version is present');
     t.assert(Array.isArray(n.workers), 'workers list is present');
   });
 
