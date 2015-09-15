@@ -1,3 +1,35 @@
+2015-09-15, Version 3.2.0
+=========================
+
+ * test: improve assertion messages (Miroslav Bajtoš)
+
+ * Add a new notification: 'debugger-status' (Miroslav Bajtoš)
+
+ * runctl: new commands dbg-start and dbg-stop (Miroslav Bajtoš)
+
+ * runctl: re-chdir to PWD on restart (Sam Roberts)
+
+ * test: update to tap@1.3.4 (Sam Roberts)
+
+ * test: only test watchdog if agent says it works (Ryan Graham)
+
+ * Use modern-syslog, not our fork of node-syslog (Sam Roberts)
+
+ * test: adjust restart order assumption (Ryan Graham)
+
+ * test: use worker 2 for tests (Ryan Graham)
+
+ * test: don't require strong-fork-syslog (Ryan Graham)
+
+ * test: replace SL_ENV usage (Ryan Graham)
+
+ * test: test smart profiling on non-Linux (Ryan Graham)
+
+ * test: make v1-app more interesting to profiler (Ryan Graham)
+
+ * deps: upgrade to strong-agent@2 (Ryan Graham)
+
+
 2015-07-21, Version 3.0.2
 =========================
 
