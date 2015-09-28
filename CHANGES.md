@@ -1,3 +1,13 @@
+2015-09-28, Version 3.2.1
+=========================
+
+ * package: make binary debugger an optional dep (Sam Roberts)
+
+ * Use strongloop conventions for licensing (Sam Roberts)
+
+ * Report debuggerVersion in status messages (Miroslav Bajtoš)
+
+
 2015-09-15, Version 3.2.0
 =========================
 
