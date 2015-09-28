@@ -46,7 +46,6 @@
     "strong-agent": "^2.0.0",
     "strong-cluster-control": "^2.0.0",
     "strong-control-channel": "^2.0.0",
-    "strong-debugger": "^1.0.0",
     "strong-log-transformer": "^1.0.0",
     "strong-npm-ls": "^1.0.0",
     "strong-statsd": "^2.0.0",
@@ -72,6 +71,7 @@
   },
   "optionalDependencies": {
     "heapdump": "^0.3.5",
-    "modern-syslog": "^1.x"
+    "modern-syslog": "^1.x",
+    "strong-debugger": "^1.0.0"
   }
 }
