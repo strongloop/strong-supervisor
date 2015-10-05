@@ -1,3 +1,9 @@
+2015-10-05, Version 3.2.2
+=========================
+
+ * runctl: only restart when tracing is changing (Sam Roberts)
+
+
 2015-09-28, Version 3.2.1
 =========================
 
