@@ -3,7 +3,7 @@ var tap = require('tap');
 
 tap.test('targetctl capabilities', function(t) {
   var caps = ['watchdog', 'tracing', 'metrics',
-      'cpuprofile', 'heapsnapshot', 'patch'];
+      'cpuprofile', 'heapsnapshot', 'patch', 'debugger'];
   var list = capabilities.list();
   t.match(list, caps, 'Capabilities are defined.');
   list.forEach(function(f) {
