@@ -1,3 +1,11 @@
+2015-10-14, Version 3.3.0
+=========================
+
+ * Rework debugger as an optional capability (Miroslav Bajtoš)
+
+ * fix regression in handling of symlinked pwd (Ryan Graham)
+
+
 2015-10-05, Version 3.2.2
 =========================
 
@@ -411,10 +419,6 @@
  * run: directly support statsd backends (Sam Roberts)
 
  * test: delete STRONGLOOP_METRICS after each test (Sam Roberts)
-
-
-2014-11-03, Version 1.1.1
-=========================
 
  * run: refactor usage into a text file (Sam Roberts)
 
