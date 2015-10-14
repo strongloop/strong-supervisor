@@ -1,5 +1,6 @@
 'use strict';
 
+var fs = require('fs');
 var path = require('path');
 var tap = require('tap');
 var startCmd = require('../lib/start-command');
@@ -7,6 +8,7 @@ var startCmd = require('../lib/start-command');
 var envApp = path.resolve(__dirname, 'env-app');
 var yesApp = path.resolve(__dirname, 'yes-app');
 var expressApp = path.resolve(__dirname, 'express-app');
+var expressApp2 = path.resolve(__dirname, 'express-app-2');
 var yesAppIndex = require.resolve('./yes-app');
 var moduleApp = path.resolve(__dirname, 'module-app');
 var deepPath = path.resolve(moduleApp, 'path/to/deep.js');
@@ -37,6 +39,25 @@ tap.test('resolve wrapper', function(t) {
   t.match(startCmd(parentDir, slRun(deepPath)),
           {cwd: moduleApp, path: 'path/to/deep.js'},
           'handles a deep path with multiple package roots');
+  t.match(startCmd(__dirname, slRun('express-app-2')),
+          {cwd: expressApp2, path: 'server/server.js'},
+          'handles a nested server.js');
+  t.end();
+});
+
+tap.test('symlinks', function(t) {
+  var expresslink = symlink(expressApp);
+  t.match(startCmd(expresslink, slRun()),
+          {cwd: expresslink, path: 'server.js'},
+          'maintains simple symlink paths');
+  var express2link = symlink(expressApp2);
+  t.match(startCmd(express2link, slRun()),
+          {cwd: express2link, path: 'server/server.js'},
+          'maintains deeper symlink main path');
+  var modLink = symlink(moduleApp);
+  t.match(startCmd(modLink, slRun('path/to/deep.js')),
+          {cwd: modLink, path: 'path/to/deep.js'},
+          'maintains deeper symlink given path');
   t.end();
 });
 
@@ -168,4 +189,15 @@ tap.test('fromStart extract node execArgv', {todo: true}, function(t) {
 function slRun() {
   var args = Array.prototype.slice.apply(arguments);
   return [process.execPath, 'sl-run'].concat(args);
+}
+
+function symlink(from) {
+  // Delete last symlink, if it exists
+  try {
+    fs.unlinkSync('test/sx-app');
+  } catch (er) {
+    // ignore
+  }
+  fs.symlinkSync(from, 'test/sx-app');
+  return 'test/sx-app';
 }
