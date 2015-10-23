@@ -45,15 +45,23 @@ tap.test('resolve wrapper', function(t) {
   t.end();
 });
 
-tap.test('symlinks', function(t) {
+tap.test('symlinks - simple', function(t) {
   var expresslink = symlink(expressApp);
   t.match(startCmd(expresslink, slRun()),
           {cwd: expresslink, path: 'server.js'},
           'maintains simple symlink paths');
-  var express2link = symlink(expressApp2);
+  t.end();
+});
+
+tap.test('symlinks - relative', function(t) {
+  var express2link = symlink('test/express-app-2');
   t.match(startCmd(express2link, slRun()),
           {cwd: express2link, path: 'server/server.js'},
           'maintains deeper symlink main path');
+  t.end();
+});
+
+tap.test('symlinks - deep', function(t) {
   var modLink = symlink(moduleApp);
   t.match(startCmd(modLink, slRun('path/to/deep.js')),
           {cwd: modLink, path: 'path/to/deep.js'},
@@ -191,13 +199,16 @@ function slRun() {
   return [process.execPath, 'sl-run'].concat(args);
 }
 
-function symlink(from) {
+function symlink(fromPath) {
+  if (/^test\//.test(fromPath)) {
+    fromPath = path.relative('test', fromPath);
+  }
   // Delete last symlink, if it exists
   try {
     fs.unlinkSync('test/sx-app');
   } catch (er) {
     // ignore
   }
-  fs.symlinkSync(from, 'test/sx-app');
+  fs.symlinkSync(fromPath, 'test/sx-app');
   return 'test/sx-app';
 }
