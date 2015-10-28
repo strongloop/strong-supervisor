@@ -1,3 +1,11 @@
+2015-10-28, Version 3.3.1
+=========================
+
+ * lint: update to eslint@1 and strongloop rules (Ryan Graham)
+
+ * Fix incorrect handling of relative symlinks (Ryan Graham)
+
+
 2015-10-14, Version 3.3.0
 =========================
 
