@@ -33,7 +33,7 @@
     "slrc": "./bin/sl-runctl.js"
   },
   "scripts": {
-    "lint": "eslint . && jscs .",
+    "lint": "eslint ./",
     "pretest": "npm run lint",
     "test": "tap --bail --timeout 300 test/test-*.js"
   },
@@ -55,9 +55,9 @@
   },
   "devDependencies": {
     "byline": "^4.2.1",
-    "eslint": "^0.24.0",
+    "eslint": "^1.6.0",
+    "eslint-config-strongloop": "^1.0.0",
     "express": "^4.0.0",
-    "jscs": "^1.11.3",
     "loopback": "1.4.x",
     "mocha": "^2.2.4",
     "optimist": "~0.6.0",

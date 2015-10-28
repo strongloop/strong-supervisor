@@ -29,12 +29,12 @@ var HELP = fs.readFileSync(require.resolve('./sl-runctl.txt'), 'utf-8')
   .replace(/%ADDR%/g, ADDR);
 
 var parser = new Parser([
-    ':v(version)',
-    'h(help)',
-    'p:(path)',
-    'p:(port)',
-    'C:(control)',
-  ].join(''), argv);
+  ':v(version)',
+  'h(help)',
+  'p:(path)',
+  'p:(port)',
+  'C:(control)',
+].join(''), argv);
 
 var option;
 while ((option = parser.getopt()) !== undefined) {
