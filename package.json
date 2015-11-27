@@ -38,6 +38,7 @@
     "test": "tap --bail --timeout 300 test/test-*.js"
   },
   "dependencies": {
+    "appmetrics": "^1.0.3",
     "async": "^1.0.0",
     "debug": "^2.0.0",
     "dotenv": "^1.0.0",
