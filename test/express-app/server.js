@@ -1,3 +1,20 @@
+var appmetrics = require('appmetrics');
+var monitoring = appmetrics.monitor();
+monitoring.on('initialized', function (env) {
+  var env = monitoring.getEnvironment();
+  for (var k in env) {
+    //console.log('env %s=%s', k, env[k]);
+  }
+});
+
+monitoring.on('cpu', function (x) {
+  console.log('cpu %s: %j', new Date(x.time), x);
+});
+
+monitoring.on('memory', function (x) {
+  console.log('memory %s: %j', new Date(x.time), x);
+});
+
 var options = require('optimist').argv;
 var express = require('express');
 var metrics = require('strong-express-metrics');
