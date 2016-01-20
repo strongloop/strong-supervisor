@@ -34,7 +34,8 @@
   },
   "scripts": {
     "lint": "eslint ./",
-    "pretest": "npm run lint"
+    "pretest": "npm run lint",
+    "test": "tap --bail --timeout 300 test/test-watch-heart-beat.js"
   },
   "dependencies": {
     "async": "^1.0.0",
