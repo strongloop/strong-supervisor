@@ -3,7 +3,7 @@
   "description": "supervisor and monitor for node.js applications",
   "author": "Sam Roberts <sam@strongloop.com>",
   "license": "Artistic-2.0",
-  "version": "3.3.1",
+  "version": "4.0.0-1",
   "main": "index.js",
   "keywords": [
     "agent",
@@ -35,7 +35,7 @@
   "scripts": {
     "lint": "eslint ./",
     "pretest": "npm run lint",
-    "test": "tap --bail --timeout 300 test/test-*.js"
+    "test": "tap --bail --timeout 300 test/test-watch-heart-beat.js"
   },
   "dependencies": {
     "async": "^1.0.0",
@@ -43,7 +43,6 @@
     "dotenv": "^1.0.0",
     "lodash": "^3.10.0",
     "posix-getopt": "^1.1.0",
-    "strong-agent": "^2.0.0",
     "strong-cluster-control": "^2.0.0",
     "strong-control-channel": "^2.0.0",
     "strong-log-transformer": "^1.0.0",
