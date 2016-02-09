@@ -1,3 +1,4 @@
+/* FIXME(bajtos) re-enable once we have the implementation back in place
 var Graphite = require('strong-statsd/test/servers/graphite');
 var Splunk = require('strong-statsd/test/servers/splunk');
 var Statsd = require('strong-statsd/test/servers/statsd');
@@ -206,3 +207,4 @@ tap.test('metrics', skipIfNoLicense, function(t) {
     done();
   }
 });
+*/

@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 var agent = require('../lib/agent')();
@@ -97,3 +98,4 @@ tap.test('cpu-profile', skipIfNotLinux || function(t) {
 
   t.end();
 });
+*/
