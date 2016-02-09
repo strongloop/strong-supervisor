@@ -1,3 +1,4 @@
+/* FIXME(bajtos) re-enable once we have the implementation back in place
 var helper = require('./helper');
 var tap = require('tap');
 
@@ -94,3 +95,4 @@ tap.test('runctl commands', skipIfNoLicense || function(t) {
   });
   t.end();
 });
+*/
