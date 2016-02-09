@@ -167,6 +167,7 @@ exports.runWithControlChannel = function(appWithArgs, runArgs, onMessage) {
 
   var args = [
     runner,
+    '--no-profile',
     '--no-timestamp-workers',
     '--no-timestamp-supervisor'
   ].concat(runArgs).concat(appWithArgs);
