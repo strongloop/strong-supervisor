@@ -8,7 +8,7 @@ process.on('disconnect', function() {
   process.exit(2);
 });
 
-var assert = require('assert');
+// var assert = require('assert');
 var config = require('../lib/config'); // May exit, depending on argv
 var log = config.logger;
 var tracer = require('../lib/tracer');
@@ -18,6 +18,7 @@ if (config.enableTracing && config.isWorker) {
     log.error('supervisor failed to enable tracing');
 }
 
+/* FIXME(bajtos) use appmetrics config instead
 var agent = require('../lib/agent');
 var agentOptions = {
   quiet: config.isWorker, // Quiet in worker, to avoid repeated log messages
@@ -57,6 +58,7 @@ switch (config.profile) {
     assert(false, 'invalid profile value');
     break;
 }
+*/
 
 if ((config.clustered && config.isMaster) || config.detach) {
   return config.start();

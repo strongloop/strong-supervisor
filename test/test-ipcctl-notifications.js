@@ -1,4 +1,3 @@
-var agent = require('strong-agent');
 var assert = require('assert');
 var async = require('async');
 var control = require('strong-control-channel/process');
@@ -9,9 +8,13 @@ var fs = require('fs');
 var helper = require('./helper');
 var test = require('tap').test;
 
+// FIXME(bajtos) use appmetrics api to check which features are available
+var skipUnlessWatchdog = {skip: 'watchdog not supported'};
+/*
 var skipUnlessWatchdog = agent.internal.supports.watchdog
                        ? false
                        : {skip: 'watchdog not supported'};
+*/
 var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
                     ? false
                     : {skip: 'tested feature requires license'};
@@ -133,6 +136,7 @@ function hitCount(profile) {
   return count;
 }
 
+/* FIME(bajtos) re-enable once we have the implementation in place
 test('start cpu profiling', function(t) {
   t.plan(5);
   ee.once('cpu-profiling', function(n) {
@@ -221,6 +225,7 @@ test('stop object tracking', skipIfNoLicense, function(t) {
     t.ifError(rsp.error);
   }));
 });
+*/
 
 test('heap snapshot', function(t) {
   t.plan(4);

@@ -1,3 +1,4 @@
+/* FIXME(bajtos) re-enable once we have the implementation back in place
 var debug = require('./debug');
 var helper = require('./helper');
 var http = require('http');
@@ -41,3 +42,4 @@ function sendHttpRequest(host, port) {
     });
   });
 }
+*/

@@ -1,3 +1,4 @@
+/* FIXME(bajtos) re-enable once we have the implementation back in place
 var helper = require('./helper');
 var tap = require('tap');
 
@@ -33,14 +34,13 @@ tap.test('runctl patch', function(t) {
     fs.writeFileSync('_patch.json', '{"no-such-file-anywhere-i-hope":[]}');
   });
 
-/*
-XXX(sam) Metrics can't be disabled ATM, not if you have a parent process, so
-this will require a different way of spawning the child process to trigger.
-
-failon('patch 0 _patch.json', /not configured to report metrics/);
-*/
+// XXX(sam) Metrics can't be disabled ATM, not if you have a parent process, so
+// this will require a different way of spawning the child process to trigger.
+//
+// failon('patch 0 _patch.json', /not configured to report metrics/);
 
   t.doesNotThrow(function() {
     expect('stop');
   });
 });
+*/

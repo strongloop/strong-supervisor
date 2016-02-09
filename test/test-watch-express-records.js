@@ -1,3 +1,4 @@
+/* FIXME(bajtos) re-enable once we have the implementation back in place
 'use strict';
 
 var agent = require('../lib/agent');
@@ -31,3 +32,4 @@ tap.test('express-records', function(t) {
 
   t.end();
 });
+*/
