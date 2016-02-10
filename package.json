@@ -33,6 +33,7 @@
     "slrc": "./bin/sl-runctl.js"
   },
   "scripts": {
+    "postinstall": "node disable-mqtt.js",
     "lint": "eslint ./",
     "pretest": "npm run lint",
     "test": "tap --bail --timeout 300 test/test-watch-heart-beat.js test/test-run-appmetrics-usage.js"
