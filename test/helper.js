@@ -156,7 +156,7 @@ exports.runWithControlChannel = function(appWithArgs, runArgs, onMessage) {
   }
 
   var options = {
-    stdio: [0, 1, 2, 'ipc'],
+    stdio: [0, 2, 2, 'ipc'],
     env: util._extend({
       STRONGLOOP_BASE_INTERVAL: 500,
       STRONGLOOP_FLUSH_INTERVAL: 2,
@@ -167,6 +167,7 @@ exports.runWithControlChannel = function(appWithArgs, runArgs, onMessage) {
 
   var args = [
     runner,
+    '--no-profile',
     '--no-timestamp-workers',
     '--no-timestamp-supervisor'
   ].concat(runArgs).concat(appWithArgs);
