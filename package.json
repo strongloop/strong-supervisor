@@ -36,7 +36,7 @@
     "postinstall": "node disable-mqtt.js",
     "lint": "eslint ./",
     "pretest": "npm run lint",
-    "test": "tap --bail --timeout 300 test/test-watch-heart-beat.js test/test-run-appmetrics-usage.js"
+    "test": "tap --bail --timeout 300 test/test-watch-heart-beat.js test/test-run-appmetrics-usage.js test/test-ws*.js"
   },
   "dependencies": {
     "appmetrics": "^1.0.6",
