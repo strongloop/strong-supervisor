@@ -34,7 +34,7 @@
   },
   "scripts": {
     "postinstall": "node disable-mqtt.js",
-    "lint": "eslint ./",
+    "lint": "eslint --ignore-path=.eslintignore ./",
     "pretest": "npm run lint",
     "test": "tap --bail --timeout 300 test/test-watch-heart-beat.js test/test-run-appmetrics-usage.js test/test-ws*.js"
   },
@@ -52,7 +52,8 @@
     "strong-statsd": "^2.0.0",
     "strong-trace": "^1.2.0",
     "strong-url-defaults": "^1.2.0",
-    "strongloop-license": "^1.3.0"
+    "strongloop-license": "^1.3.0",
+    "tar": "^2.2.1"
   },
   "devDependencies": {
     "byline": "^4.2.1",
@@ -74,5 +75,8 @@
     "heapdump": "^0.3.5",
     "modern-syslog": "^1.x",
     "strong-debugger": "^1.0.0"
-  }
+  },
+  "bundleDependencies": [
+    "appmetrics"
+  ]
 }
