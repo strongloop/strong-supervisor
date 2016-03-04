@@ -36,7 +36,7 @@
     "prepublish": "npm install --ignore-scripts ./appmetrics.tgz",
     "postinstall": "node disable-mqtt.js",
     "lint": "eslint --ignore-path=.eslintignore ./",
-    "pretest": "npm run lint",
+    "pretest": "npm rebuild appmetrics; npm run lint",
     "test": "tap --bail --timeout 300 test/test-watch-heart-beat.js test/test-run-appmetrics-usage.js test/test-ws*.js"
   },
   "dependencies": {
