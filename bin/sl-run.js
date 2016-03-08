@@ -24,9 +24,10 @@ if (config.enableTracing && config.isWorker) {
 var agent = require('../lib/agent');
 var agentOptions = {
   quiet: config.isWorker, // Quiet in worker, to avoid repeated log messages
-  logger: config.logger,
-  strongTracer: tracer(),
+  logger: config.logger, // XXX(sam) does appmetrics do any console writes?
+  strongTracer: tracer(), // XXX(sam) unsupported by appmetrics?
   interval: 0 | process.env.STRONGLOOP_BASE_INTERVAL || 15000,
+  // XXX(sam) interval is ignored by appmetrics
 };
 
 if (config.profile) {
