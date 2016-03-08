@@ -19,11 +19,15 @@ var skipIfNotLinux = process.platform !== 'linux'
                    ? {skip: 'linux only feature'}
                    : false;
 
+var skipUnlessWatchdog = agent.internal.supports.watchdog
+                       ? false
+                       : {skip: 'watchdog not supported'};
+
 function stall(count) {
   agent.internal.emit('watchdogActivationCount', count);
 }
 
-tap.test('cpu-profile', skipIfNotLinux || function(t) {
+tap.test('cpu-profile', skipUnlessWatchdog || skipIfNotLinux || function(t) {
   w.select('cpu-profile');
 
   t.test('in worker', function(tt) {

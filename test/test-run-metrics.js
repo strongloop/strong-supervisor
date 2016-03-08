@@ -23,7 +23,6 @@ var util = require('util');
 var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
                     ? false
                     : {skip: 'tested feature requires license'};
-
 tap.test('metrics', skipIfNoLicense, function(t) {
   var appPath = require.resolve('./module-app');
   var plan = 15; // for internal
