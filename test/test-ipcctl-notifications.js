@@ -5,7 +5,7 @@
 
 'use strict';
 
-var agent = require('strong-agent');
+var agent = require('../lib/agent')();
 var assert = require('assert');
 var async = require('async');
 var control = require('strong-control-channel/process');
@@ -154,11 +154,15 @@ test('start cpu profiling', function(t) {
 });
 
 test('let cpu profiler run', function(t) {
-  t.pass('waiting');
-  setTimeout(t.end, 500);
+  // Run some code to give the CPU profiler something to see.
+  t.plan(7);
+  var i = setInterval(function() {
+    t.pass('busy work for profile...');
+  }, 1000);
+  t.on('end', clearInterval.bind(null, i));
 });
 
-test('stop cpu profling', function(t) {
+test('stop cpu profiling', function(t) {
   t.plan(5);
   ee.once('cpu-profiling', function(n) {
     t.assert(n.wid > 0, 'Worker ID should be present');
@@ -168,6 +172,7 @@ test('stop cpu profling', function(t) {
   var req = {cmd: 'stop-cpu-profiling', target: 2};
   ctl.request(req, once(t, function(rsp) {
     t.ifError(rsp.error);
+    debug('profile: %j', rsp.profile);
     t.assert(hitCount(rsp.profile) > 1);
   }));
 });
