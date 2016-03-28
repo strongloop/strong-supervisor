@@ -1,3 +1,23 @@
+2016-02-18, Version 4.0.0-1
+===========================
+
+ * Add support for wss:// control channel (Miroslav Bajtoš)
+
+ * test: prevent sl-run from screwing TAP output (Miroslav Bajtoš)
+
+ * Disable MQTT connection (Miroslav Bajtoš)
+
+ * Emit CPU and memory usage from appmetrics (Miroslav Bajtoš)
+
+ * heart-beat: add a heart-beat watcher (Behnam Hajian)
+
+ * Remove strong-agent as dependency (Behnam Hajian)
+
+ * lint: fix style warnings in lib/logger.js (Ben Noordhuis)
+
+ * Refer to licenses with a link (Sam Roberts)
+
+
 2015-10-28, Version 3.3.1
 =========================
 
@@ -427,6 +447,10 @@
  * run: directly support statsd backends (Sam Roberts)
 
  * test: delete STRONGLOOP_METRICS after each test (Sam Roberts)
+
+
+2014-11-03, Version 1.1.1
+=========================
 
  * run: refactor usage into a text file (Sam Roberts)
 
