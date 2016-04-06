@@ -178,10 +178,20 @@ Run an app, allowing it to be profiled (using StrongOps) and supervised.
 `app` can be a node file to run or a package directory. The default value is
 ".", the current working directory. Packages will be run by requiring the first
 that is found of:
-  1. server.js
-  2. app.js
-  3. `main` property of package.json
-  4. index.js
+  1. JS file mentioned in `scripts.start` of package.json
+    *** NOTE: the script is no run and arguments are not preserved, only the
+        path of the script is used, eg:
+          `node --nodearg script.js --scriptarg` => 'script.js'
+          `node bin/www` => `bin/www`
+        The parser is simple, so options that accept arguments `--flag value`
+        will cause problems.
+  2. server.js
+  3. app.js
+  4. result of require(app)
+    1. `main` property of app package.json
+    2. `app`.js
+    3. `app`/index.js
+
 
 Options:
   -h,--help          Print this message and exit.
@@ -208,9 +218,9 @@ Options:
                        is found (this is the default).
   --no-profile       Do not start the agent, do not report to StrongOps,
                        do not report metrics.
-  -C,--control CTL   Listen for local control messages on CTL (default `pmctl`),
+  -C,--control CTL   Listen for control messages on CTL (default `runctl`),
                        only supported when clustered.
-  --no-control       Do not listen for local control messages.
+  --no-control       Do not listen for control messages.
 
 Log FILE is a path relative to the app's working directory if it is not
 absolute. To create a log file per process, FILE supports simple substitutions
