@@ -1,6 +1,5 @@
 var assert = require('assert');
 var chdir = require('../lib/chdir');
-var debug = require('./debug');
 var env = process.env;
 var fs = require('fs');
 var path = require('path');
@@ -28,7 +27,7 @@ function assertPwd() {
 
 describe('chdir', function() {
   beforeEach(relink);
-  
+
   it('should track pwd, which is not the same as cwd', function() {
     assertPwd(process.cwd());
     chdir(LINK);

@@ -1,6 +1,5 @@
 var assert = require('assert');
 var debug = require('./debug');
-var dgram = require('dgram');
 var send = require('../lib/metrics');
 
 var logger = {

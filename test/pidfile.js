@@ -25,17 +25,17 @@ function unlink() {
 function noSuchPid() {
   var pid = 0x7fffffff;
 
-  while(pid > 1) {
+  while (pid > 1) {
     try {
       process.kill(pid, 0);
     } catch (er) {
-      if(er.code == 'ESRCH') {
+      if (er.code === 'ESRCH') {
         return pid;
       }
     }
     pid = pid - 1;
   }
-  fail('could not find invalid pid?');
+  assert(false, 'could not find invalid pid?');
 }
 
 describe('pidfile', function() {

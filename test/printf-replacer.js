@@ -22,7 +22,7 @@ describe('printfReplacer', function() {
     { given: ['%h\nmiddle\n%i', {h: 'TOP', i: 'BOTTOM'}],
       expect: 'TOP\nmiddle\nBOTTOM' },
   ];
-  examples.forEach(function (example) {
+  examples.forEach(function(example) {
     var description = util.format('transforms %j into %j',
                                   example.given[0], example.expect);
     it(description, function() {

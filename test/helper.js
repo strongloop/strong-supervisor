@@ -1,10 +1,14 @@
 // test globals
+/* global assert,debug,fs,path,util,exec */
+/* eslint-disable */
 assert = require('assert');
 debug = require('./debug');
 fs = require('fs');
 path = require('path');
-shell = require('shelljs/global');
 util = require('util');
+/* eslint-enable */
+
+require('shelljs/global');
 
 // module locals
 var child = require('child_process');
@@ -47,7 +51,7 @@ exports.statsd = function statsd(callback) {
     server.port = server.address().port;
     return callback(server);
   }
-}
+};
 
 exports.runCtl = {
   supervise: supervise,
@@ -143,7 +147,7 @@ function pause(secs) {
 global.pause = pause;
 
 exports.runWithControlChannel = function(appWithArgs, runArgs, onMessage) {
-  if (onMessage == undefined && typeof runArgs === 'function') {
+  if (onMessage === undefined && typeof runArgs === 'function') {
     onMessage = runArgs;
     runArgs = [];
   }

@@ -1,7 +1,6 @@
 var loopback = require('loopback');
 var path = require('path');
 var app = module.exports = loopback();
-var started = new Date();
 
 app.set('port', process.env.PORT || 0);
 
@@ -46,7 +45,7 @@ try {
   var explorer = require('loopback-explorer');
   app.use(explorerPath, explorer(app, { basePath: apiPath }));
   explorerConfigured = true;
-} catch(e){
+} catch (e){
   // ignore errors, explorer stays disabled
 }
 
@@ -122,18 +121,18 @@ app.enableAuth();
 
 // I'm a bit baffled... if we don't start, we just throw the app object away? To
 // what end?
-if(require.main === module) {
-  var server = require('http').createServer(app).listen(app.get('port'), app.get('host'),
-    function(){
-      var baseUrl = 'http://' + app.get('host') + ':' + server.address().port;
-      if (explorerConfigured) {
-        console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
-      } else {
-        console.log(
-          'Run `npm install loopback-explorer` to enable the LoopBack explorer'
-        );
-      }
-      console.log('LoopBack server listening @ %s%s', baseUrl, '/');
+if (require.main === module) {
+  var port = app.get('port');
+  var host = app.get('host');
+  var server = require('http').createServer(app).listen(port, host, function(){
+    var baseUrl = 'http://' + app.get('host') + ':' + server.address().port;
+    if (explorerConfigured) {
+      console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
+    } else {
+      console.log(
+        'Run `npm install loopback-explorer` to enable the LoopBack explorer'
+      );
     }
-  );
+    console.log('LoopBack server listening @ %s%s', baseUrl, '/');
+  });
 }
