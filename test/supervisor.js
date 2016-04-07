@@ -7,11 +7,11 @@ var cwd = process.cwd();
 
 function once(fn) {
   return function() {
-    if(fn) {
+    if (fn) {
       fn.apply(null, arguments);
       fn = null;
     }
-  }
+  };
 }
 
 describe('supervisor', function(done) {
@@ -21,7 +21,7 @@ describe('supervisor', function(done) {
 
   this.afterEach(function(done) {
     process.chdir(cwd);
-    if(!child || child.exitCode != null || child.signalCode) {
+    if (!child || child.exitCode != null || child.signalCode) {
       return done();
     }
     child.on('exit', function() {
@@ -40,18 +40,18 @@ describe('supervisor', function(done) {
     return child;
 
     function data(data) {
-      debug('> ' + data)
+      debug('> ' + data);
       expectations = expectations.filter(function(expect) {
         return !expect.test(data);
       });
-      if(expectations.length == 0) {
+      if (expectations.length === 0) {
         return done();
       }
     }
   }
 
   function run(dir, args, expectations) {
-    it('should run ['+args.join(',')+'] from '+dir, function(done) {
+    it('should run [' + args.join(',') + '] from ' + dir, function(done) {
       runSlr(dir, args, expectations, done);
     });
   }
@@ -119,7 +119,7 @@ describe('supervisor', function(done) {
     run('.', ['--help', 'help-option'], [/usage: slr/]);
     run('.', ['-h', 'h-option'], [/usage: slr/]);
 
-    var VERSION = RegExp('v'+require('../package.json').version);
+    var VERSION = RegExp('v' + require('../package.json').version);
 
     run('.', ['--version', 'version-option'], [VERSION]);
     run('.', ['-v', 'v-option'], [VERSION]);

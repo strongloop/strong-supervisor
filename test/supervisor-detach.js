@@ -29,10 +29,9 @@ describe('supervisor --detach', function() {
   it('creates a detached process', function(done) {
     var app = path.join('test', 'module-app');
     var cmd = [slr, '--detach', app].join(' ');
-    var detached = child_process.exec(cmd, function(err, stdout, stderr) {
+    child_process.exec(cmd, function(err, stdout, stderr) {
       assert.ifError(err);
       var parts = exp.exec(stderr.toString());
-      var superPid = parts[1];
       var detachedPid = parts[2];
       var logName = parts[3];
       var logPath = path.join(app, logName);
@@ -45,10 +44,9 @@ describe('supervisor --detach', function() {
   it('creates a log file matching spec', function(done) {
     var app = path.join('test', 'module-app');
     var cmd = [slr, '--detach', '--log=myApp-%w-%p.log', app].join(' ');
-    var detached = child_process.exec(cmd, function(err, stdout, stderr) {
+    child_process.exec(cmd, function(err, stdout, stderr) {
       assert.ifError(err);
       var parts = exp.exec(stderr.toString());
-      var superPid = parts[1];
       var detachedPid = parts[2];
       var logName = parts[3];
       var logPath = path.join(app, logName);

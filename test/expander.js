@@ -25,7 +25,7 @@ describe('expander.expand', function() {
       expect: 'undefined.false.0[null]' },
   ];
 
-  examples.forEach(function (e) {
+  examples.forEach(function(e) {
     it('generates "' + e.expect + '" from "' + e.given + '"', function() {
       var result = expander.expand.apply(null, e.given);
       assert.equal(result, e.expect);
