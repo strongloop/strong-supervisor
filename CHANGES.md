@@ -1,3 +1,15 @@
+2016-04-11, Version 3.3.2
+=========================
+
+ * package: update to eslint@2, lint test/ (Sam Roberts)
+
+ * Update usage in README (Sam Roberts)
+
+ * lint: fix style warnings in lib/logger.js (Ben Noordhuis)
+
+ * Refer to licenses with a link (Sam Roberts)
+
+
 2015-10-28, Version 3.3.1
 =========================
 
@@ -427,6 +439,10 @@
  * run: directly support statsd backends (Sam Roberts)
 
  * test: delete STRONGLOOP_METRICS after each test (Sam Roberts)
+
+
+2014-11-03, Version 1.1.1
+=========================
 
  * run: refactor usage into a text file (Sam Roberts)
 
