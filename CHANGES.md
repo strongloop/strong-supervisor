@@ -1,3 +1,11 @@
+2016-05-05, Version 3.3.3
+=========================
+
+ * package: remove strong-debugger (Sam Roberts)
+
+ * package: ignore test output (Sam Roberts)
+
+
 2016-04-11, Version 3.3.2
 =========================
 
