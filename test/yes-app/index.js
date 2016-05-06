@@ -1,3 +1,8 @@
+// Copyright IBM Corp. 2014,2015. All Rights Reserved.
+// Node module: strong-supervisor
+// This file is licensed under the Artistic License 2.0.
+// License text available at https://opensource.org/licenses/Artistic-2.0
+
 var explitive = process.argv.length > 2
               ? process.argv.slice(2).join(' ')
               : 'yes';

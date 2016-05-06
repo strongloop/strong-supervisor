@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+// Copyright IBM Corp. 2014,2016. All Rights Reserved.
+// Node module: strong-supervisor
+// This file is licensed under the Artistic License 2.0.
+// License text available at https://opensource.org/licenses/Artistic-2.0
 
 // Exit on loss of parent process, if it had established an ipc control channel.
 // We do this ASAP because we don't want child processes to leak, outliving
