@@ -26,7 +26,7 @@ Options:
   -d,--detach        Detach master from terminal to run as a daemon (default is
 		       to not detach). When detaching, the --log option
 		       defaults to supervisor.log
-  -l,--log FILE      When clustered, write supervisor and worker output to FILE
+  -l,--log FILE      Write supervisor and worker output to FILE
                        (defaults to "-", meaning log to stdout).
   --no-timestamp-workers
                      Disable timestamping of worker log lines by supervisor.
@@ -40,13 +40,12 @@ Options:
   --metrics BACKEND  Report metrics to custom backend. Implies `--profile`.
   -p,--pid FILE      Write supervisor's pid to FILE, failing if FILE already
                        has a valid pid in it (default is no pid file).
-  --cluster N        Set the cluster size (default is off, but see below).
+  --cluster N        Set the cluster size (default is 'cpu', but see below).
   --profile          Start the agent. Report to StrongOps if registration data
                        is found (this is the default).
   --no-profile       Do not start the agent, do not report to StrongOps,
                        do not report metrics.
-  -C,--control CTL   Listen for control messages on CTL (default `runctl`),
-                       only supported when clustered.
+  -C,--control CTL   Listen for control messages on CTL (default `runctl`).
   --no-control       Do not listen for control messages.
 
 Log FILE is a path relative to the app's working directory if it is not
@@ -69,8 +68,3 @@ Cluster size N is one of:
 
 - A number of workers to run
 - A string containing "cpu" to run a worker per CPU
-- The string "off" to run unclustered, in which case the app will *NOT* be
-  supervisable or controllable, but will be monitored.
-
-Clustering defaults to off unless `NODE_ENV` is "production", in which case it
-defaults to "CPUs".

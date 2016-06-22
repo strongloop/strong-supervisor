@@ -124,10 +124,10 @@ tap.test('supervisor', function(t) {
     ];
 
     run(t, '.', ['--no-cluster', 'test/module-app/index.js', '--cluster=10'],
-        EXPECT);
+        [ /Invalid cluster option: no/ ]);
     run(t, '.',
         [ '--cluster', 'off', 'test/module-app/index.js', '--cluster=10' ],
-        EXPECT);
+        [ /Invalid cluster option: off/ ]);
     run(t, '.', ['--cluster', '1', 'test/module-app/index.js', '--cluster=10'],
         EXPECT);
 

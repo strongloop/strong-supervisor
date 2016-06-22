@@ -62,17 +62,12 @@ switch (config.profile) {
     break;
 }
 
-if ((config.clustered && config.isMaster) || config.detach) {
+if ((config.isMaster) || config.detach) {
   return config.start();
 }
 
 config.sendMetrics();
-
-if (config.clustered) {
-  config.watcher();
-} else {
-  console.log('supervisor running without clustering (unsupervised)');
-}
+config.watcher();
 
 // Reset argv to not include the runner (at argv[1]).
 process.argv = process.argv.slice(0, 1).concat(process.argv.slice(2));
