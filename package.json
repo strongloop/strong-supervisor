@@ -34,7 +34,7 @@
   },
   "scripts": {
     "pretest": "eslint ./",
-    "test": "tap --bail --timeout 300 test/test-*.js"
+    "test": "tap --timeout 300 test/test-*.js"
   },
   "dependencies": {
     "async": "^1.0.0",
