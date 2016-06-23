@@ -16,7 +16,6 @@ var args = [
 tap.test('mocha tests', function(t) {
   var tests = [
     'test/supervisor-detach.js',
-    'test/supervisor.js',
   ];
   tests.forEach(function(test) {
     t.spawn(process.execPath, args.concat([test]), {cwd: cwd}, test);
