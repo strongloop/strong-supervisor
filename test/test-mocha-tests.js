@@ -15,7 +15,6 @@ var args = [
 
 tap.test('mocha tests', function(t) {
   var tests = [
-    'test/printf-replacer.js',
     'test/supervisor-detach.js',
     'test/supervisor.js',
   ];
