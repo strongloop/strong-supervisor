@@ -5,11 +5,10 @@
 
 'use strict';
 
-var assert = require('assert');
-
 var expander = require('../lib/expander');
+var tap = require('tap');
 
-describe('expander.expand', function() {
+tap.test('expander.expand', function(t) {
   var example_worker = {
     id: 1,
     pid: 1234,
@@ -31,9 +30,12 @@ describe('expander.expand', function() {
   ];
 
   examples.forEach(function(e) {
-    it('generates "' + e.expect + '" from "' + e.given + '"', function() {
+    t.test('generates "' + e.expect + '" from "' + e.given + '"', function(t) {
       var result = expander.expand.apply(null, e.given);
-      assert.equal(result, e.expect);
+      t.equal(result, e.expect);
+      t.end();
     });
   });
+
+  t.end();
 });

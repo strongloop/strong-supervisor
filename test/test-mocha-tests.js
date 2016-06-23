@@ -15,7 +15,6 @@ var args = [
 
 tap.test('mocha tests', function(t) {
   var tests = [
-    'test/expander.js',
     'test/metrics.js',
     'test/pidfile.js',
     'test/printf-replacer.js',
