@@ -8,6 +8,20 @@ to run node applications, but it can also be used standalone.
 
 For more details, see http://strong-pm.io.
 
+*NOTE:* strong-supervisor@5 has dropped support for some legacy features that
+were added as a transitional measure towards strong-pm.
+
+- running detached: this mode existed to provide a kindof light weight daemon,
+  but didn't include the generation of the init.d/systemd/upstart scripts required
+  for production usage, and those system startup tools already take care of
+  daemonization, so the feature is being removed. Use strong-pm, or use
+  start-stop-daemon or https://www.npmjs.com/package/strong-service-install with
+  the strong-supervisor.
+- running unclustered: this mode disabled most features of strong-supervisor
+  but still started the agent, originally intended to report to the StrongOps
+  service even when running apps on dev laptops, the service no longer exists,
+  so the feature is no longer supported and needs no replacement.
+
 
 ## Installation
 
@@ -86,10 +100,7 @@ applications root directory, if it exists (see
 
 ### Daemonization
 
-Supervisor can detach the master from the controlling terminal, allowing to run
-as a daemon. This behaviour is optional, see the `--detach` option.
-
-This can be useful when launching from a shell, but is not recommended for
+`sl-run can be useful when launching from a shell, but is not recommended for
 production use. For production use it is best to run the supervisor from an init
 script and let the init system handle daemonization.
 
@@ -196,9 +207,6 @@ that is found of:
 Options:
   -h,--help          Print this message and exit.
   -v,--version       Print runner version and exit.
-  -d,--detach        Detach master from terminal to run as a daemon (default is
-		       to not detach). When detaching, the --log option
-		       defaults to supervisor.log
   -l,--log FILE      Write supervisor and worker output to FILE
                        (defaults to "-", meaning log to stdout).
   --no-timestamp-workers
@@ -214,10 +222,8 @@ Options:
   -p,--pid FILE      Write supervisor's pid to FILE, failing if FILE already
                        has a valid pid in it (default is no pid file).
   --cluster N        Set the cluster size (default is 'cpu', but see below).
-  --profile          Start the agent. Report to StrongOps if registration data
-                       is found (this is the default).
-  --no-profile       Do not start the agent, do not report to StrongOps,
-                       do not report metrics.
+  --profile          Inject node instrumentation, the default.
+  --no-profile       Do not inject node instrumentation.
   -C,--control CTL   Listen for control messages on CTL (default `runctl`).
   --no-control       Do not listen for control messages.
 

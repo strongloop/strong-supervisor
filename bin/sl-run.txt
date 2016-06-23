@@ -23,9 +23,6 @@ that is found of:
 Options:
   -h,--help          Print this message and exit.
   -v,--version       Print runner version and exit.
-  -d,--detach        Detach master from terminal to run as a daemon (default is
-		       to not detach). When detaching, the --log option
-		       defaults to supervisor.log
   -l,--log FILE      Write supervisor and worker output to FILE
                        (defaults to "-", meaning log to stdout).
   --no-timestamp-workers
@@ -41,10 +38,8 @@ Options:
   -p,--pid FILE      Write supervisor's pid to FILE, failing if FILE already
                        has a valid pid in it (default is no pid file).
   --cluster N        Set the cluster size (default is 'cpu', but see below).
-  --profile          Start the agent. Report to StrongOps if registration data
-                       is found (this is the default).
-  --no-profile       Do not start the agent, do not report to StrongOps,
-                       do not report metrics.
+  --profile          Inject node instrumentation, the default.
+  --no-profile       Do not inject node instrumentation.
   -C,--control CTL   Listen for control messages on CTL (default `runctl`).
   --no-control       Do not listen for control messages.
 
