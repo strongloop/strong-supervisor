@@ -62,7 +62,7 @@
     "optimist": "~0.6.0",
     "shelljs": "^0.5.0",
     "strong-express-metrics": "^2.0.0",
-    "tap": "^5.7.1",
+    "tap": "^6.1.1",
     "try-thread-sleep": "^1.0.0"
   },
   "engine": {
