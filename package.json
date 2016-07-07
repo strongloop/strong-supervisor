@@ -57,7 +57,6 @@
     "eslint": "^2.x",
     "eslint-config-strongloop": "^2.x",
     "express": "^4.0.0",
-    "loopback": "1.4.x",
     "mocha": "^2.2.4",
     "optimist": "~0.6.0",
     "shelljs": "^0.5.0",
