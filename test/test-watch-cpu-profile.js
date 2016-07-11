@@ -19,9 +19,6 @@ var skipIfNotLinux = process.platform !== 'linux'
                    ? {skip: 'linux only feature'}
                    : false;
 
-// FIXME(toby) watchdog!
-skipIfNotLinux = {skip: 'FIXME appmetrics missing watchdog'};
-
 function stall(count) {
   agent.internal.emit('watchdogActivationCount', count);
 }
