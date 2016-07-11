@@ -6,7 +6,7 @@
 var helper = require('./helper');
 var tap = require('tap');
 
-return tap.test('objects', function() {
+return tap.test('objects', {skip: 'FIXME appmetrics'}, function() {
 });
 
 var skipIfNoLicense = process.env.STRONGLOOP_LICENSE

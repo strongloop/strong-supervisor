@@ -47,18 +47,18 @@ switch (config.profile) {
     // compatible.
     agent().profile(undefined, undefined, agentOptions);
     // Otherwise, just start. This is a no-op if it is already started.
-    //agent().start();
+    // agent().start();
     break;
 
   case true: // Profiling or metrics explicitly enabled.
-   // agent().configure(agentOptions);
+    // agent().configure(agentOptions);
     // Only try to start StrongOps if they have registered, to avoid legacy
     // warning messages. If an app is missing a name, profile may still fail
     // to start, so drop-through to start(). We must re-supply options.
-   // if (agent().config.key)
-     // agent().profile(undefined, undefined, agentOptions);
+    // if (agent().config.key)
+    // agent().profile(undefined, undefined, agentOptions);
     // Otherwise, just start. This is a no-op if already started.
-    //agent().start();
+    // agent().start();
     agent().configure(agentOptions);
     break;
 
