@@ -17,6 +17,7 @@ var config = require('../lib/config'); // May exit, depending on argv
 var log = config.logger;
 var agent = require('../lib/agent');
 agent().start();
+agent().configure(agentOptions);
 var tracer = require('../lib/tracer');
 
 if (config.enableTracing && config.isWorker) {
@@ -57,7 +58,7 @@ switch (config.profile) {
     // agent().profile(undefined, undefined, agentOptions);
     // Otherwise, just start. This is a no-op if already started.
     // agent().start();
-    agent().configure(agentOptions);
+    // agent().configure(agentOptions);
     break;
 
   default:
