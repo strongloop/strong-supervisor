@@ -17,7 +17,7 @@ var config = require('../lib/config'); // May exit, depending on argv
 var log = config.logger;
 var agent = require('../lib/agent');
 agent().start();
-agent().configure(agentOptions);
+
 var tracer = require('../lib/tracer');
 
 if (config.enableTracing && config.isWorker) {
@@ -32,6 +32,8 @@ var agentOptions = {
   interval: 0 | process.env.STRONGLOOP_BASE_INTERVAL || 15000,
   // XXX(sam) interval is ignored by appmetrics
 };
+
+agent().configure(agentOptions);
 
 // XXX(sam) much of below is not applicable or necessary with appmetrics
 switch (config.profile) {
