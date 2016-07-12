@@ -22,7 +22,7 @@ var watcher = w.watcher;
 // when its found, emitting what it observes on the agent. the supervisor
 // transports the data up to strong-pm, arc queries it, and Voila, information
 // about all the HTTP API calls is available in arc.
-tap.test('express-records', {skip: 'FIXME appmetrics'}, function(t) {
+tap.test('express-records', function(t) {
   w.select('express-records');
 
   t.test('in worker', function(tt) {
