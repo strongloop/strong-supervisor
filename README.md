@@ -62,6 +62,16 @@ timers using the `patch` command. See
 [strong-agent](https://github.com/strongloop/strong-agent#custom-metrics)
 for a description of the patch format.
 
+### APM
+
+Metrics can also be gathered for use with the IBM Application Performance
+Management suite. To enable, run `export STRONGLOOP_APM_ENABLE=true`, or
+`set STRONGLOOP_APM_ENABLE=true` for Windows.
+
+If your APM is not installed in the default location, you can set the target
+directory with `export STRONGLOOP_APM_PATH=<path>` or
+`set STRONGLOOP_APM_PATH=<path>` for Windows.
+
 ### Profiling control
 
 Expensive profiling (such as object tracking or call tracing) can by dynamically

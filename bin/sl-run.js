@@ -18,6 +18,15 @@ var config = require('../lib/config'); // May exit, depending on argv
 var log = config.logger;
 var tracer = require('../lib/tracer');
 
+if (process.env.STRONGLOOP_APM_ENABLE && config.isWorker) {
+  try {
+    var apmPath = require('../lib/apm')();
+    log.info('APM plugin loaded from: %s', apmPath);
+  } catch (err) {
+    log.error('APM plugin failed to load: %s', err.message);
+  }
+}
+
 if (config.enableTracing && config.isWorker) {
   if (!tracer.start())
     log.error('supervisor failed to enable tracing');
