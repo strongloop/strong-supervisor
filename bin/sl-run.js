@@ -16,76 +16,78 @@ var assert = require('assert');
 var config = require('../lib/config'); // May exit, depending on argv
 var log = config.logger;
 var agent = require('../lib/agent');
-agent().start();
+agent().start(function() {
+  var tracer = require('../lib/tracer');
 
-var tracer = require('../lib/tracer');
+  if (config.enableTracing && config.isWorker) {
+    if (!tracer.start())
+      log.error('supervisor failed to enable tracing');
+  }
 
-if (config.enableTracing && config.isWorker) {
-  if (!tracer.start())
-    log.error('supervisor failed to enable tracing');
-}
+  var agentOptions = {
+    quiet: config.isWorker, // Quiet in worker, to avoid repeated log messages
+    logger: config.logger, // XXX(sam) does appmetrics do any console writes?
+    strongTracer: tracer(), // XXX(sam) unsupported by appmetrics?
+    interval: 0 | process.env.STRONGLOOP_BASE_INTERVAL || 15000,
+    // XXX(sam) interval is ignored by appmetrics
+  };
 
-var agentOptions = {
-  quiet: config.isWorker, // Quiet in worker, to avoid repeated log messages
-  logger: config.logger, // XXX(sam) does appmetrics do any console writes?
-  strongTracer: tracer(), // XXX(sam) unsupported by appmetrics?
-  interval: 0 | process.env.STRONGLOOP_BASE_INTERVAL || 15000,
-  // XXX(sam) interval is ignored by appmetrics
-};
+  agent().configure(agentOptions);
 
-agent().configure(agentOptions);
+  // XXX(sam) much of below is not applicable or necessary with appmetrics
+  switch (config.profile) {
+    case false: // Profiling explicitly disabled.
+      if (config.isMaster) {
+        log.error('supervisor running without profiling');
+      }
+      break;
 
-// XXX(sam) much of below is not applicable or necessary with appmetrics
-switch (config.profile) {
-  case false: // Profiling explicitly disabled.
-    if (config.isMaster) {
-      log.error('supervisor running without profiling');
-    }
-    break;
+    case undefined: // No explicit request for profiling or metrics.
+      // Start with StrongOps if app is registered. This will print warning
+      // messages to the console if the api key is not found, which is backwards
+      // compatible.
+      agent().profile(undefined, undefined, agentOptions);
+      // Otherwise, just start. This is a no-op if it is already started.
+      // agent().start();
+      break;
 
-  case undefined: // No explicit request for profiling or metrics.
-    // Start with StrongOps if app is registered. This will print warning
-    // messages to the console if the api key is not found, which is backwards
-    // compatible.
-    agent().profile(undefined, undefined, agentOptions);
-    // Otherwise, just start. This is a no-op if it is already started.
-    // agent().start();
-    break;
+    case true: // Profiling or metrics explicitly enabled.
+      // Only try to start StrongOps if they have registered, to avoid legacy
+      // warning messages. If an app is missing a name, profile may still fail
+      // to start, so drop-through to start(). We must re-supply options.
+      // if (agent().config.key)
+      // agent().profile(undefined, undefined, agentOptions);
+      // Otherwise, just start. This is a no-op if already started.
+      // agent().start();
+      // agent().configure(agentOptions);
+      break;
 
-  case true: // Profiling or metrics explicitly enabled.
-    // Only try to start StrongOps if they have registered, to avoid legacy
-    // warning messages. If an app is missing a name, profile may still fail
-    // to start, so drop-through to start(). We must re-supply options.
-    // if (agent().config.key)
-    // agent().profile(undefined, undefined, agentOptions);
-    // Otherwise, just start. This is a no-op if already started.
-    // agent().start();
-    // agent().configure(agentOptions);
-    break;
+    default:
+      assert(false, 'invalid profile value');
+      break;
+  }
 
-  default:
-    assert(false, 'invalid profile value');
-    break;
-}
+  if ((config.clustered && config.isMaster) || config.detach) {
+    return config.start();
+  }
 
-if ((config.clustered && config.isMaster) || config.detach) {
-  return config.start();
-}
+  config.sendMetrics();
 
-config.sendMetrics();
+  if (config.clustered) {
+    config.watcher();
+  } else {
+    console.log('supervisor running without clustering (unsupervised)');
+  }
 
-if (config.clustered) {
-  config.watcher();
-} else {
-  console.log('supervisor running without clustering (unsupervised)');
-}
+  // Reset argv to not include the runner (at argv[1]).
+  process.argv = process.argv.slice(0, 1).concat(process.argv.slice(2));
 
-// Reset argv to not include the runner (at argv[1]).
-process.argv = process.argv.slice(0, 1).concat(process.argv.slice(2));
+  // Run as if app is the main module
+  require('module')._load(
+    require('path').resolve(process.argv[1]),
+    null, // parent
+    true  // isMain
+  );
 
-// Run as if app is the main module
-require('module')._load(
-  require('path').resolve(process.argv[1]),
-  null, // parent
-  true  // isMain
-);
+});
+
