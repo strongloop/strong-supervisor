@@ -3,9 +3,12 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 var debug = require('./debug');
 var fs = require('fs');
 var spawn = require('child_process').spawn;
+var tap = require('tap');
 
 var slr = require.resolve('../bin/sl-run');
 var cwd = process.cwd();
@@ -19,12 +22,10 @@ function once(fn) {
   };
 }
 
-describe('supervisor', function(done) {
+tap.test('supervisor', function(t) {
   var child;
 
-  this.timeout(10000); // CI machines are slow for process creation
-
-  this.afterEach(function(done) {
+  function afterEach(done) {
     process.chdir(cwd);
     if (!child || child.exitCode != null || child.signalCode) {
       return done();
@@ -32,7 +33,7 @@ describe('supervisor', function(done) {
     child.on('exit', function() {
       done();
     }).kill('SIGKILL');
-  });
+  }
 
   function runSlr(dir, args, expectations, done) {
     done = once(done);
@@ -55,130 +56,151 @@ describe('supervisor', function(done) {
     }
   }
 
-  function run(dir, args, expectations) {
-    it('should run [' + args.join(',') + '] from ' + dir, function(done) {
-      runSlr(dir, args, expectations, done);
+  function run(t, dir, args, expectations) {
+    t.test('should run [' + args.join(',') + '] from ' + dir, function(t) {
+      runSlr(dir, args, expectations, function() {
+        afterEach(t.end);
+      });
     });
   }
 
-  describe.skip('loopback', function() {
+  t.test('loopback', function(t) {
     var EXPECT = [
       /LoopBack server listening/,
       /profiling/
     ];
 
-    run('.', ['test/lb-app'], EXPECT);
-    run('.', ['test/lb-app/.'], EXPECT);
-    run('.', ['test/lb-app/app'], EXPECT);
-    run('.', ['test/lb-app/app.js'], EXPECT);
-    run('test/lb-app', [], EXPECT);
-    run('test/lb-app', ['.'], EXPECT);
-    run('test/lb-app', ['app'], EXPECT);
-    run('test/lb-app', ['app.js'], EXPECT);
+    run(t, '.', ['test/lb-app'], EXPECT);
+    run(t, '.', ['test/lb-app/.'], EXPECT);
+    run(t, '.', ['test/lb-app/app'], EXPECT);
+    run(t, '.', ['test/lb-app/app.js'], EXPECT);
+    run(t, 'test/lb-app', [], EXPECT);
+    run(t, 'test/lb-app', ['.'], EXPECT);
+    run(t, 'test/lb-app', ['app'], EXPECT);
+    run(t, 'test/lb-app', ['app.js'], EXPECT);
+
+    t.end();
   });
 
-  describe('express', function() {
+  t.test('express', function(t) {
     var EXPECT = [
       /express-app listening/
     ];
 
-    run('.', ['test/express-app'], EXPECT);
-    run('.', ['test/express-app/.'], EXPECT);
-    run('.', ['test/express-app/server'], EXPECT);
-    run('.', ['test/express-app/server.js'], EXPECT);
-    run('test', ['express-app/server'], EXPECT);
-    run('test/express-app', [], EXPECT);
-    run('test/express-app', ['.'], EXPECT);
-    run('test/express-app', ['server'], EXPECT);
-    run('test/express-app', ['server.js'], EXPECT);
+    run(t, '.', ['test/express-app'], EXPECT);
+    run(t, '.', ['test/express-app/.'], EXPECT);
+    run(t, '.', ['test/express-app/server'], EXPECT);
+    run(t, '.', ['test/express-app/server.js'], EXPECT);
+    run(t, 'test', ['express-app/server'], EXPECT);
+    run(t, 'test/express-app', [], EXPECT);
+    run(t, 'test/express-app', ['.'], EXPECT);
+    run(t, 'test/express-app', ['server'], EXPECT);
+    run(t, 'test/express-app', ['server.js'], EXPECT);
+
+    t.end();
   });
 
-  describe('module', function() {
+  t.test('module', function(t) {
     var EXPECT = [
       /module-app listening/,
       /VAR=.this var./,
     ];
 
-    run('.', ['test/module-app'], EXPECT);
-    run('.', ['test/module-app/.'], EXPECT);
-    run('.', ['test/module-app/index.js'], EXPECT);
-    run('test/module-app', [], EXPECT);
-    run('test/module-app', ['.'], EXPECT);
-    run('test/module-app', ['index.js'], EXPECT);
+    run(t, '.', ['test/module-app'], EXPECT);
+    run(t, '.', ['test/module-app/.'], EXPECT);
+    run(t, '.', ['test/module-app/index.js'], EXPECT);
+    run(t, 'test/module-app', [], EXPECT);
+    run(t, 'test/module-app', ['.'], EXPECT);
+    run(t, 'test/module-app', ['index.js'], EXPECT);
+
+    t.end();
   });
 
-  describe('argument processing', function() {
+  t.test('argument processing', function(t) {
     var EXPECT = [
       /module-app listening/,
       /argv 1:.*index.js/,
       /argv 2: --cluster=10/,
     ];
 
-    run('.', ['--no-cluster', 'test/module-app/index.js', '--cluster=10'],
-        EXPECT);
-    run('.', ['--cluster', 'off', 'test/module-app/index.js', '--cluster=10'],
-        EXPECT);
-    run('.', ['--cluster', '1', 'test/module-app/index.js', '--cluster=10'],
+    run(t, '.', ['--no-cluster', 'test/module-app/index.js', '--cluster=10'],
+        [ /Invalid cluster option: no/ ]);
+    run(t, '.',
+        [ '--cluster', 'off', 'test/module-app/index.js', '--cluster=10' ],
+        [ /Invalid cluster option: off/ ]);
+    run(t, '.', ['--cluster', '1', 'test/module-app/index.js', '--cluster=10'],
         EXPECT);
 
-    run('.', ['--help', 'help-option'], [/usage: slr/]);
-    run('.', ['-h', 'h-option'], [/usage: slr/]);
+    run(t, '.', ['--help', 'help-option'], [/usage: slr/]);
+    run(t, '.', ['-h', 'h-option'], [/usage: slr/]);
 
     var VERSION = RegExp('v' + require('../package.json').version);
 
-    run('.', ['--version', 'version-option'], [VERSION]);
-    run('.', ['-v', 'v-option'], [VERSION]);
+    run(t, '.', ['--version', 'version-option'], [VERSION]);
+    run(t, '.', ['-v', 'v-option'], [VERSION]);
+
+    t.end();
   });
 
-  describe('timestamping', function() {
+  t.test('timestamping', function(t) {
     var TS_WORKER = /^\d+-\d+-\d+T\d+:\d+:\d+.\d+Z pid:\d+ worker:\d+ .+/;
     var TS_SUPER = /^\d+-\d+-\d+T\d+:\d+:\d+.\d+Z pid:\d+ worker:0 .+/;
     var NO_TS_WORKER = /^pid:\d+ worker:\d+ .+/;
     var NO_TS_SUPER = /^pid:\d+ worker:0 .+/;
 
-    describe('worker logs', function() {
+    t.test('worker logs', function(t) {
       var EXPECT_TIMESTAMPS = [ TS_WORKER, TS_SUPER ];
       var EXPECT_NO_TIMESTAMPS = [ NO_TS_WORKER, TS_SUPER ];
 
-      run('.', ['--cluster', '1', 'test/yes-app'], EXPECT_TIMESTAMPS);
-      run('.', ['--cluster', '1', '--no-timestamp-workers', 'test/yes-app'],
+      run(t, '.', ['--cluster', '1', 'test/yes-app'], EXPECT_TIMESTAMPS);
+      run(t, '.', ['--cluster', '1', '--no-timestamp-workers', 'test/yes-app'],
           EXPECT_NO_TIMESTAMPS);
+
+      t.end();
     });
 
-    describe('supervisor logs', function() {
+    t.test('supervisor logs', function(t) {
       var EXPECT_TIMESTAMPS = [ TS_WORKER, TS_SUPER ];
       var EXPECT_NO_TIMESTAMPS = [ TS_WORKER, NO_TS_SUPER ];
 
-      run('.', ['--cluster', '1', 'test/yes-app'], EXPECT_TIMESTAMPS);
-      run('.', ['--cluster', '1', '--no-timestamp-supervisor', 'test/yes-app'],
+      run(t, '.', ['--cluster', '1', 'test/yes-app'], EXPECT_TIMESTAMPS);
+      run(t, '.',
+          ['--cluster', '1', '--no-timestamp-supervisor', 'test/yes-app'],
           EXPECT_NO_TIMESTAMPS);
+
+      t.end();
     });
+
+    t.end();
   });
 
-  describe('log decoration', function() {
+  t.test('log decoration', function(t) {
     var TAGS_WORKER = /^pid:\d+ worker:1 .+/;
     var TAGS_SUPER = /^pid:\d+ worker:0 .+/;
     var NO_TAGS = /^yes/;
 
-    describe('tag logs', function() {
+    t.test('tag logs', function(t) {
       var EXPECT_TAGS = [ TAGS_WORKER, TAGS_SUPER ];
       var EXPECT_NO_TAGS = [ NO_TAGS, NO_TAGS ];
 
-      run('.', ['--cluster', '1',
+      run(t, '.', ['--cluster', '1',
                 '--no-timestamp-supervisor', '--no-timestamp-workers',
                 'test/yes-app'],
           EXPECT_TAGS);
-      run('.', ['--cluster', '1',
+      run(t, '.', ['--cluster', '1',
                 '--no-timestamp-supervisor', '--no-timestamp-workers',
                 '--no-log-decoration',
                 'test/yes-app'],
           EXPECT_NO_TAGS);
+
+      t.end();
     });
 
+    t.end();
   });
 
-  describe('SIGHUP of supervisor', function() {
-    it('should chdir into PWD before restarting', function(done) {
+  t.test('SIGHUP of supervisor', function(t) {
+    t.test('should chdir into PWD before restarting', function(t) {
       var EXPECT = [
         /PWD=.*.test.x-app/,
         /CWD=.*.test.v1-app/,
@@ -204,14 +226,25 @@ describe('supervisor', function(done) {
           symlink('v2-app');
           child.kill('SIGHUP');
         });
+
+      function done() {
+        afterEach(t.end);
+      }
     });
+
+    t.end();
   });
-  describe('chdir behaviour', function() {
+
+  t.test('chdir behaviour', function(t) {
     var EXPECT = [
       /deep-app listening/,
       /argv 1:.*path\/to\/deep.js/,
     ];
 
-    run('.', ['test/module-app/path/to/deep.js'], EXPECT);
+    run(t, '.', ['test/module-app/path/to/deep.js'], EXPECT);
+
+    t.end();
   });
+
+  t.end();
 });

@@ -3,7 +3,7 @@
   "description": "supervisor and monitor for node.js applications",
   "author": "Sam Roberts <sam@strongloop.com>",
   "license": "Artistic-2.0",
-  "version": "3.3.3",
+  "version": "5.0.0",
   "main": "index.js",
   "keywords": [
     "agent",
@@ -34,7 +34,7 @@
   },
   "scripts": {
     "pretest": "eslint ./",
-    "test": "tap --bail --timeout 300 test/test-*.js"
+    "test": "tap --timeout 300 test/test-*.js"
   },
   "dependencies": {
     "async": "^1.0.0",
@@ -57,12 +57,11 @@
     "eslint": "^2.x",
     "eslint-config-strongloop": "^2.x",
     "express": "^4.0.0",
-    "loopback": "1.4.x",
     "mocha": "^2.2.4",
     "optimist": "~0.6.0",
     "shelljs": "^0.5.0",
     "strong-express-metrics": "^2.0.0",
-    "tap": "^5.7.1",
+    "tap": "^6.1.1",
     "try-thread-sleep": "^1.0.0"
   },
   "engine": {

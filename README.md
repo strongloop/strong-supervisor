@@ -8,6 +8,20 @@ to run node applications, but it can also be used standalone.
 
 For more details, see http://strong-pm.io.
 
+*NOTE:* strong-supervisor@5 has dropped support for some legacy features that
+were added as a transitional measure towards strong-pm.
+
+- running detached: this mode existed to provide a kindof light weight daemon,
+  but didn't include the generation of the init.d/systemd/upstart scripts required
+  for production usage, and those system startup tools already take care of
+  daemonization, so the feature is being removed. Use strong-pm, or use
+  start-stop-daemon or https://www.npmjs.com/package/strong-service-install with
+  the strong-supervisor.
+- running unclustered: this mode disabled most features of strong-supervisor
+  but still started the agent, originally intended to report to the StrongOps
+  service even when running apps on dev laptops, the service no longer exists,
+  so the feature is no longer supported and needs no replacement.
+
 
 ## Installation
 
@@ -86,10 +100,7 @@ applications root directory, if it exists (see
 
 ### Daemonization
 
-Supervisor can detach the master from the controlling terminal, allowing to run
-as a daemon. This behaviour is optional, see the `--detach` option.
-
-This can be useful when launching from a shell, but is not recommended for
+`sl-run can be useful when launching from a shell, but is not recommended for
 production use. For production use it is best to run the supervisor from an init
 script and let the init system handle daemonization.
 
@@ -178,8 +189,8 @@ Run an app, allowing it to be profiled (using StrongOps) and supervised.
 `app` can be a node file to run or a package directory. The default value is
 ".", the current working directory. Packages will be run by requiring the first
 that is found of:
-  1. JS file mentioned in `scripts.start` of package.json
-    *** NOTE: the script is no run and arguments are not preserved, only the
+  1. javascript file mentioned in `scripts.start` of package.json
+    *** NOTE: the script is not run and arguments are not preserved, only the
         path of the script is used, eg:
           `node --nodearg script.js --scriptarg` => 'script.js'
           `node bin/www` => `bin/www`
@@ -196,10 +207,7 @@ that is found of:
 Options:
   -h,--help          Print this message and exit.
   -v,--version       Print runner version and exit.
-  -d,--detach        Detach master from terminal to run as a daemon (default is
-		       to not detach). When detaching, the --log option
-		       defaults to supervisor.log
-  -l,--log FILE      When clustered, write supervisor and worker output to FILE
+  -l,--log FILE      Write supervisor and worker output to FILE
                        (defaults to "-", meaning log to stdout).
   --no-timestamp-workers
                      Disable timestamping of worker log lines by supervisor.
@@ -213,13 +221,10 @@ Options:
   --metrics BACKEND  Report metrics to custom backend. Implies `--profile`.
   -p,--pid FILE      Write supervisor's pid to FILE, failing if FILE already
                        has a valid pid in it (default is no pid file).
-  --cluster N        Set the cluster size (default is off, but see below).
-  --profile          Start the agent. Report to StrongOps if registration data
-                       is found (this is the default).
-  --no-profile       Do not start the agent, do not report to StrongOps,
-                       do not report metrics.
-  -C,--control CTL   Listen for control messages on CTL (default `runctl`),
-                       only supported when clustered.
+  --cluster N        Set the cluster size (default is 'cpu', but see below).
+  --profile          Inject node instrumentation, the default.
+  --no-profile       Do not inject node instrumentation.
+  -C,--control CTL   Listen for control messages on CTL (default `runctl`).
   --no-control       Do not listen for control messages.
 
 Log FILE is a path relative to the app's working directory if it is not
@@ -242,11 +247,6 @@ Cluster size N is one of:
 
 - A number of workers to run
 - A string containing "cpu" to run a worker per CPU
-- The string "off" to run unclustered, in which case the app will *NOT* be
-  supervisable or controllable, but will be monitored.
-
-Clustering defaults to off unless `NODE_ENV` is "production", in which case it
-defaults to "CPUs".
 ```
 
 ### slc runctl
