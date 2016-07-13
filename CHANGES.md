@@ -1,4 +1,10 @@
-2016-02-18, Version 4.0.0-1
+2016-07-13, Version 4.0.0-2
+===========================
+
+ * add gc monitor for scaling and health support (akihikokuroda)
+
+
+2016-02-17, Version 4.0.0-1
 ===========================
 
  * Add support for wss:// control channel (Miroslav Bajtoš)
