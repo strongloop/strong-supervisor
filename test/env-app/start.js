@@ -3,6 +3,8 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 process.env.ENV_TEST_APP = __dirname;
 var envs = process.argv.slice(2);
 

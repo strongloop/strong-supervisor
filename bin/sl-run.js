@@ -4,6 +4,8 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 // Exit on loss of parent process, if it had established an ipc control channel.
 // We do this ASAP because we don't want child processes to leak, outliving
 // their parent. If the parent has not established an 'ipc' channel to us, this
