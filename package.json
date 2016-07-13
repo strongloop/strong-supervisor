@@ -34,7 +34,7 @@
   },
   "scripts": {
     "pretest": "eslint ./",
-    "test": "tap --timeout 10 test/test-*.js"
+    "test": "tap --timeout 100 test/test-*.js"
   },
   "dependencies": {
     "appmetrics": "RuntimeTools/appmetrics",
