@@ -16,8 +16,10 @@ tap.test('agent traces are forwarded via parentCtl', function(t) {
   var expressApp = require.resolve('./express-app');
   var app = run([expressApp], ['--cluster=1', '--no-control'], function(data) {
     debug('received: cmd %s: %j', data.cmd, data);
+    console.log('received: cmd %s: %j', data.cmd, data);
     switch (data.cmd) {
       case 'listening':
+        console.log('SENDING HTTP REQUEST IN TEST, TO ADDRESS ' + data.address.address + ' AND TO PORT ' + data.address.port);
         sendHttpRequest(data.address.address, data.address.port);
         break;
 

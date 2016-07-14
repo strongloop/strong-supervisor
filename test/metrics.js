@@ -34,7 +34,7 @@ describe('metrics', function() {
     assert(!statsd.publisher.host);
     assert(!statsd.publisher.port);
     assert.equal(statsd.publisher.scope, 'agent.supervisor.' + process.pid);
-    require('strong-agent').stop();
+    require('../lib/adapter.js').stop();
     statsd.publisher.stats.close();
   });
 });

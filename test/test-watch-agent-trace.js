@@ -14,7 +14,7 @@ var Worker = w.Worker;
 var ParentCtl = w.ParentCtl;
 var watcher = w.watcher;
 
-tap.test('agent-trace', {skip: 'FIXME appmetrics'}, function(t) {
+tap.test('agent-trace', function(t) {
   w.select('agent-trace');
 
   t.test('in worker', function(tt) {
