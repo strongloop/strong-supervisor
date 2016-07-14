@@ -18,6 +18,7 @@ tap.test('agent traces are forwarded via parentCtl', function(t) {
     debug('received: cmd %s: %j', data.cmd, data);
     switch (data.cmd) {
       case 'listening':
+        console.log('SENDING HTTP REQUEST IN TEST, TO ADDRESS ' + data.address.address + ' AND TO PORT ' + data.address.port);
         sendHttpRequest(data.address.address, data.address.port);
         break;
 
