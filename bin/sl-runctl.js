@@ -307,7 +307,7 @@ function requestDebuggerStatus() {
 }
 
 debug('addr: %j, request: %j', ADDR, request);
-
+console.log("SL-RUNCTL ABOUT TO SEND REQUEST TO ADDRESS: " + ADDR);
 client.request(ADDR, request, response);
 
 function response(er, rsp) {
