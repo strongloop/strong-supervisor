@@ -6,6 +6,8 @@
 
 /* eslint no-process-exit:0 */
 
+'use strict';
+
 var argv = process.argv;
 var client = require('strong-control-channel/client');
 var debug = require('../lib/debug')('runctl');

@@ -3,6 +3,8 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 var explitive = process.argv.length > 2
               ? process.argv.slice(2).join(' ')
               : 'yes';
