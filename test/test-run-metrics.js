@@ -3,6 +3,8 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 var Graphite = require('strong-statsd/test/servers/graphite');
 var Splunk = require('strong-statsd/test/servers/splunk');
 var Statsd = require('strong-statsd/test/servers/statsd');
