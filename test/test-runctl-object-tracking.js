@@ -6,9 +6,6 @@
 var helper = require('./helper');
 var tap = require('tap');
 
-return tap.test('objects', function() {
-});
-
 var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
                     ? false
                     : {skip: 'tested feature requires license'};
