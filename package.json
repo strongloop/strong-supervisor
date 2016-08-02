@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "appmetrics": "^1.0.13",
-    "async": "^1.0.0",
+    "async": "^2.0.0",
     "byline": "^5.0.0",
     "debug": "^2.0.0",
     "dotenv": "^1.0.0",
