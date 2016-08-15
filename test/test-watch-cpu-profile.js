@@ -19,10 +19,6 @@ var skipUnlessWatchdog = agent.internal.supports.watchdog
                        ? false
                        : {skip: 'watchdog not supported'};
 
-var skipUnlessWatchdog = agent.internal.supports.watchdog
-                       ? false
-                       : {skip: 'watchdog not supported'};
-
 function stall(count) {
   agent.emit('watchdogActivationCount', count);
 }
