@@ -37,7 +37,7 @@
     "test": "tap --timeout 300 test/test-*.js"
   },
   "dependencies": {
-    "appmetrics": "dancunnington/appmetrics#remove_express_probe",
+    "appmetrics": "^1.0.13",
     "async": "^1.0.0",
     "debug": "^2.0.0",
     "dotenv": "^1.0.0",
