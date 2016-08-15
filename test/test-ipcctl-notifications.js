@@ -190,8 +190,12 @@ test('start cpu profiling watchdog', skipUnlessWatchdog || function(t) {
 });
 
 test('let cpu profiler run', function(t) {
-  t.pass('waiting');
-  setTimeout(t.end, 500);
+  // Run some code to give the CPU profiler something to see.
+  t.plan(7);
+  var i = setInterval(function() {
+    t.pass('busy work for profile...');
+  }, 1000);
+  t.on('end', clearInterval.bind(null, i));
 });
 
 test('stop cpu profiling watchdog', skipUnlessWatchdog || function(t) {

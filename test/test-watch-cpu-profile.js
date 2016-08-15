@@ -20,7 +20,7 @@ var skipUnlessWatchdog = agent.internal.supports.watchdog
                        : {skip: 'watchdog not supported'};
 
 function stall(count) {
-  agent.internal.emit('watchdogActivationCount', count);
+  agent.emit('watchdogActivationCount', count);
 }
 
 tap.test('cpu-profile', skipUnlessWatchdog || function(t) {
