@@ -38,9 +38,6 @@ tap.test('traces are forwarded via parentCtl', skipIfNoLicense, function(t) {
     t.end();
   });
 });
-// return; // FIXME Dan, I don't think traces are runnning yet, skipping the whole file
-// FIXME Sam, 'traces can be turned on' passes, however 'traces hostname can be overriden'
-// and 'traces can be turned off' fail
 
 tap.test('traces can be turned on', skipIfNoLicense, function(t) {
   t.plan(6);
