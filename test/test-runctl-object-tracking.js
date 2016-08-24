@@ -4,9 +4,13 @@
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
 'use strict';
-
 var helper = require('./helper');
 var tap = require('tap');
+
+var skipIfNode010 = ((Number(process.version.match(/^v(\d+\.\d+)/)[1])) > 0.1) 
+                  ? false 
+                  : {skip: 'tested feature requires node 0.11 minimum'} 
+ 
 
 var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
                     ? false
@@ -27,7 +31,7 @@ process.env.STRONGAGENT_INTERVAL_MULTIPLIER = 30;
 var run;
 var statsd;
 
-tap.test('start statsd', skipIfNoLicense || function(t) {
+tap.test('start statsd', skipIfNoLicense || skipIfNode010 || function(t) {
   helper.statsd(function(_statsd) {
     t.ok(_statsd, 'started');
     statsd = _statsd;
@@ -35,14 +39,14 @@ tap.test('start statsd', skipIfNoLicense || function(t) {
   });
 });
 
-tap.test('start app', skipIfNoLicense || function(t) {
+tap.test('start app', skipIfNoLicense || skipIfNode010 || function(t) {
   var url = util.format('statsd://:%d', statsd.port);
   run = supervise(APP, ['--metrics', url]);
   t.pass('app started');
   t.end();
 });
 
-tap.test('runctl commands', skipIfNoLicense || function(t) {
+tap.test('runctl commands', skipIfNoLicense || skipIfNode010 || function(t) {
   cd(path.dirname(APP));
 
   t.doesNotThrow(function() {
@@ -78,7 +82,7 @@ tap.test('runctl commands', skipIfNoLicense || function(t) {
   t.end();
 });
 
-tap.test('stop statsd', skipIfNoLicense || function(t) {
+tap.test('stop statsd', skipIfNoLicense || skipIfNode010 || function(t) {
   statsd.waitfor(/object.*count:/, function() {
     statsd.close();
     t.pass('stopped');
@@ -86,7 +90,7 @@ tap.test('stop statsd', skipIfNoLicense || function(t) {
   });
 });
 
-tap.test('runctl commands', skipIfNoLicense || function(t) {
+tap.test('runctl commands', skipIfNoLicense || skipIfNode010 || function(t) {
   t.doesNotThrow(function() {
     expect('objects-stop 0');
   });
