@@ -20,7 +20,7 @@ var skipUnlessWatchdog = agent.internal.supports.watchdog
                        : {skip: 'watchdog not supported'};
 
 function stall(count) {
-  agent.internal.emit('watchdogActivationCount', count);
+  agent.emit('watchdogActivationCount', count);
 }
 
 tap.test('cpu-profile', skipUnlessWatchdog || function(t) {
@@ -54,14 +54,14 @@ tap.test('cpu-profile', skipUnlessWatchdog || function(t) {
         ttt.equal(msg.stallout, 2);
         ttt.assert(msg.profile);
         ttt.end();
+        tt.end();
       };
       agent.metrics.startCpuProfiling(1000);
+
       cpu.stallout(2);
       stall(1);
       stall(2);
     });
-
-    tt.end();
 
     function send(msg, type) {
       if (hook) hook(msg, type);
@@ -100,5 +100,16 @@ tap.test('cpu-profile', skipUnlessWatchdog || function(t) {
     }
   });
 
-  t.end();
+
+  // Need to do some work here due to the asynchronous nature of appmetrics,
+  // otherwise the tests will fail before the profiler even starts.
+  var counter = 0;
+  var i = setInterval(function() {
+    counter++;
+    if (counter === 7) {
+      t.end();
+      clearInterval(i);
+    }
+  }, 1000);
+  t.on('end', clearInterval.bind(null, i));
 });
