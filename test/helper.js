@@ -3,14 +3,16 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 // test globals
 /* global assert,debug,fs,path,util,exec */
 /* eslint-disable */
-assert = require('assert');
-debug = require('./debug');
-fs = require('fs');
-path = require('path');
-util = require('util');
+global.assert = require('assert');
+global.debug = require('./debug');
+global.fs = require('fs');
+global.path = require('path');
+global.util = require('util');
 /* eslint-enable */
 
 require('shelljs/global');
@@ -19,7 +21,7 @@ require('shelljs/global');
 var child = require('child_process');
 var control = require('strong-control-channel/process');
 var dgram = require('dgram');
-var sleep = require('try-thread-sleep');
+var sleep = require('sleep').sleep;
 
 // Utility functions
 
@@ -143,10 +145,7 @@ function runctl(cmd) {
 }
 
 function pause(secs) {
-  var ms = (secs || 1) * 1000;
-  while (ms > 0) {
-    ms -= sleep(ms);
-  }
+  sleep(secs || 1);
 }
 
 global.pause = pause;

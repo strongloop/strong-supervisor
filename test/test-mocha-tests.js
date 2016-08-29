@@ -3,6 +3,8 @@
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
+'use strict';
+
 var path = require('path');
 var tap = require('tap');
 
@@ -15,13 +17,7 @@ var args = [
 
 tap.test('mocha tests', function(t) {
   var tests = [
-    'test/chdir.js',
-    'test/expander.js',
-    'test/metrics.js',
-    'test/pidfile.js',
-    'test/printf-replacer.js',
     'test/supervisor-detach.js',
-    'test/supervisor.js',
   ];
   tests.forEach(function(test) {
     t.spawn(process.execPath, args.concat([test]), {cwd: cwd}, test);
