@@ -27,13 +27,14 @@ var agent = require('../lib/agent');
 var agentOptions = {
   quiet: config.isWorker, // Quiet in worker, to avoid repeated log messages
   logger: config.logger,
+  // XXX(sam) if appmetrics does any console writes, use the logger
   strongTracer: tracer(),
   interval: 0 | process.env.STRONGLOOP_BASE_INTERVAL || 15000,
+  // XXX(sam) interval is ignored by appmetrics
 };
 
 if (config.profile) {
-  agent().configure(agentOptions);
-  agent().start();
+  agent().start(agentOptions);
 } else {
   if (config.isMaster) {
     log.error('supervisor running without profiling');
