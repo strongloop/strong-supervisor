@@ -38,10 +38,11 @@
   },
   "dependencies": {
     "appmetrics": "^1.0.13",
-    "async": "^1.0.0",
+    "async": "^2.0.0",
+    "byline": "^5.0.0",
     "debug": "^2.0.0",
     "dotenv": "^1.0.0",
-    "lodash": "^3.10.0",
+    "lodash": "^4.14.1",
     "posix-getopt": "^1.1.0",
     "strong-cluster-control": "^2.0.0",
     "strong-control-channel": "^2.0.0",
