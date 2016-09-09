@@ -15,6 +15,9 @@ var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
                     ? false
                     : {skip: 'tested feature requires license'};
 
+if (process.platform !== 'linux')
+  skipIfNoLicense = {skip: 'FIXME appmetrics 1.0.13 broken on non linux'};
+
 tap.test('traces are forwarded via parentCtl', skipIfNoLicense, function(t) {
   t.plan(2);
 
