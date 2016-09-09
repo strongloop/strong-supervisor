@@ -39,9 +39,14 @@ tap.test('metrics', skipIfNoLicense, function(t) {
     startLogFile,
   ], runTests);
 
+  // Note that this depends on async.parallel running all the start functions
+  // synchronously (which it does), and all the start functions making any
+  // t.asserts() asynchronously, in the next tick. This is defined behaviour of
+  // async.parallel.
+  t.plan(plan);
+
   function runTests(err) {
     assert.ifError(err);
-    t.plan(plan);
 
     var app = helper.runWithControlChannel(appPath, runArgs, onRequest);
     // app is unref()'d by the helper, need to ref() it to keep the test alive
