@@ -1,3 +1,61 @@
+2016-09-12, Version 5.0.0
+=========================
+
+ * package: byline is only a dev dependency (Sam Roberts)
+
+ * package: update async to 2.x (Sam Roberts)
+
+ * package: update byline to 5.x (Sam Roberts)
+
+ * package: update lodash to 4.x (Sam Roberts)
+
+ * capabilities: remove dead code (Sam Roberts)
+
+ * Replace strong-agent with appmetrics (T. Corbin)
+
+ * Remove debug() stack trace when debugger missing (Sam Roberts)
+
+ * test: use sleep instead of try-thread-sleep (Sam Roberts)
+
+ * agent-trace: remove, it was never used (Sam Roberts)
+
+ * Use strict in the test code (Sam Roberts)
+
+ * Add 'use strict' to files (Kevin Delisle)
+
+ * Update URLs in CONTRIBUTING.md (#196) (Ryan Graham)
+
+ * test: remove unnecessary dependency on loopback@1 (Sam Roberts)
+
+ * package: update tap to 6.x (Sam Roberts)
+
+ * Remove startup variations related to StrongOps (Sam Roberts)
+
+ * usage: copy edit description of start script use (Sam Roberts)
+
+ * Remove support for running unclustered (Sam Roberts)
+
+ * options: cluster default always CPU (Sam Roberts)
+
+ * test: refactor supervisor test to tap (Sam Roberts)
+
+ * test: rework printf-replacer mocha test to tap (Sam Roberts)
+
+ * test: remove metrics, it no longer applies (Sam Roberts)
+
+ * test: refactor pidfile mocha test to tap (Sam Roberts)
+
+ * test: refactor expander mocha test to tap (Sam Roberts)
+
+ * test: refactor chdir mocha test to tap (Sam Roberts)
+
+ * test: run tests until done, not first failure (Sam Roberts)
+
+ * package: update tap to 5.x (Sam Roberts)
+
+ * update copyright notices and license (Ryan Graham)
+
+
 2016-05-05, Version 3.3.3
 =========================
 
