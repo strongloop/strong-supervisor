@@ -52,6 +52,7 @@ tap.test('metrics', skipIfNoLicense, function(t) {
     // app is unref()'d by the helper, need to ref() it to keep the test alive
     app.ref();
     t.on('end', function() {
+      debug('test ended, killing app');
       app.kill();
     });
   }
@@ -67,7 +68,6 @@ tap.test('metrics', skipIfNoLicense, function(t) {
       t.assert(internalMetrics.timestamp, 'internal metrics seen');
       t.type(internalMetrics.processes, 'object', 'contains process entries');
       testProcessMetrics(internalMetrics.processes);
-      t.comment('internal: seen');
     }
     return callback('OK');
 
@@ -76,7 +76,6 @@ tap.test('metrics', skipIfNoLicense, function(t) {
       var pm;
       for (wid in procs) {
         pm = procs[wid];
-        // t.comment(pm);
         t.equivalent(pm.wid, wid, 'metrics for correct worker');
         t.assert(pm.pid > 0, 'metric includes pid');
         t.assert(pm.pst > 0, 'metric includes pst');
@@ -113,7 +112,6 @@ tap.test('metrics', skipIfNoLicense, function(t) {
          /stats.gauges.module-app..*.1.cpu.system/.test(data)) {
         graphiteMetrics = data;
         t.assert(true, 'graphite metrics seen');
-        t.comment('graphite: seen');
       }
     });
   }
@@ -139,13 +137,13 @@ tap.test('metrics', skipIfNoLicense, function(t) {
 
       accumulator += '\n' + String(data);
 
-      debug('splunk metrics: <\n%s>', accumulator);
+      debug('splunk metrics: new <%s>', data);
       // check we get data from supervisor and app
       if(/module-app..*.0.cpu.total/.test(accumulator) &&
          /module-app..*.1.cpu.system/.test(accumulator)) {
+      debug('splunk metrics: accumulated <\n%s>', accumulator);
         splunkMetrics = accumulator;
         t.assert(true, 'splunk metrics seen');
-        t.comment('splunk: seen');
       }
     });
   }
@@ -171,13 +169,14 @@ tap.test('metrics', skipIfNoLicense, function(t) {
 
       accumulator += '\n' + String(data);
 
-      debug('statsd metrics: <\n%s>', accumulator);
+      debug('statsd metrics: new <%s>', data);
       // check we get data from supervisor and app
       if(/module-app..*.0.cpu.total/.test(accumulator) &&
          /module-app..*.1.cpu.system/.test(accumulator)) {
+        debug('statsd metrics: accumulated <\n%s>', accumulator);
         statsdMetrics = accumulator;
         t.assert(true, 'statsd metrics seen');
-        t.comment('statsd: seen');
+        debug('statsd metrics: saw expected');
       }
     });
   }
@@ -203,14 +202,13 @@ tap.test('metrics', skipIfNoLicense, function(t) {
       if (logMetrics) return;
       fs.readFile(file, {encoding: 'utf8'}, function(er, data) {
         if (er) return;
-        debug('log metrics: <\n%s>', data);
-        debug('log metrics: <\n%s>', data);
+        debug('log metrics: from file <\n%s>', data);
         // check we get data from supervisor and app
         if(/module-app..*.0.cpu.total/.test(data) &&
            /module-app..*.1.cpu.system/.test(data)) {
           logMetrics = data;
           t.assert(true, 'log metrics seen');
-          t.comment('log: seen');
+          debug('log metrics: saw expected');
         }
       });
     }
