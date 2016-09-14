@@ -72,7 +72,6 @@
   },
   "optionalDependencies": {
     "heapdump": "^0.3.5",
-    "modern-syslog": "^1.x",
-    "strong-debugger": "^1.0.0"
+    "modern-syslog": "^1.x"
   }
 }
