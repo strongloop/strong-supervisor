@@ -1,3 +1,9 @@
+2016-09-14, Version 4.0.0-3
+===========================
+
+ * package: remove strong-debugger as optional dep (Kevin Delisle)
+
+
 2016-07-13, Version 4.0.0-2
 ===========================
 
