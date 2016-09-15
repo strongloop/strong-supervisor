@@ -21,7 +21,6 @@ require('shelljs/global');
 var child = require('child_process');
 var control = require('strong-control-channel/process');
 var dgram = require('dgram');
-var sleep = require('sleep').sleep;
 
 // Utility functions
 
@@ -145,7 +144,10 @@ function runctl(cmd) {
 }
 
 function pause(secs) {
-  sleep(secs || 1);
+  secs = secs || 1;
+  var start = process.hrtime();
+  while (process.hrtime(start)[0] < secs) {
+  }
 }
 
 global.pause = pause;
