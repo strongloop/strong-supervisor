@@ -21,6 +21,7 @@ require('shelljs/global');
 var child = require('child_process');
 var control = require('strong-control-channel/process');
 var dgram = require('dgram');
+var supervise = require('./supervise');
 
 // Utility functions
 
@@ -65,39 +66,6 @@ exports.runCtl = {
   expect: expect,
   failon: failon,
 };
-
-// run supervisor
-function supervise(app, args) {
-  var run = require.resolve('../bin/sl-run');
-  var ctl = path.join(app, '..', 'runctl');
-  try {
-    fs.unlinkSync(ctl);
-  } catch (er) {
-    console.log('# no `%s` to cleanup: %s', ctl, er);
-  }
-
-  args = [
-    '--cluster=0',
-    '--log', debug.enabled ? '-' : ('_test-' + process.pid + '-run.log'),
-  ].concat(args || []).concat([app]);
-
-  console.log('# supervise %s with %j', run, args);
-
-  var c = child.fork(run, args);
-
-  // don't let it live longer than us!
-  // XXX(sam) once sl-runctl et. al. self-exit on loss of parent, we
-  // won't need this, but until then...
-  process.on('exit', c.kill.bind(c));
-  function die() {
-    c.kill();
-    process.kill(process.pid, 'SIGTERM');
-  }
-  process.once('SIGTERM', die);
-  process.once('SIGINT', die);
-
-  return c;
-}
 
 // Wait on cmd to write specific output
 function waiton(cmd, output) {
