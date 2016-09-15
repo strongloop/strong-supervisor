@@ -4,8 +4,14 @@
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
 'use strict';
-var helper = require('./helper');
+
+var expect = require('./control').expect;
+var failon = require('./control').failon;
+var fmt = require('util').format;
+var server = require('./statsd');
+var setup = require('./runctl-setup');
 var tap = require('tap');
+var waiton = require('./control').waiton;
 
 var skipIfNode010 = ((Number(process.version.match(/^v(\d+\.\d+)/)[1])) > 0.1) 
                   ? false 
@@ -16,14 +22,6 @@ var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
                     ? false
                     : {skip: 'tested feature requires license'};
 
-var rc = helper.runCtl;
-var supervise = rc.supervise;
-var expect = rc.expect;
-var failon = rc.failon;
-var waiton = rc.waiton;
-
-var APP = require.resolve('./module-app');
-
 // Cause metrics to be emitted 30 times faster, so we don't have to
 // wait minutes for object metrics.
 process.env.STRONGAGENT_INTERVAL_MULTIPLIER = 30;
@@ -31,77 +29,42 @@ process.env.STRONGAGENT_INTERVAL_MULTIPLIER = 30;
 var run;
 var statsd;
 
-tap.test('start statsd', skipIfNoLicense || skipIfNode010 || function(t) {
-  helper.statsd(function(_statsd) {
-    t.ok(_statsd, 'started');
-    statsd = _statsd;
-    t.end();
-  });
-});
-
-tap.test('start app', skipIfNoLicense || skipIfNode010 || function(t) {
-  var url = util.format('statsd://:%d', statsd.port);
-  run = supervise(APP, ['--metrics', url]);
-  t.pass('app started');
-  t.end();
-});
-
-tap.test('runctl commands', skipIfNoLicense || skipIfNode010 || function(t) {
-  cd(path.dirname(APP));
-
-  t.doesNotThrow(function() {
-    waiton('', /worker count: 0/);
-  });
-  t.doesNotThrow(function() {
-    expect('set-size 1');
-  });
-  t.doesNotThrow(function() {
-    waiton('status', /worker count: 1/);
-  });
-  t.doesNotThrow(function() {
-    expect('status', /worker id 1:/);
+tap.test('object-tracking', skipIfNoLicense || skipIfNode010 || function(t) {
+  t.test('stat statsd', function(t) {
+    server(function(_statsd) {
+      t.ok(_statsd, 'started');
+      statsd = _statsd;
+      t.end();
+    });
   });
 
-  t.doesNotThrow(function() {
-    failon('objects-start', /missing argument/);
-  });
-  t.doesNotThrow(function() {
-    failon('objects-stop', /missing argument/);
-  });
-
-  t.doesNotThrow(function() {
-    expect('objects-start 0');
-  });
-  t.doesNotThrow(function() {
-    expect('objects-start 1');
-  });
-  t.doesNotThrow(function() {
-    failon('objects-start 6', /6 not found/);
+  t.test('setup', function(tt) {
+    // Need to delay setup until the port is known
+    setup(t, ['--metrics', fmt('statsd://:%d', statsd.port)]);
+    tt.pass();
+    tt.end();
   });
 
-  t.end();
-});
+  waiton(t, '', /worker count: 0/);
+  expect(t, 'set-size 1');
+  waiton(t, 'status', /worker count: 1/);
+  expect(t, 'status', /worker id 1:/);
+  failon(t, 'objects-start', /missing argument/);
+  failon(t, 'objects-stop', /missing argument/);
+  expect(t, 'objects-start 0');
+  expect(t, 'objects-start 1');
+  failon(t, 'objects-start 6', /6 not found/);
 
-tap.test('stop statsd', skipIfNoLicense || skipIfNode010 || function(t) {
-  statsd.waitfor(/object.*count:/, function() {
-    statsd.close();
-    t.pass('stopped');
-    t.end();
+  t.test('stop statsd', function(t) {
+    statsd.waitfor(/object.*count:/, function() {
+      statsd.close();
+      t.pass('stopped');
+      t.end();
+    });
   });
-});
 
-tap.test('runctl commands', skipIfNoLicense || skipIfNode010 || function(t) {
-  t.doesNotThrow(function() {
-    expect('objects-stop 0');
-  });
-  t.doesNotThrow(function() {
-    expect('objects-stop 1');
-  });
-  t.doesNotThrow(function() {
-    failon('objects-stop 6', /6 not found/);
-  });
-  t.doesNotThrow(function() {
-    expect('stop');
-  });
-  t.end();
+  expect(t, 'objects-stop 0');
+  expect(t, 'objects-stop 1');
+  failon(t, 'objects-stop 6', /6 not found/);
+  expect(t, 'stop');
 });

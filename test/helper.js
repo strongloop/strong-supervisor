@@ -20,45 +20,7 @@ require('shelljs/global');
 // module locals
 var child = require('child_process');
 var control = require('strong-control-channel/process');
-var dgram = require('dgram');
 var supervise = require('./supervise');
-
-// Utility functions
-
-exports.statsd = function statsd(callback) {
-  var server = dgram.createSocket('udp4');
-  server.reported = [];
-
-  server.on('message', function(data) {
-    console.log('# statsd receives metric: %s', data);
-    server.reported.push(data.toString());
-  });
-
-  server.bind(listening);
-
-  server.waitfor = function(regex, callback) {
-    waitForStats();
-
-    function waitForStats() {
-      function found(stat) {
-        return regex.test(stat);
-      }
-
-      if (server.reported.some(found)) {
-        return callback();
-      }
-
-      setTimeout(waitForStats, 2000);
-    }
-  };
-
-  function listening(er) {
-    console.log('# statsd listening:', er || server.address());
-    assert.ifError(er);
-    server.port = server.address().port;
-    return callback(server);
-  }
-};
 
 exports.runCtl = {
   supervise: supervise,
