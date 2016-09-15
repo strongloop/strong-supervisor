@@ -21,8 +21,11 @@ var tap = require('tap');
 var util = require('util');
 
 var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
-                    ? false
+                    ? {}
                     : {skip: 'tested feature requires license'};
+
+// Test usually takes < 10 seconds, give it a lot longer, but not half an hour.
+skipIfNoLicense.timeout = 1 * 60 * 1000; // milliseconds
 
 tap.test('metrics', skipIfNoLicense, function(t) {
   var appPath = require.resolve('./module-app');

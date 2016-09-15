@@ -18,8 +18,12 @@ var APP = require.resolve('./module-app');
 var name = 'foo-' + Date.now();
 
 var run = supervise(APP);
+// Test usually takes < 1 minute, give it a lot longer, but not half an hour.
+var options = {
+  timeout: 3 * 60 * 1000, // milliseconds
+};
 
-tap.test('runctl heap snapshot', function(t) {
+tap.test('runctl heap snapshot', options, function(t) {
   // supervisor should exit with 0 after we stop it
   run.on('exit', function(code, signal) {
     t.equal(code, 0);
