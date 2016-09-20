@@ -6,7 +6,6 @@
 'use strict';
 
 var debug = require('./debug');
-var http = require('http');
 var run = require('./run-with-ctl-channel');
 var tap = require('tap');
 
@@ -130,7 +129,8 @@ tap.test('traces can be turned off', skipIfNoLicense, function(t) {
   t.plan(6);
 
   var expressApp = require.resolve('./express-app');
-  var app = run([expressApp], ['--cluster=1', '--no-control', '--trace'], messageHandler);
+  var args = ['--cluster=1', '--no-control', '--trace'];
+  var app = run([expressApp], args, messageHandler);
   var tracingEnabled = true;
 
   function messageHandler(data) {

@@ -8,17 +8,13 @@
 var Graphite = require('strong-statsd/test/servers/graphite');
 var Splunk = require('strong-statsd/test/servers/splunk');
 var Statsd = require('strong-statsd/test/servers/statsd');
-var Syslog = require('strong-statsd/test/servers/syslog');
 var assert = require('assert');
 var async = require('async');
-var control = require('strong-control-channel/process');
-var cp = require('child_process');
 var debug = require('./debug');
 var fs = require('fs');
 var path = require('path');
 var run = require('./run-with-ctl-channel');
 var tap = require('tap');
-var util = require('util');
 
 var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
                     ? {}
@@ -34,13 +30,14 @@ tap.test('metrics', skipIfNoLicense, function(t) {
     '--cluster=1',
     '--no-profile',
   ];
-
-  async.parallel([
+  var servers = [
     startGraphite,
     startSplunk,
     startStatsd,
     startLogFile,
-  ], runTests);
+  ];
+
+  async.parallel(servers, runTests);
 
   // Note that this depends on async.parallel running all the start functions
   // synchronously (which it does), and all the start functions making any
@@ -65,7 +62,7 @@ tap.test('metrics', skipIfNoLicense, function(t) {
   function onRequest(req, callback) {
     if (internalMetrics) return;
 
-    if (req.cmd == 'metrics') {
+    if (req.cmd === 'metrics') {
       debug('internal metrics: <\n%j>', req);
       internalMetrics = req.metrics;
       t.assert(internalMetrics.timestamp, 'internal metrics seen');
@@ -111,7 +108,7 @@ tap.test('metrics', skipIfNoLicense, function(t) {
 
       debug('graphite metrics: <\n%s>', data);
       // check we get data from supervisor and app
-      if(/stats.gauges.module-app..*.0.cpu.total/.test(data) &&
+      if (/stats.gauges.module-app..*.0.cpu.total/.test(data) &&
          /stats.gauges.module-app..*.1.cpu.system/.test(data)) {
         graphiteMetrics = data;
         t.assert(true, 'graphite metrics seen');
@@ -142,9 +139,9 @@ tap.test('metrics', skipIfNoLicense, function(t) {
 
       debug('splunk metrics: new <%s>', data);
       // check we get data from supervisor and app
-      if(/module-app..*.0.cpu.total/.test(accumulator) &&
+      if (/module-app..*.0.cpu.total/.test(accumulator) &&
          /module-app..*.1.cpu.system/.test(accumulator)) {
-      debug('splunk metrics: accumulated <\n%s>', accumulator);
+        debug('splunk metrics: accumulated <\n%s>', accumulator);
         splunkMetrics = accumulator;
         t.assert(true, 'splunk metrics seen');
       }
@@ -174,7 +171,7 @@ tap.test('metrics', skipIfNoLicense, function(t) {
 
       debug('statsd metrics: new <%s>', data);
       // check we get data from supervisor and app
-      if(/module-app..*.0.cpu.total/.test(accumulator) &&
+      if (/module-app..*.0.cpu.total/.test(accumulator) &&
          /module-app..*.1.cpu.system/.test(accumulator)) {
         debug('statsd metrics: accumulated <\n%s>', accumulator);
         statsdMetrics = accumulator;
@@ -207,7 +204,7 @@ tap.test('metrics', skipIfNoLicense, function(t) {
         if (er) return;
         debug('log metrics: from file <\n%s>', data);
         // check we get data from supervisor and app
-        if(/module-app..*.0.cpu.total/.test(data) &&
+        if (/module-app..*.0.cpu.total/.test(data) &&
            /module-app..*.1.cpu.system/.test(data)) {
           logMetrics = data;
           t.assert(true, 'log metrics seen');

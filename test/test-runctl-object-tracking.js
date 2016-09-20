@@ -13,10 +13,10 @@ var setup = require('./runctl-setup');
 var tap = require('tap');
 var waiton = require('./control').waiton;
 
-var skipIfNode010 = ((Number(process.version.match(/^v(\d+\.\d+)/)[1])) > 0.1) 
-                  ? false 
-                  : {skip: 'tested feature requires node 0.11 minimum'} 
- 
+var skipIfNode010 = ((Number(process.version.match(/^v(\d+\.\d+)/)[1])) > 0.1)
+                  ? false
+                  : {skip: 'tested feature requires node 0.11 minimum'};
+
 
 var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
                     ? false
@@ -26,10 +26,9 @@ var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
 // wait minutes for object metrics.
 process.env.STRONGAGENT_INTERVAL_MULTIPLIER = 30;
 
-var run;
-var statsd;
-
 tap.test('object-tracking', skipIfNoLicense || skipIfNode010 || function(t) {
+  var statsd;
+
   t.test('stat statsd', function(t) {
     server(function(_statsd) {
       t.ok(_statsd, 'started');

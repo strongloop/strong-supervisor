@@ -16,7 +16,7 @@ process.send = function send(_) {
 };
 
 // After process.send is assigned, or runctl won't send notifications.
-var runctl = require('../lib/runctl');
+require('../lib/runctl');
 
 require('strong-cluster-control').start();
 

@@ -6,13 +6,10 @@
 'use strict';
 
 var agent = require('../lib/agent')();
-var assert = require('assert');
-var async = require('async');
 var control = require('strong-control-channel/process');
 var cp = require('child_process');
 var debug = require('./debug');
 var ee = new (require('events').EventEmitter)();
-var fs = require('fs');
 var test = require('tap').test;
 var util = require('util');
 
@@ -24,10 +21,9 @@ var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
                     : {skip: 'tested feature requires license'};
 
 var options = {stdio: [0, 1, 2, 'ipc']};
-var run = require.resolve('../bin/sl-run');
 var yes = require.resolve('./v1-app');
 var args = [
-  run,
+  require.resolve('../bin/sl-run'),
   '--no-timestamp-supervisor',
   '--no-timestamp-workers',
   '--cluster=0',
@@ -56,8 +52,10 @@ function once(t, fn) {
 
 test('start', function(t) {
   ee.once('started', function(n) {
-    t.assert(typeof n.agentVersion === 'string', 'Agent version should be present');
-    t.assert(typeof n.debuggerVersion === 'string', 'Debugger version should be present');
+    t.assert(typeof n.agentVersion === 'string',
+             'Agent version should be present');
+    t.assert(typeof n.debuggerVersion === 'string',
+             'Debugger version should be present');
     t.assert(typeof n.appName === 'string', 'App name should be present');
     t.assert(n.pid > 0, 'Master pid should be present');
     t.assert(n.pst > 0, 'Master start time should be present');
@@ -82,7 +80,7 @@ test('scaleUp', function(t) {
     t.assert(n.pst > 0, 'Worker start time should be present');
   });
 
-  plan += 5*2; // inspected twice
+  plan += 5 * 2; // inspected twice
   ee.on('status:wd', function(n) {
     debug('on %j', n);
     t.assert(n.wid > 0, 'Worker ID should be present');
@@ -99,9 +97,9 @@ test('scaleUp', function(t) {
   ee.once('status', function(n) {
     debug('on %j', n);
     t.assert(n.master.pid > 0, 'Master pid should be present');
-    t.assert(typeof n.appName === 'string', 'App name should be present');
-    t.assert(typeof n.agentVersion === 'string', 'Agent version is present');
-    t.assert(typeof n.debuggerVersion === 'string', 'Debugger version is present');
+    t.type(n.appName, 'string', 'App name should be present');
+    t.type(n.agentVersion, 'string', 'Agent version is present');
+    t.type(n.debuggerVersion, 'string', 'Debugger version is present');
     t.assert(Array.isArray(n.workers), 'workers list is present');
   });
 
@@ -130,7 +128,7 @@ function hitCount(profile) {
   function visit(node) {
     var sum = 0;
     sum += node.hitCount | 0;
-    sum += node.children.map(visit).reduce(function(a, b) { return a + b }, 0);
+    sum += node.children.map(visit).reduce(function(a, b) { return a + b; }, 0);
     return sum;
   }
 
@@ -217,7 +215,10 @@ test('start object tracking', skipIfNoLicense, function(t) {
     t.assert(n.isRunning === true, 'Profiling should be running');
   });
 
-  ctl.request({cmd: 'start-tracking-objects', target: 2}, once(t, function(rsp) {
+  ctl.request({
+    cmd: 'start-tracking-objects',
+    target: 2
+  }, once(t, function(rsp) {
     t.ifError(rsp.error);
   }));
 });
