@@ -8,6 +8,7 @@
 var byline = require('byline');
 var child = require('child_process');
 var debug = require('debug')('runctl-test');
+var fs = require('fs');
 var path = require('path');
 var test = require('tap').test;
 
@@ -139,7 +140,7 @@ function supervise(app, vars) {
       }
     });
     watcher.on('unpipe', function() {
-      t.ok(found, 'saw '+ pat);
+      t.ok(found, 'saw ' + pat);
       debug('# unpiped!');
       t.end();
     });
