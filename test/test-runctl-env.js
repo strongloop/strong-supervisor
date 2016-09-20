@@ -8,7 +8,6 @@
 var byline = require('byline');
 var child = require('child_process');
 var debug = require('debug')('runctl-test');
-var helper = require('./helper');
 var path = require('path');
 var test = require('tap').test;
 

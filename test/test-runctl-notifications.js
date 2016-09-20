@@ -7,7 +7,6 @@
 
 var EE = require('events').EventEmitter;
 var cluster = require('cluster');
-var helper = require('./helper');
 var tap = require('tap');
 var yes = require.resolve('./yes-app');
 
