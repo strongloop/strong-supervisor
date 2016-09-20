@@ -13,8 +13,8 @@ var cp = require('child_process');
 var debug = require('./debug');
 var ee = new (require('events').EventEmitter)();
 var fs = require('fs');
-var helper = require('./helper');
 var test = require('tap').test;
+var util = require('util');
 
 var skipUnlessWatchdog = agent.internal.supports.watchdog
                        ? false
@@ -248,7 +248,6 @@ test('heap snapshot', function(t) {
 });
 
 test('disconnect', function(t) {
-  helper.pass = true;
   run.on('exit', function(status) {
     t.equal(status, 2, 'should exit with 2');
     t.end();

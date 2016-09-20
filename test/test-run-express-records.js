@@ -6,7 +6,6 @@
 'use strict';
 
 var debug = require('./debug');
-var helper = require('./helper');
 var http = require('http');
 var run = require('./run-with-ctl-channel');
 var tap = require('tap');
