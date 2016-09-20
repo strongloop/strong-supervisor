@@ -15,8 +15,8 @@ var control = require('strong-control-channel/process');
 var cp = require('child_process');
 var debug = require('./debug');
 var fs = require('fs');
-var helper = require('./helper');
 var path = require('path');
+var run = require('./run-with-ctl-channel');
 var tap = require('tap');
 var util = require('util');
 
@@ -51,7 +51,7 @@ tap.test('metrics', skipIfNoLicense, function(t) {
   function runTests(err) {
     assert.ifError(err);
 
-    var app = helper.runWithControlChannel(appPath, runArgs, onRequest);
+    var app = run(appPath, runArgs, onRequest);
     // app is unref()'d by the helper, need to ref() it to keep the test alive
     app.ref();
     t.on('end', function() {

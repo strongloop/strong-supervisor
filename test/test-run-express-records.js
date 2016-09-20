@@ -8,7 +8,7 @@
 var debug = require('./debug');
 var helper = require('./helper');
 var http = require('http');
-var run = helper.runWithControlChannel;
+var run = require('./run-with-ctl-channel');
 var tap = require('tap');
 
 tap.test('express-metrics are forwarded via parentCtl', function(t) {
