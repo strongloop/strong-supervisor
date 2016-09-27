@@ -42,10 +42,10 @@ tap.test('resolve wrapper', function(t) {
           {cwd: envApp, path: 'start.js'},
           'handles a simple start script');
   t.match(startCmd(parentDir, slRun(deepPath)),
-          {cwd: moduleApp, path: 'path/to/deep.js'},
+          {cwd: moduleApp, path: path.join('path', 'to', 'deep.js')},
           'handles a deep path with multiple package roots');
   t.match(startCmd(__dirname, slRun('express-app-2')),
-          {cwd: expressApp2, path: 'server/server.js'},
+          {cwd: expressApp2, path: path.join('server', 'server.js')},
           'handles a nested server.js');
   t.end();
 });
@@ -61,7 +61,7 @@ tap.test('symlinks - simple', function(t) {
 tap.test('symlinks - relative', function(t) {
   var express2link = symlink('test/express-app-2');
   t.match(startCmd(express2link, slRun()),
-          {cwd: express2link, path: 'server/server.js'},
+          {cwd: express2link, path: path.join('server', 'server.js')},
           'maintains deeper symlink main path');
   t.end();
 });
@@ -69,7 +69,7 @@ tap.test('symlinks - relative', function(t) {
 tap.test('symlinks - deep', function(t) {
   var modLink = symlink(moduleApp);
   t.match(startCmd(modLink, slRun('path/to/deep.js')),
-          {cwd: modLink, path: 'path/to/deep.js'},
+          {cwd: modLink, path: path.join('path', 'to', 'deep.js')},
           'maintains deeper symlink given path');
   t.end();
 });
@@ -116,7 +116,8 @@ tap.test('resolvePackageFromFile', function(t) {
   var deep = path.resolve(deepBase, 'path/to/deep.js');
   t.match(fn('.', yesAppIndex), {cwd: yesApp, path: 'index.js'},
           'split yesApp at package.json path location');
-  t.match(fn('.', deep), {cwd: deepBase, path: 'path/to/deep.js'},
+  t.match(fn('.', deep), {cwd: deepBase,
+          path: path.join('path', 'to', 'deep.js')},
           'splits deep module-app path at package.json location');
   t.end();
 });
