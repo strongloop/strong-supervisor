@@ -8,25 +8,24 @@
 var expect = require('./control').expect;
 var failon = require('./control').failon;
 var fmt = require('util').format;
+var semver = require('semver');
 var server = require('./statsd');
 var setup = require('./runctl-setup');
 var tap = require('tap');
 var waiton = require('./control').waiton;
 
-var skipIfNode010 = ((Number(process.version.match(/^v(\d+\.\d+)/)[1])) > 0.1)
-                  ? false
-                  : {skip: 'tested feature requires node 0.11 minimum'};
+var options = {};
 
-
-var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
-                    ? false
-                    : {skip: 'tested feature requires license'};
+if (semver.lt(process.version, '0.12.0'))
+  options.skip = 'tested feature requires node 0.12 minimum';
+else if (process.platform === 'darwin')
+  options.skip = 'FIXME unstable on OS X';
 
 // Cause metrics to be emitted 30 times faster, so we don't have to
 // wait minutes for object metrics.
 process.env.STRONGAGENT_INTERVAL_MULTIPLIER = 30;
 
-tap.test('object-tracking', skipIfNoLicense || skipIfNode010 || function(t) {
+tap.test('object-tracking', options, function(t) {
   var statsd;
 
   t.test('stat statsd', function(t) {

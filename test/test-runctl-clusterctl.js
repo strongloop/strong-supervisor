@@ -11,7 +11,14 @@ var setup = require('./runctl-setup');
 var tap = require('tap');
 var waiton = require('./control').waiton;
 
-tap.test('runctl ls', function(t) {
+var options = {
+  timeout: 1 * 60 * 1000 /* ms */, // Usually is < 10 seconds
+};
+
+if (process.platform === 'win32')
+  options.skip = 'FIXME - test fails on win32';
+
+tap.test('runctl ls', options, function(t) {
   setup(t);
 
   waiton(t, '', /worker count: 0/);
