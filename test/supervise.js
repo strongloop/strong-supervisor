@@ -33,7 +33,9 @@ function supervise(app, args) {
   // don't let it live longer than us!
   // XXX(sam) once sl-runctl et. al. self-exit on loss of parent, we
   // won't need this, but until then...
-  process.on('exit', c.kill.bind(c));
+  process.on('exit', function() {
+    c.kill();
+  });
   function die() {
     c.kill();
     process.kill(process.pid, 'SIGTERM');
