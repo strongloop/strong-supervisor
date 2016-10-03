@@ -54,7 +54,7 @@ tap.test('metrics', options, function(t) {
     app.ref();
     t.on('end', function() {
       debug('test ended, killing app');
-      app.kill();
+      app.kill('SIGKILL');
     });
   }
 
