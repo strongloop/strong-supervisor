@@ -5,68 +5,33 @@
 
 'use strict';
 
-var helper = require('./helper');
+var expect = require('./control').expect;
+var failon = require('./control').failon;
+var setup = require('./runctl-setup');
 var tap = require('tap');
-
-var rc = helper.runCtl;
-var supervise = rc.supervise;
-var expect = rc.expect;
-var failon = rc.failon;
-var waiton = rc.waiton;
-
-var APP = require.resolve('./module-app');
-
-var run = supervise(APP);
+var waiton = require('./control').waiton;
 
 tap.test('runctl cpu profiling', function(t) {
-  // supervisor should exit with 0 after we stop it
-  run.on('exit', function(code, signal) {
-    t.equal(code, 0);
-    t.end();
+  setup(t);
+
+  waiton(t, '', /worker count: 0/);
+  expect(t, 'set-size 1');
+  waiton(t, 'status', /worker count: 1/);
+  expect(t, 'status', /worker id 1:/);
+  expect(t, 'cpu-start 0', /Profiler started/);
+  expect(t, 'cpu-start 1', /Profiler started/);
+  failon(t, 'cpu-start 6', /6 not found/);
+
+  t.test('pause', function(t) {
+    // XXX(sam) why did I put a pause in? so cpu profiling can occur?
+    setTimeout(function() {
+      t.pass();
+      t.end();
+    }, 2000);
   });
 
-  t.doesNotThrow(function() {
-    cd(path.dirname(APP));
-  });
-
-  t.doesNotThrow(function() {
-    waiton('', /worker count: 0/);
-  });
-  t.doesNotThrow(function() {
-    expect('set-size 1');
-  });
-  t.doesNotThrow(function() {
-    waiton('status', /worker count: 1/);
-  });
-  t.doesNotThrow(function() {
-    expect('status', /worker id 1:/);
-  });
-
-  t.doesNotThrow(function() {
-    expect('cpu-start 0', /Profiler started/);
-  });
-  t.doesNotThrow(function() {
-    expect('cpu-start 1', /Profiler started/);
-  });
-  t.doesNotThrow(function() {
-    failon('cpu-start 6', /6 not found/);
-  });
-
-  t.doesNotThrow(function() {
-    pause(2);
-  });
-
-  t.doesNotThrow(function() {
-    expect('cpu-stop 0 file-name', /CPU profile.*file-name.cpuprofile/);
-  });
-  t.doesNotThrow(function() {
-    expect('cpu-stop 1', /CPU profile.*node.1.cpuprofile/);
-  });
-  t.doesNotThrow(function() {
-    failon('cpu-stop 6', /6 not found/);
-  });
-
-  t.doesNotThrow(function() {
-    expect('stop');
-  });
+  expect(t, 'cpu-stop 0 file-name', /CPU profile.*file-name.cpuprofile/);
+  expect(t, 'cpu-stop 1', /CPU profile.*node.1.cpuprofile/);
+  failon(t, 'cpu-stop 6', /6 not found/);
+  expect(t, 'stop');
 });

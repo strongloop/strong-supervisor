@@ -6,14 +6,15 @@
 'use strict';
 
 var debug = require('./debug');
-var helper = require('./helper');
-var http = require('http');
-var run = helper.runWithControlChannel;
+var run = require('./run-with-ctl-channel');
 var tap = require('tap');
 
 var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
                     ? false
                     : {skip: 'tested feature requires license'};
+
+if (process.platform !== 'linux')
+  skipIfNoLicense = {skip: 'FIXME appmetrics 1.0.13 broken on non linux'};
 
 tap.test('traces are forwarded via parentCtl', skipIfNoLicense, function(t) {
   t.plan(2);
@@ -128,7 +129,8 @@ tap.test('traces can be turned off', skipIfNoLicense, function(t) {
   t.plan(6);
 
   var expressApp = require.resolve('./express-app');
-  var app = run([expressApp], ['--cluster=1', '--no-control', '--trace'], messageHandler);
+  var args = ['--cluster=1', '--no-control', '--trace'];
+  var app = run([expressApp], args, messageHandler);
   var tracingEnabled = true;
 
   function messageHandler(data) {

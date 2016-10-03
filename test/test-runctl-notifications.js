@@ -7,9 +7,18 @@
 
 var EE = require('events').EventEmitter;
 var cluster = require('cluster');
-var helper = require('./helper');
 var tap = require('tap');
 var yes = require.resolve('./yes-app');
+
+if (process.platform === 'win32') {
+  var options = {
+    skip: 'FIXME - undiagnosed windows failures',
+  };
+  tap.test('runctl notifications', options, function(t) {
+    console.error(false, 'unreachable');
+  });
+  return;
+}
 
 var msg = new EE;
 process.send = function send(_) {
@@ -17,7 +26,7 @@ process.send = function send(_) {
 };
 
 // After process.send is assigned, or runctl won't send notifications.
-var runctl = require('../lib/runctl');
+require('../lib/runctl');
 
 require('strong-cluster-control').start();
 

@@ -10,9 +10,10 @@
 .statsd.json
 _patch.json
 _test-link
+histogram-*.json
 node_modules
 npm-debug.log
 pids
 strongloop.json
-test/x-app
 test/sx-app
+test/x-app

@@ -22,7 +22,12 @@ function relink() {
   fs.symlinkSync('.', LINK);
 }
 
-tap.test('chdir should track pwd, which is not the same as cwd', function(t) {
+var options = { };
+
+if (process.platform === 'win32')
+  options.skip = 'FIXME - the symlink/junction cannot be chdired into on Win32';
+
+tap.test('chdir should track pwd, not cwd', options, function(t) {
   function assertPwd() {
     var pwd = path.join.apply(path, arguments);
 

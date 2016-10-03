@@ -12,10 +12,9 @@ var os = require('os');
 var tap = require('tap');
 
 var options = {stdio: [0, 1, 2, 'ipc']};
-var run = require.resolve('../bin/sl-run');
 var yes = require.resolve('./yes-app');
 var args = [
-  run,
+  require.resolve('../bin/sl-run'),
   '--cluster=0',
   '--no-profile',
   yes
