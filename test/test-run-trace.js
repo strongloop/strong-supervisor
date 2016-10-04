@@ -9,14 +9,13 @@ var debug = require('./debug');
 var run = require('./run-with-ctl-channel');
 var tap = require('tap');
 
-var skipIfNoLicense = process.env.STRONGLOOP_LICENSE
-                    ? false
-                    : {skip: 'tested feature requires license'};
+var options = {};
 
-if (process.platform !== 'linux')
-  skipIfNoLicense = {skip: 'FIXME appmetrics 1.0.13 broken on non linux'};
+if (!process.env.STRONGLOOP_LICENSE) {
+  options.skip = 'tested feature requires license';
+}
 
-tap.test('traces are forwarded via parentCtl', skipIfNoLicense, function(t) {
+tap.test('traces are forwarded via parentCtl', options, function(t) {
   t.plan(2);
 
   var expressApp = require.resolve('./express-app');
@@ -40,7 +39,7 @@ tap.test('traces are forwarded via parentCtl', skipIfNoLicense, function(t) {
   });
 });
 
-tap.test('traces can be turned on', skipIfNoLicense, function(t) {
+tap.test('traces can be turned on', options, function(t) {
   t.plan(6);
 
   var expressApp = require.resolve('./express-app');
@@ -81,7 +80,7 @@ tap.test('traces can be turned on', skipIfNoLicense, function(t) {
   });
 });
 
-tap.test('traces hostname can be overridden', skipIfNoLicense, function(t) {
+tap.test('traces hostname can be overridden', options, function(t) {
   t.plan(7);
 
   var expressApp = require.resolve('./express-app');
@@ -125,7 +124,7 @@ tap.test('traces hostname can be overridden', skipIfNoLicense, function(t) {
   });
 });
 
-tap.test('traces can be turned off', skipIfNoLicense, function(t) {
+tap.test('traces can be turned off', options, function(t) {
   t.plan(6);
 
   var expressApp = require.resolve('./express-app');
@@ -166,5 +165,3 @@ tap.test('traces can be turned off', skipIfNoLicense, function(t) {
     t.end();
   });
 });
-
-
