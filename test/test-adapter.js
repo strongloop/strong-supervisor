@@ -18,3 +18,21 @@ tap.test('adapter exports', function(t) {
   t.assert(adapter.internal.on);
   t.end();
 });
+
+tap.test('appmetrics exposed after adapter start', function(t) {
+  /* eslint no-undef:0 */
+
+  var adapter = require('../lib/adapter');
+
+  t.throws(function() {
+    return APPMETRICS === undefined;
+  }, ReferenceError);
+  t.equal(global.APPMETRICS, undefined);
+
+  adapter.start();
+
+  t.assert(APPMETRICS);
+  t.assert(global.APPMETRICS);
+
+  t.end();
+});

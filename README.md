@@ -36,31 +36,28 @@ were added as a transitional measure towards strong-pm.
 
 ## Features
 
-### Monitoring with StrongOps agent
+### Monitoring with IBM appmetrics
 
 Supervisor and its workers are monitored using
-[strong-agent](https://github.com/strongloop/strong-agent).
+[appmetrics](https://github.com/RuntimeTools/appmetrics), which is open source
+and free for use under the Apache 2.0 license.
 
-This requires a `strongloop.json` configuration file, which can be generated
-using the `slc strongops` command from
-[strongloop](https://github.com/strongloop/strongloop) after
-[registration](https://strongloop.com/register/).
+*Note:* applications wanting to use appmetrics programatically must use
+supervisor's builtin appmetrics, like so:
 
-Profiling does not occur if the application is not registered, and it can be
-explicitly disabled using the `--no-profile` option.
+    var appmetrics = global.APPMETRICS || require('appmetrics');
+
+*Note:* strong-supervisor 4.x and below use strong-agent, which required a
+StrongLoop license. With 5.x we use appmetrics and this restriction is removed.
+
+appmetrics can be explicitly disabled using the `--no-profile` option.
 
 ### Metrics
 
-Metrics can be published to an alternate collector, instead of StrongOps. For
-information on supported collectors and URL formats, see
+Metrics can be published to a thirdparty collector, in addition to
+[Strongloop Arc](https://github.com/strongloop/strong-arc). For information on
+supported collectors and URL formats, see
 [strong-statsd](https://github.com/strongloop/strong-statsd).
-
-### Dynamic Metrics Injection
-
-Custom metrics can be patched dynamically into running code to report counts or
-timers using the `patch` command. See
-[strong-agent](https://github.com/strongloop/strong-agent#custom-metrics)
-for a description of the patch format.
 
 ### Profiling control
 
