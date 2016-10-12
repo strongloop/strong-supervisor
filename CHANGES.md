@@ -1,3 +1,65 @@
+2016-10-12, Version 5.0.1
+=========================
+
+ * Expose and document appmetrics usage (Sam Roberts)
+
+ * test: trace tests work again with appmetrics 1.1.0 (Sam Roberts)
+
+ * test: make express records more robust (Sam Roberts)
+
+ * test: terminate children with SIGKILL (Sam Roberts)
+
+ * test: don't pass exit codes to child.kill() (Sam Roberts)
+
+ * test: skip tests that are unstable on win32/OS X (Sam Roberts)
+
+ * test: use platform independent paths (Sam Roberts)
+
+ * test: delete patch test, unsupported by appmetrics (Sam Roberts)
+
+ * test: remove exclusion of test/ from lint (Sam Roberts)
+
+ * test: remove sync helper (Sam Roberts)
+
+ * test: factor run with ctl channel out of helper (Sam Roberts)
+
+ * test: require fs, it is used inside a try-catch (Sam Roberts)
+
+ * test: remove unused helper require (Sam Roberts)
+
+ * package: ignore test histogram output json (Sam Roberts)
+
+ * test: rewite sync tests using async helpers (Sam Roberts)
+
+ * test: factor runctl setup into a helper (Sam Roberts)
+
+ * test: async run control helper (Sam Roberts)
+
+ * test: factor supervise out of sync helper (Sam Roberts)
+
+ * test: replace sleep, it fails on windows (Sam Roberts)
+
+ * test: apply timeouts to metrics and heap snapshot (Sam Roberts)
+
+ * sl-runctl: exit on loss of parent process (Sam Roberts)
+
+ * test: name heap snapshot tests (Sam Roberts)
+
+ * test: remove redundant and overly verbose debug (Sam Roberts)
+
+ * package: remove unused strongloop-license (Sam Roberts)
+
+ * watcher: use format specifiers for readable output (Sam Roberts)
+
+ * adapter: do not report data before its available (Sam Roberts)
+
+ * test: set plan before any asserts can occur (Sam Roberts)
+
+ * test: skip trace test until appmetrics fixed (Sam Roberts)
+
+ * package: update sleep to 4.x (Sam Roberts)
+
+
 2016-09-12, Version 5.0.0
 =========================
 
