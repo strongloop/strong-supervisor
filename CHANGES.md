@@ -1,3 +1,9 @@
+2016-10-17, Version 4.0.0-4
+===========================
+
+ * options: preserve url protocol (Kevin Delisle)
+
+
 2016-09-14, Version 4.0.0-3
 ===========================
 
