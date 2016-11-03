@@ -54,10 +54,48 @@ appmetrics can be explicitly disabled using the `--no-profile` option.
 
 ### Metrics
 
-Metrics can be published to a thirdparty collector, in addition to
-[Strongloop Arc](https://github.com/strongloop/strong-arc). For information on
+Metrics can be published to a thirdparty collector, in addition to being
+viewed in the
+[Health Center Eclipse client](https://marketplace.eclipse.org/content/ibm-monitoring-and-diagnostic-tools-health-center)
+and
+[Strongloop Arc](https://github.com/strongloop/strong-arc). These two interfaces
+offer interactive control and debugging, not just passive viewing of metrics.
+
+- `am-mqtt://[<host>][:<port>]`: publish metrics to a MQTT broker using
+  the [appmetrics](https://github.com/RuntimeTools/appmetrics#readme)
+  protocol. Use the Health Center Eclipse client to connect to the MQTT broker.
+
+@toby... I'd like to add am-elk here as a protocol, too.
+
+- `statsd://[<host>][:<port>]`: publish metrics to a statsd receiver. The host
+  defaults to `"localhost"`, and the port defaults to `8125`.
+
+- `log:[<file>]`: log metrics to FILE, which may be `-` to indicate stdout (FILE
+  defaults to `-`). Format is `ISOTIMESTAMP METRIC=VALUE (TYPE)`, where TYPE is
+  one of count, gauge, or ms (a timer interval in milliseconds).
+
+- `debug:[?pretty[=<true|false>]]`: json dump to stdout for testing and
+  debugging backends. Pretty output is formatted as multi-line with color,
+  otherwise it's single line.
+
+- `graphite://[<host>][:<port>]`: forward to
+  [graphite](http://graphite.readthedocs.org/en/latest/), host defaults to
+  `"localhost"`, port defaults to `2003`
+
+- `syslog:[?[application=<application>][&priority=<priority>]`: write to
+  local system log using `syslog(3)`. The application defaults to `"statsd"`,
+  and priority defaults to `"LOG_INFO"`, but can be set to any of `"LOG_DEBUG"`,
+  `"LOG_INFO"`, `"LOG_NOTICE"`, `"LOG_WARNING"`, or `"LOG_CRIT"`.
+
+- `splunk://[<host>]:<port>`: write using a UDP key value protocol to splunk,
+  host defaults to localhost, and port is mandatory, since the protocol has no
+  assigned port.
+
+For information on
 supported collectors and URL formats, see
 [strong-statsd](https://github.com/strongloop/strong-statsd).
+
+...
 
 ### Profiling control
 
