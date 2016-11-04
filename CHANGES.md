@@ -1,5 +1,9 @@
-2016-10-13, Version 5.0.3
+2016-11-04, Version 5.0.4
 =========================
+
+ * adapter: work-around missing res.response (Sam Roberts)
+
+ * fixup! options: preserve url protocol (Sam Roberts)
 
  * options: preserve url protocol (Kevin Delisle)
 
