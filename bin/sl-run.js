@@ -33,6 +33,8 @@ var agentOptions = {
   // XXX(sam) interval is ignored by appmetrics
 };
 
+agentOptions.dashboard = process.env.STRONGLOOP_DASHBOARD;
+
 if (config.profile) {
   agent().start(agentOptions);
 } else {

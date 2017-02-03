@@ -36,7 +36,7 @@ were added as a transitional measure towards strong-pm.
 
 ## Features
 
-### Monitoring with IBM appmetrics
+### Appmetrics Monitoring
 
 Supervisor and its workers are monitored using
 [appmetrics](https://github.com/RuntimeTools/appmetrics), which is open source
@@ -50,7 +50,14 @@ supervisor's builtin appmetrics, like so:
 *Note:* strong-supervisor 4.x and below use strong-agent, which required a
 StrongLoop license. With 5.x we use appmetrics and this restriction is removed.
 
-appmetrics can be explicitly disabled using the `--no-profile` option.
+Appmetrics can be explicitly disabled using the `--no-profile` option.
+
+### Appmetrics Dashboard
+
+The [appmetrics dashboard](https://github.com/RuntimeTools/appmetrics-dash) can
+be enabled by setting the `STRONGLOOP_DASHBOARD` environment variable to `'on'`.
+
+See the dashboard documentation for more information.
 
 ### Metrics
 
