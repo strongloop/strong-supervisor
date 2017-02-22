@@ -3,7 +3,7 @@
   "description": "supervisor and monitor for node.js applications",
   "author": "Sam Roberts <sam@strongloop.com>",
   "license": "Artistic-2.0",
-  "version": "5.0.4",
+  "version": "6.0.0",
   "main": "index.js",
   "keywords": [
     "agent",
@@ -62,8 +62,8 @@
     "strong-express-metrics": "^2.0.0",
     "tap": "^6.1.1"
   },
-  "engine": {
-    "node": ">=0.10.0"
+  "engines": {
+    "node": ">=4"
   },
   "optionalDependencies": {
     "heapdump": "^0.3.5",
