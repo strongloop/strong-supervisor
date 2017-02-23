@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Copyright IBM Corp. 2014,2016. All Rights Reserved.
+// Copyright IBM Corp. 2014,2017. All Rights Reserved.
 // Node module: strong-supervisor
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
@@ -32,6 +32,8 @@ var agentOptions = {
   interval: 0 | process.env.STRONGLOOP_BASE_INTERVAL || 15000,
   // XXX(sam) interval is ignored by appmetrics
 };
+
+agentOptions.dashboard = process.env.STRONGLOOP_DASHBOARD;
 
 if (config.profile) {
   agent().start(agentOptions);
