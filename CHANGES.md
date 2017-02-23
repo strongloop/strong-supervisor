@@ -1,7 +1,23 @@
+2017-02-23, Version 6.0.0
+=========================
+
+ * Update copyright years (Sam Roberts)
+
+ * Support auto-attach of appmetrics dashboard (Sam Roberts)
+
+ * package: drop support for node < 4.x (Sam Roberts)
+
+ * adapter: remove reference to old express data (Sam Roberts)
+
+
 2016-11-04, Version 5.0.4
 =========================
 
  * adapter: work-around missing res.response (Sam Roberts)
+
+
+2016-10-13, Version 5.0.3
+=========================
 
  * fixup! options: preserve url protocol (Sam Roberts)
 
