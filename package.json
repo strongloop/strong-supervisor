@@ -66,6 +66,7 @@
   "engines": {
     "node": ">=4"
   },
+  "shutdownTimeout": "20000",
   "optionalDependencies": {
     "heapdump": "^0.3.5",
     "modern-syslog": "^1.x"
