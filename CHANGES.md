@@ -1,3 +1,9 @@
+2017-03-09, Version 6.1.1
+=========================
+
+ * dashboard: fix log msg when dashboard is enabled (Sam Roberts)
+
+
 2017-03-09, Version 6.1.0
 =========================
 
