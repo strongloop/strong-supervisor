@@ -1,3 +1,11 @@
+2017-03-09, Version 6.1.0
+=========================
+
+ * dashboard: allow title and doc link customization (Sam Roberts)
+
+ * package: update appmetrics-dash to 3.x (Sam Roberts)
+
+
 2017-02-23, Version 6.0.0
 =========================
 
