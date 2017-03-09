@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "appmetrics": "^1.1.0",
-    "appmetrics-dash": "^3.0.0-RC.1",
+    "appmetrics-dash": "^3.0.0",
     "async": "^2.0.0",
     "debug": "^2.0.0",
     "dotenv": "^1.0.0",
