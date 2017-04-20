@@ -15,7 +15,7 @@ Commands:
   ls [DEPTH]                 List application dependencies.
   objects-start <ID>         Start tracking objects on ID.
   objects-stop <ID>          Stop tracking objects on ID.
-      Object metrics are published, see the `--metrics` option to `slc run`.
+      Object metrics are published, see the `--metrics` option to `sl-run`.
 
   cpu-start <ID> [TIMEOUT]   Start CPU profiling on ID.
       TIMEOUT is the optional watchdog timeout, in milliseconds.  In watchdog

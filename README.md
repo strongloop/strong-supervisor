@@ -25,11 +25,7 @@ were added as a transitional measure towards strong-pm.
 
 ## Installation
 
-`sl-run` and `sl-runctl` are made available through the
-[strongloop](https://github.com/strongloop/strongloop) tool as `slc run` and
-`slc runctl`.
-
-`sl-run` and `sl-runctl` can be installed standalone with:
+`sl-run` and `sl-runctl` can be installed with:
 
     npm install -g strong-supervisor
 
@@ -183,10 +179,10 @@ signalled with SIGHUP, see
 
 ## Usage
 
-### slc run
+### sl-run
 
 ``` text
-usage: slr [options] [app [app-options...]]
+usage: sl-run [options] [app [app-options...]]
 
 Run an app, allowing it to be profiled (using StrongOps) and supervised.
 
@@ -253,10 +249,9 @@ Cluster size N is one of:
 - A string containing "cpu" to run a worker per CPU
 ```
 
-### slc runctl
+### sl-runctl
 
 ```
-usage: slc runctl [options] [command ...]
 usage: sl-runctl [options] [command]
 
 Options:
@@ -274,7 +269,7 @@ Commands:
   ls [DEPTH]                 List application dependencies.
   objects-start <ID>         Start tracking objects on ID.
   objects-stop <ID>          Stop tracking objects on ID.
-      Object metrics are published, see the `--metrics` option to `slc run`.
+      Object metrics are published, see the `--metrics` option to `sl-run`.
 
   cpu-start <ID> [TIMEOUT]   Start CPU profiling on ID.
       TIMEOUT is the optional watchdog timeout, in milliseconds.  In watchdog
