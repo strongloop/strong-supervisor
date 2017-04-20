@@ -3,7 +3,7 @@
   "description": "supervisor and monitor for node.js applications",
   "author": "Sam Roberts <sam@strongloop.com>",
   "license": "Artistic-2.0",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "main": "index.js",
   "keywords": [
     "agent",

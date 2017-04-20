@@ -1,3 +1,13 @@
+2017-04-20, Version 6.1.2
+=========================
+
+ * Remove slc references, slc is now deprecated (Sam Roberts)
+
+ * package: use appmetrics 2.x (Sam Roberts)
+
+ * adapter: require dashboard only on use (Sam Roberts)
+
+
 2017-03-09, Version 6.1.1
 =========================
 
