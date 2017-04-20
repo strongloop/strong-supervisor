@@ -136,8 +136,8 @@ tap.test('supervisor', options, function(t) {
     run(t, '.', ['--cluster', '1', 'test/module-app/index.js', '--cluster=10'],
         EXPECT);
 
-    run(t, '.', ['--help', 'help-option'], [/usage: slr/]);
-    run(t, '.', ['-h', 'h-option'], [/usage: slr/]);
+    run(t, '.', ['--help', 'help-option'], [/usage: sl-run/]);
+    run(t, '.', ['-h', 'h-option'], [/usage: sl-run/]);
 
     var VERSION = RegExp('v' + require('../package.json').version);
 
