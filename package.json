@@ -37,7 +37,7 @@
     "test": "tap --timeout 300 test/test-*.js"
   },
   "dependencies": {
-    "appmetrics": "^2.0.1",
+    "appmetrics": "^3.x",
     "appmetrics-dash": "^3.0.0",
     "async": "^2.0.0",
     "debug": "^2.0.0",
