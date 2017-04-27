@@ -1,4 +1,14 @@
-2017-04-20, Version 6.1.2
+2017-04-27, Version 6.1.3
+=========================
+
+ * package: use appmetrics 3.x (Sam Roberts)
+
+ * ci: add basic config for Travis (Ryan Graham)
+
+ * fix broken CLI tests (Ryan Graham)
+
+
+2017-04-19, Version 6.1.2
 =========================
 
  * Remove slc references, slc is now deprecated (Sam Roberts)
