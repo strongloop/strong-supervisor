@@ -3,18 +3,13 @@
 Supervise a node application package, seperating deployment concerns (logging,
 monitoring, run-time control) from the application source.
 
-The supervisor is used by [strong-pm](https://github.com/strongloop/strong-pm)
-to run node applications, but it can also be used standalone.
-
-For more details, see http://strong-pm.io.
-
 *NOTE:* strong-supervisor@5 has dropped support for some legacy features that
-were added as a transitional measure towards strong-pm.
+are no longer relevant to its main use-cases.
 
 - running detached: this mode existed to provide a kindof light weight daemon,
   but didn't include the generation of the init.d/systemd/upstart scripts required
   for production usage, and those system startup tools already take care of
-  daemonization, so the feature is being removed. Use strong-pm, or use
+  daemonization, so the feature is being removed. Use
   start-stop-daemon or https://www.npmjs.com/package/strong-service-install with
   the strong-supervisor.
 - running unclustered: this mode disabled most features of strong-supervisor
@@ -306,8 +301,6 @@ ID, and use an ID of `0` to mean the cluster master.
 
 strong-supervisor uses a dual license model.
 
-You may use this library under the terms of the [Artistic 2.0 license][],
-or under the terms of the [StrongLoop Subscription Agreement][].
+You may use this library under the terms of the [Artistic 2.0 license][].
 
 [Artistic 2.0 license]: http://opensource.org/licenses/Artistic-2.0
-[StrongLoop Subscription Agreement]: http://strongloop.com/license
