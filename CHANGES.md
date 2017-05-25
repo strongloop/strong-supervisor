@@ -1,3 +1,9 @@
+2017-05-25, Version 6.1.4
+=========================
+
+ * package: remove strong-pm references (Sam Roberts)
+
+
 2017-04-27, Version 6.1.3
 =========================
 
