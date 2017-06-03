@@ -57,6 +57,16 @@ Metrics can be published to a thirdparty collector, in addition to
 supported collectors and URL formats, see
 [strong-statsd](https://github.com/strongloop/strong-statsd).
 
+### APM
+
+Metrics can also be gathered for use with the IBM Application Performance
+Management suite. To enable, run `export STRONGLOOP_APM_ENABLE=true`, or
+`set STRONGLOOP_APM_ENABLE=true` for Windows.
+
+If your APM is not installed in the default location, you can set the target
+directory with `export STRONGLOOP_APM_PATH=<path>` or
+`set STRONGLOOP_APM_PATH=<path>` for Windows.
+
 ### Profiling control
 
 Expensive profiling (such as object tracking or call tracing) can by dynamically
