@@ -1,0 +1,96 @@
+sn/strong-supervisor (add-ibmapm-support *$) % APM_BM_GATEWAY_URL=https://localhost:443  ./bin/sl-run.js --cluster=1 test/express-app
+[Thu Jul  6 10:31:58 2017] com.ibm.diagnostics.healthcenter.loader INFO: Node Application Metrics 3.0.2.201706071954 (Agent Core 3.2.1)
+[Thu Jul  6 10:31:58 2017] com.ibm.diagnostics.healthcenter.mqtt INFO: Connecting to broker localhost:1883
+2017-07-06T17:31:58.626Z pid:20901 worker:0 INFO supervisor starting (pid 20901)
+2017-07-06T17:31:58.631Z pid:20901 worker:0 INFO supervisor reporting metrics to `internal:`
+2017-07-06T17:31:58.638Z pid:20901 worker:0 INFO supervisor size set to 1
+2017-07-06T17:31:58.648Z pid:20901 worker:0 INFO supervisor listening on 'runctl'
+2017-07-06T17:31:58.698Z pid:20901 worker:0 INFO supervisor started worker 1 (pid 20915)
+2017-07-06T17:31:58.698Z pid:20901 worker:0 INFO supervisor resized to 1
+2017-07-06T17:31:58.910Z pid:20915 worker:1 [Thu Jul  6 10:31:58 2017] com.ibm.diagnostics.healthcenter.loader INFO: Node Application Metrics 3.0.2.201706071954 (Agent Core 3.2.1)
+2017-07-06T17:31:58.959Z pid:20915 worker:1 [Thu Jul  6 10:31:58 2017] com.ibm.diagnostics.healthcenter.mqtt INFO: Connecting to broker localhost:1883
+2017-07-06T17:31:58.972Z pid:20915 worker:1 Starting ibmapm for gateway "https://localhost:443"
+2017-07-06T17:31:58.990Z pid:20915 worker:1 [2017-07-06 10:31:58.989] [INFO] knj_log - KNJ_LOG_LEVEL is not set or not set correctly through environment variables.
+2017-07-06T17:31:58.991Z pid:20915 worker:1 [2017-07-06 10:31:58.990] [INFO] knj_log - The program set default log level to INFO.
+2017-07-06T17:31:58.998Z pid:20915 worker:1 [2017-07-06 10:31:58.997] [INFO] knj_log - ==========Inital parameters setting==========
+2017-07-06T17:31:58.998Z pid:20915 worker:1 [2017-07-06 10:31:58.998] [INFO] knj_log - Monitoring server type:  BAM
+2017-07-06T17:31:58.999Z pid:20915 worker:1 [2017-07-06 10:31:58.998] [INFO] knj_log - Monitoring server url:  undefined
+2017-07-06T17:31:59.000Z pid:20915 worker:1 [2017-07-06 10:31:58.998] [INFO] knj_log - Monitoring application name: undefined
+2017-07-06T17:31:59.000Z pid:20915 worker:1 [2017-07-06 10:31:58.998] [INFO] knj_log - Monitoring security url: undefined
+2017-07-06T17:31:59.000Z pid:20915 worker:1 [2017-07-06 10:31:58.998] [INFO] knj_log - Monitoring server SNI(Server Name Indication): undefined
+2017-07-06T17:31:59.000Z pid:20915 worker:1 [2017-07-06 10:31:58.999] [INFO] knj_log - ==========End of inital parameters setting==========
+2017-07-06T17:31:59.000Z pid:20915 worker:1 [2017-07-06 10:31:58.999] [INFO] knj_log - ==========Inital BAM parameters setting==========
+2017-07-06T17:31:59.001Z pid:20915 worker:1 [2017-07-06 10:31:58.999] [INFO] knj_log - KNJ_AAR_BATCH_COUNT undefined
+2017-07-06T17:31:59.001Z pid:20915 worker:1 [2017-07-06 10:31:59.000] [INFO] knj_log - KNJ_AAR_BATCH_FREQ undefined
+2017-07-06T17:31:59.001Z pid:20915 worker:1 [2017-07-06 10:31:59.000] [INFO] knj_log - KNJ_AAR_BATCH_COUNT 100
+2017-07-06T17:31:59.001Z pid:20915 worker:1 [2017-07-06 10:31:59.000] [INFO] knj_log - KNJ_AAR_BATCH_FREQ 60
+2017-07-06T17:31:59.001Z pid:20915 worker:1 [2017-07-06 10:31:59.000] [INFO] knj_log - ==========End of inital BAM parameters setting==========
+2017-07-06T17:31:59.166Z pid:20915 worker:1 [2017-07-06 10:31:59.165] [INFO] knj_log - Configuration updated: deepdive is enabled
+2017-07-06T17:31:59.176Z pid:20915 worker:1 [2017-07-06 10:31:59.168] [ERROR] knj_restclient_log - register_topology set cofniguration failed. { Error: ENOENT: no such file or directory, open './config.json'
+2017-07-06T17:31:59.176Z pid:20915 worker:1     at Object.fs.openSync (fs.js:651:18)
+2017-07-06T17:31:59.176Z pid:20915 worker:1     at Object.fs.readFileSync (fs.js:553:33)
+2017-07-06T17:31:59.177Z pid:20915 worker:1     at Object.module.exports.setConfiguration (/home/sam/w/sn/strong-supervisor/node_modules/ibmapm/lib/knj-restclient/index.js:52:29)
+2017-07-06T17:31:59.177Z pid:20915 worker:1     at JsonSender.init (/home/sam/w/sn/strong-supervisor/node_modules/ibmapm/lib/json-sender.js:193:28)
+2017-07-06T17:31:59.177Z pid:20915 worker:1     at MetricManager.start (/home/sam/w/sn/strong-supervisor/node_modules/ibmapm/lib/metric-manager.js:87:20)
+2017-07-06T17:31:59.177Z pid:20915 worker:1     at MonitoringPlugin.init (/home/sam/w/sn/strong-supervisor/node_modules/ibmapm/lib/plugin.js:35:19)
+2017-07-06T17:31:59.177Z pid:20915 worker:1     at Object.<anonymous> (/home/sam/w/sn/strong-supervisor/node_modules/ibmapm/index.js:192:12)
+2017-07-06T17:31:59.177Z pid:20915 worker:1     at Module._compile (module.js:569:30)
+2017-07-06T17:31:59.181Z pid:20915 worker:1     at Object.Module._extensions..js (module.js:580:10)
+2017-07-06T17:31:59.182Z pid:20915 worker:1     at Module.load (module.js:503:32)
+2017-07-06T17:31:59.182Z pid:20915 worker:1   errno: -2,
+2017-07-06T17:31:59.182Z pid:20915 worker:1   code: 'ENOENT',
+2017-07-06T17:31:59.182Z pid:20915 worker:1   syscall: 'open',
+2017-07-06T17:31:59.182Z pid:20915 worker:1   path: './config.json' }
+2017-07-06T17:31:59.182Z pid:20915 worker:1 [2017-07-06 10:31:59.177] [ERROR] knj_restclient_log -  VCAP_APPLICATION env variable not found, faild to connect to AvailabilityMonitoring service.
+2017-07-06T17:31:59.183Z pid:20915 worker:1 [2017-07-06 10:31:59.177] [INFO] knj_restclient_log - No any service is bound for this application.
+2017-07-06T17:31:59.183Z pid:20915 worker:1 [2017-07-06 10:31:59.179] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:31:59.183Z pid:20915 worker:1 [2017-07-06 10:31:59.180] [INFO] knj_log - Failed to get /home/sam/w/sn/strong-supervisor/bin//package.json
+2017-07-06T17:31:59.183Z pid:20915 worker:1 [2017-07-06 10:31:59.180] [INFO] knj_log - NPM Packages discovered:
+2017-07-06T17:31:59.184Z pid:20915 worker:1 [2017-07-06 10:31:59.180] [INFO] knj_log - -->appmetrics: ^3.x
+2017-07-06T17:31:59.184Z pid:20915 worker:1 [2017-07-06 10:31:59.180] [INFO] knj_log - -->appmetrics-dash: ^3.0.0
+2017-07-06T17:31:59.184Z pid:20915 worker:1 [2017-07-06 10:31:59.180] [INFO] knj_log - -->async: ^2.0.0
+2017-07-06T17:31:59.184Z pid:20915 worker:1 [2017-07-06 10:31:59.180] [INFO] knj_log - -->debug: ^2.0.0
+2017-07-06T17:31:59.184Z pid:20915 worker:1 [2017-07-06 10:31:59.180] [INFO] knj_log - -->dotenv: ^1.0.0
+2017-07-06T17:31:59.184Z pid:20915 worker:1 [2017-07-06 10:31:59.180] [INFO] knj_log - -->ibmapm: ^1.0.8
+2017-07-06T17:31:59.184Z pid:20915 worker:1 [2017-07-06 10:31:59.180] [INFO] knj_log - -->lodash: ^4.14.1
+2017-07-06T17:31:59.184Z pid:20915 worker:1 [2017-07-06 10:31:59.180] [INFO] knj_log - -->posix-getopt: ^1.1.0
+2017-07-06T17:31:59.185Z pid:20915 worker:1 [2017-07-06 10:31:59.181] [INFO] knj_log - -->strong-cluster-control: ^2.0.0
+2017-07-06T17:31:59.185Z pid:20915 worker:1 [2017-07-06 10:31:59.181] [INFO] knj_log - -->strong-control-channel: ^2.0.0
+2017-07-06T17:31:59.185Z pid:20915 worker:1 [2017-07-06 10:31:59.181] [INFO] knj_log - -->strong-log-transformer: ^1.0.0
+2017-07-06T17:31:59.185Z pid:20915 worker:1 [2017-07-06 10:31:59.181] [INFO] knj_log - -->strong-npm-ls: ^1.0.0
+2017-07-06T17:31:59.186Z pid:20915 worker:1 [2017-07-06 10:31:59.181] [INFO] knj_log - -->strong-statsd: ^2.0.0
+2017-07-06T17:31:59.186Z pid:20915 worker:1 [2017-07-06 10:31:59.181] [INFO] knj_log - -->strong-trace: ^1.2.0
+2017-07-06T17:31:59.187Z pid:20915 worker:1 [2017-07-06 10:31:59.181] [INFO] knj_log - -->strong-url-defaults: ^1.2.0
+2017-07-06T17:31:59.187Z pid:20915 worker:1 [2017-07-06 10:31:59.182] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:31:59.187Z pid:20915 worker:1 [2017-07-06 10:31:59.182] [INFO] knj_log - JsonSender: VCAP_APPLICATION env variable not found, it is not set in non-bluemix env
+2017-07-06T17:31:59.188Z pid:20915 worker:1 [2017-07-06 10:31:59.186] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:31:59.188Z pid:20915 worker:1 [2017-07-06 10:31:59.186] [WARN] knj_restclient_log - sendMetrics payload is not complete, must have: resourceID, dimensions and metrics
+2017-07-06T17:31:59.189Z pid:20915 worker:1 [2017-07-06 10:31:59.188] [INFO] knj_log - Configuration updated: deepdive is enabled
+2017-07-06T17:31:59.279Z pid:20915 worker:1 express-app listening on http://localhost:39129
+2017-07-06T17:32:29.188Z pid:20915 worker:1 Set port to unknown
+2017-07-06T17:32:59.190Z pid:20915 worker:1 [2017-07-06 10:32:59.190] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:32:59.191Z pid:20915 worker:1 [2017-07-06 10:32:59.191] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:32:59.192Z pid:20915 worker:1 [2017-07-06 10:32:59.192] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:32:59.195Z pid:20915 worker:1 [2017-07-06 10:32:59.194] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:32:59.195Z pid:20915 worker:1 [2017-07-06 10:32:59.195] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:32:59.197Z pid:20915 worker:1 [2017-07-06 10:32:59.197] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:33:59.189Z pid:20915 worker:1 [2017-07-06 10:33:59.189] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:33:59.190Z pid:20915 worker:1 [2017-07-06 10:33:59.189] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:33:59.190Z pid:20915 worker:1 [2017-07-06 10:33:59.190] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:34:59.189Z pid:20915 worker:1 [2017-07-06 10:34:59.189] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:34:59.189Z pid:20915 worker:1 [2017-07-06 10:34:59.189] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:34:59.189Z pid:20915 worker:1 [2017-07-06 10:34:59.189] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:35:59.189Z pid:20915 worker:1 [2017-07-06 10:35:59.189] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:35:59.190Z pid:20915 worker:1 [2017-07-06 10:35:59.189] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:35:59.190Z pid:20915 worker:1 [2017-07-06 10:35:59.190] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:36:59.189Z pid:20915 worker:1 [2017-07-06 10:36:59.189] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:36:59.190Z pid:20915 worker:1 [2017-07-06 10:36:59.189] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:36:59.190Z pid:20915 worker:1 [2017-07-06 10:36:59.190] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:37:59.189Z pid:20915 worker:1 [2017-07-06 10:37:59.189] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:37:59.189Z pid:20915 worker:1 [2017-07-06 10:37:59.189] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:37:59.189Z pid:20915 worker:1 [2017-07-06 10:37:59.189] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:38:59.193Z pid:20915 worker:1 [2017-07-06 10:38:59.189] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:38:59.194Z pid:20915 worker:1 [2017-07-06 10:38:59.190] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:38:59.194Z pid:20915 worker:1 [2017-07-06 10:38:59.191] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:39:59.190Z pid:20915 worker:1 [2017-07-06 10:39:59.189] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file
+2017-07-06T17:39:59.191Z pid:20915 worker:1 [2017-07-06 10:39:59.189] [ERROR] knj_restclient_log - No ingress URL is set, please set "ingressURL" in your configuration json file

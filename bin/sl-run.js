@@ -53,6 +53,11 @@ config.watcher();
 // Reset argv to not include the runner (at argv[1]).
 process.argv = process.argv.slice(0, 1).concat(process.argv.slice(2));
 
+if ('APM_BM_GATEWAY_URL' in process.env) {
+  console.log('Starting ibmapm for gateway %j', process.env.APM_BM_GATEWAY_URL);
+  require('ibmapm');
+}
+
 // Run as if app is the main module
 require('module')._load(
   require('path').resolve(process.argv[1]),
