@@ -12,7 +12,7 @@ var tap = require('tap');
 var waiton = require('./control').waiton;
 
 var options = {
-  timeout: 1 * 60 * 1000 /* ms */, // Usually is < 10 seconds
+  timeout: 2 * 60 * 1000 /* ms */, // Usually is < 10 seconds
 };
 
 if (process.platform === 'win32')
