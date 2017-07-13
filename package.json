@@ -61,7 +61,7 @@
     "optimist": "~0.6.0",
     "semver": "^5.3.0",
     "strong-express-metrics": "^2.0.0",
-    "tap": "^6.1.1"
+    "tap": "^10.7.0"
   },
   "engines": {
     "node": ">=4"
