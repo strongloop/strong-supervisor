@@ -1,3 +1,17 @@
+2017-07-17, Version 6.2.0
+=========================
+
+ * appmetrics: use global monitor instance (Kevin Delisle)
+
+ * add gc monitor for scaling and health support (akihikokuroda)
+
+ * Emit CPU and memory usage from appmetrics (Miroslav Bajtoš)
+
+ * travis: replace Node 7 with 8 (Kevin Delisle)
+
+ * Use tap@10.x (Kevin Delisle)
+
+
 2017-05-25, Version 6.1.4
 =========================
 
@@ -54,10 +68,6 @@
 =========================
 
  * adapter: work-around missing res.response (Sam Roberts)
-
-
-2016-10-13, Version 5.0.3
-=========================
 
  * fixup! options: preserve url protocol (Sam Roberts)
 
