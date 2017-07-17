@@ -12,7 +12,9 @@ var fs = require('fs');
 var path = require('path');
 var test = require('tap').test;
 
-var options = { };
+var options = {
+  timeout: 2 * 1000 * 60,
+};
 
 if (process.platform === 'win32')
   options.skip = 'FIXME - undiagnosed windows failures';
