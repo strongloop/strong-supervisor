@@ -1,8 +1,7 @@
 {
   "extends": "strongloop",
   "env": {
-    "node": true,
-    "mocha": true
+    "node": true
   },
   "rules": {
     "comma-dangle": 0
