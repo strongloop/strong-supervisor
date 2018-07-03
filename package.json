@@ -34,7 +34,9 @@
   },
   "scripts": {
     "pretest": "eslint ./",
-    "test": "tap --timeout 300 test/test-*.js"
+    "test": "tap --timeout 300 test/test-*.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "dependencies": {
     "appmetrics": "^3.x",
@@ -50,7 +52,8 @@
     "strong-npm-ls": "^1.0.0",
     "strong-statsd": "^2.0.0",
     "strong-trace": "^1.2.0",
-    "strong-url-defaults": "^1.2.0"
+    "strong-url-defaults": "^1.2.0",
+    "snyk": "^1.88.0"
   },
   "devDependencies": {
     "byline": "^5.x",
@@ -68,5 +71,6 @@
   "optionalDependencies": {
     "heapdump": "^0.3.5",
     "modern-syslog": "^1.x"
-  }
+  },
+  "snyk": true
 }
